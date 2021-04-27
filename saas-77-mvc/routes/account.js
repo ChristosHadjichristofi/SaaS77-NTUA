@@ -8,6 +8,6 @@ router.post('/signin', accountController.signIn);
 
 router.post('/signup', accountController.signUp);
 
-// router.post('/signout', accountController.signOut);
+router.post('/signout', accountController.signOut);
 
 module.exports = router;

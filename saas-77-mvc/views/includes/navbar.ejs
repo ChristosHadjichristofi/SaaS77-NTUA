@@ -14,17 +14,25 @@
                 <li class="nav-item"></li>
                 <% if(pageTitle === "Profile Page" && authenticated) { %>
                 <li class="nav-item">
-                    <a class="btn btn-secondary" role="button" id="redirect-button" href="home">
-                        <i class="fa fa-home" id="icons-nav"></i>
-                    </a>
-                    <button class="btn btn-primary" type="button">Sign Out</button>
+                    <div style="display:flex">
+                        <a class="btn btn-secondary" role="button" id="redirect-button" href="home">
+                            <i class="fa fa-home" id="icons-nav"></i>
+                        </a>
+                        <form method="POST" action="/account/signout">
+                            <button class="btn btn-primary" type="submit">Sign Out</button>
+                        </form>
+                    </div>
                 </li>
                 <% } else if (pageTitle === "Home Page" && authenticated) { %>
                 <li class="nav-item">
-                    <a class="btn btn-secondary" role="button" id="redirect-button" href="profile">
-                        <i class="fa fa-user" id="icons-nav"></i>
-                    </a>
-                    <button class="btn btn-primary" type="button">Sign Out</button>
+                    <div style="display:flex">
+                        <a class="btn btn-secondary" role="button" id="redirect-button" href="profile">
+                            <i class="fa fa-user" id="icons-nav"></i>
+                        </a>
+                        <form method="POST" action="/account/signout">
+                            <button class="btn btn-primary" type="submit">Sign Out</button>
+                        </form>
+                    </div>
                 </li>
                 <% } else { %>
                 <li class="nav-item">
