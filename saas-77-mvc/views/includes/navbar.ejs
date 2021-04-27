@@ -1,0 +1,33 @@
+<nav class="navbar navbar-light navbar-expand-md sticky-top bg-white" id="header-el">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">&nbsp;
+            <img src="/assets/img/logo1.1.png" />
+        </a>
+        
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"></li>
+                <% if(pageTitle === "Profile Page") { %>
+                <li class="nav-item">
+                    <a class="btn btn-secondary" role="button" id="redirect-button" href="home">
+                        <i class="fa fa-home" id="icons-nav"></i>
+                    </a>
+                    <button class="btn btn-primary" type="button">Sign Out</button>
+                </li>
+                <% } else { %>
+                <li class="nav-item">
+                    <a class="btn btn-secondary" role="button" id="redirect-button" href="profile">
+                        <i class="fa fa-user" id="icons-nav"></i>
+                    </a>
+                    <button class="btn btn-primary" type="button">Sign Out</button>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>
