@@ -22,7 +22,7 @@
 <body>
     <div id="main-div">
         <div class="container-fluid" id="header-el">
-            <nav class="navbar navbar-light navbar-expand-md sticky-top bg-white" id="header-el">
+            <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top bg-white" id="header-el">
                 <div class="container-fluid"><a class="navbar-brand" href="#"><img src="/assets/img/logo1.1.png" width="200" height="50"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navcol-1">
                         <ul class="navbar-nav ml-auto">
@@ -31,8 +31,10 @@
                         </ul>
                     </div>
                 </div>
-            </nav>
+            </nav> -->
             
+            <%- include("includes/navbar.ejs")%>
+
             <%- include("includes/signupModal.ejs")%>
 
             <%- include("includes/signinModal.ejs")%>
