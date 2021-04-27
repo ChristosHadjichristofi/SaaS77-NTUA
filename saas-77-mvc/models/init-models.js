@@ -1,14 +1,16 @@
 var DataTypes = require("sequelize").DataTypes;
+var _Users = require("./Users");
+var _Questions = require("./Questions");
 var _Answers = require("./Answers");
 var _Keywords = require("./Keywords");
-var _Questions = require("./Questions");
-var _Users = require("./Users");
+var _Sessions = require("./Sessions");
 
 function initModels(sequelize) {
   var Users = _Users(sequelize, DataTypes);
   var Questions = _Questions(sequelize, DataTypes);
   var Answers = _Answers(sequelize, DataTypes);
   var Keywords = _Keywords(sequelize, DataTypes);
+  var Sessions = _Sessions(sequelize, DataTypes);
 
   Answers.belongsTo(Questions, { foreignKey: "QuestionsId"});
   Questions.hasMany(Answers, { foreignKey: "QuestionsId"});
@@ -20,10 +22,11 @@ function initModels(sequelize) {
   Questions.hasMany(Questions, { foreignKey: "UsersId"});
 
   return {
-    Users,
-    Questions,
     Answers,
     Keywords,
+    Questions,
+    Sessions,
+    Users,
   };
 }
 module.exports = initModels;
