@@ -31,6 +31,7 @@ exports.signIn = (req, res, next) => {
         }
 
         req.session.authenticated = true;
+        req.session.userID = loadedUser.id;
 
         return res.redirect("/home");
     })
@@ -56,7 +57,6 @@ exports.signUp = (req, res, next) => {
             }
             else {
                 console.log('Here must place a notification like error pop up window!');
-                req.toastr.error('Invalid credentials.');
                 return res.redirect("/");
             }
         });
@@ -67,4 +67,6 @@ exports.signUp = (req, res, next) => {
     }
 };
 
-// exports.signOut = (req, res) => { }
+exports.signOut = (req, res) => { 
+    
+}

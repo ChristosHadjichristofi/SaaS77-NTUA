@@ -8,7 +8,7 @@ const sequelize = require('./utils/database');
 
 const layout = require('./routes/layout');
 const account = require('./routes/account');
-// const question = require('./routes/question');
+const question = require('./routes/question');
 
 /* end of ROUTES and how to import routes */
 
@@ -32,14 +32,14 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.authenticated = req.session.authenticated;
     next();
 });
 
 // /* Routes used by our project */
 app.use('/', layout);
 app.use('/account', account);
-// app.use('/questions', question);
+app.use('/questions', question);
 // /*End of routes used by our project */
 
 // In case of an endpoint does not exist must return 404.html
