@@ -2,31 +2,58 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color: var(--blue);">Ask a Question</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" style="color: var(--blue);">Ask a Question</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
             <div class="modal-body">
-                <form class="mt-4">
+                <form name="askform" method="POST" action="/questions/create" class="mt-4">
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-font"></i></span></div><input class="form-control" type="text" placeholder="Question Title">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-font"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" type="text" name="qname" placeholder="Question Title">
                             <div class="input-group-append"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-question-circle"></i></span></div><textarea class="form-control" placeholder="Question Text" rows="1"></textarea>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="fa fa-question-circle"></i>
+                            </span>
+                        </div>
+                        <textarea class="form-control" name="qtext" placeholder="Question Text" rows="1"></textarea>
                             <div class="input-group-append"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-key"></i></span></div><input class="form-control" type="text" placeholder="Keywords">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-key"></i>
+                                </span>
+                            </div>
+                            <div class="tag-container">
+                                <input placeholder="Keywords" id="keywordsID" />
+                                <input type="hidden" name="qkeywords" id="copyKeywordsID" />
+                            </div>
                             <div class="input-group-append"></div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Submit question</button>
+                        <button class="btn btn-light" type="button" data-dismiss="modal">Nevermind</button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer"><button class="btn btn-primary" type="button">Submit question</button><button class="btn btn-light" type="button" data-dismiss="modal">Nevermind</button></div>
         </div>
-    </div>
+    </div>   
 </div>
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/disableEnterOnForms.js"></script>
+<script src="/assets/js/tags.js"></script>
