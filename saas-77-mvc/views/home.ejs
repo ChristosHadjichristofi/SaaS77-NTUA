@@ -56,8 +56,13 @@
                 <div class="col">
                     <div class="card shadow" style="background: rgba(149,165,166,0.5);">
                         <div class="card-body">
-                            <h4 class="card-title" style="font-size: 18px;">Answer a Question</h4>
-                            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Want to help others?<br>Answer some questions!</p><button class="btn btn-primary" id="button-in-card" type="button" data-toggle="modal" data-target="#answer-question">Answer</button>
+                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Browse Questions</h4>
+                            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">
+                                Want to help others?<br>See what you can answer!
+                            </p>
+                            <form action="/questions/show">
+                                <button class="btn btn-primary" id="button-in-card" type="submit">Browse</button>
+                            </form>
                         </div>
                     </div>
                 </div>
