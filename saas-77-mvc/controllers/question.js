@@ -1,3 +1,5 @@
+const dateFormatter = require('../utils/dateFormatter');
+
 // require models
 const sequelize = require('../utils/database');
 var initModels = require("../models/init-models");
@@ -57,11 +59,20 @@ exports.browseQuestions = (req, res, next) => {
 
             let question = {};
             let keywords = [];
-
+            
+            dateOptions = { 
+                hour: 'numeric',
+                minute: 'numeric',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                weekday: 'long'
+            };
+            
             question.id = row.id;
             question.title = row.title;
             question.text = row.text;
-            question.dateCreated = row.dateCreated;
+            question.dateCreated = new Intl.DateTimeFormat('en-US', dateOptions).format(row.dateCreated);
             question.userId = row.UsersId;
             question.name = row.User.name;
             question.surname = row.User.surname;
@@ -72,7 +83,7 @@ exports.browseQuestions = (req, res, next) => {
             questionsArr.push(question)
 
         })
-        console.log(questionsArr)
+        // console.log(questionsArr)
  
         res.render('browseQuestions.ejs', { pageTitle: "Browse Questions Page", questions: questionsArr });
     
