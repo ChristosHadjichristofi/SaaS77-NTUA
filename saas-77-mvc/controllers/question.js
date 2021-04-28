@@ -1,5 +1,3 @@
-const dateFormatter = require('../utils/dateFormatter');
-
 // require models
 const sequelize = require('../utils/database');
 var initModels = require("../models/init-models");
