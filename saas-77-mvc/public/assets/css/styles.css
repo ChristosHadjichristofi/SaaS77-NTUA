@@ -3,6 +3,10 @@
   text-align: center;
 }
 
+#question-card-body {
+  min-height: 0;
+}
+
 #imagelogo:hover {
   content: url(../../assets/img/logo1.2.png);
   vertical-align: middle;

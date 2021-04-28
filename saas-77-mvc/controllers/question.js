@@ -11,7 +11,7 @@ exports.createQuestion = (req, res, next) => {
     let qkeywords = req.body.qkeywords;
 
     const keywordsArr = qkeywords.split(',');
-    console.log(keywordsArr)
+
     models.Questions.create({
         title: qname,
         text: qtext,
@@ -34,3 +34,9 @@ exports.createQuestion = (req, res, next) => {
     })
 
 }
+
+exports.browseQuestions = (req, res, next) => {
+
+    res.render('browseQuestions.ejs', { pageTitle: "Browse Questions Page" });
+
+};

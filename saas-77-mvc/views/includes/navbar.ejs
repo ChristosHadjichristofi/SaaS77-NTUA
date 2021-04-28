@@ -34,6 +34,15 @@
                         </form>
                     </div>
                 </li>
+                <% } else if (pageTitle === "Browse Questions Page" && authenticated) { %>
+                <li class="nav-item">
+                    <a class="btn btn-secondary" role="button" id="redirect-button" href="/home">
+                        <i class="fa fa-home" id="icons-nav"></i>
+                    </a>
+                    <a class="btn btn-secondary" role="button" id="redirect-button" href="/profile">
+                        <i class="fa fa-user" id="icons-nav"></i>
+                    </a>
+                </li>
                 <% } else { %>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">
