@@ -10,9 +10,32 @@ exports.getLanding = (req, res, next) => {
 
 }
 
-exports.getProfile = (req, res, next) => {
 
-    res.render('profile.ejs', { pageTitle: "Profile Page" });
+exports.getProfile = function (req, res, next) {
+
+    let totalQuestions, totalAnswers;
+    
+    let questionsPromise = new Promise((resolve, reject) => {
+        models.Questions.count({ where: { id: req.session.user.id } })
+        .then(questions => {
+            totalQuestions = questions;
+            resolve();
+        })
+    })
+
+    let answersPromise = new Promise((resolve, reject) => {
+
+        models.Answers.count({ where: { id: req.session.user.id } })
+        .then(answers => {
+            totalAnswers = answers;
+            resolve();
+        })
+        
+    })
+
+    Promise.all([questionsPromise, answersPromise]).then(() => {
+        res.render('profile.ejs', { pageTitle: "Profile Page", totalQuestions: totalQuestions, totalAnswers: totalAnswers });
+    })
 
 }
 
