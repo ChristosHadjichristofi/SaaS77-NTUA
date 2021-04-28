@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Sessions', {
     sid: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
       allowNull: false,
       primaryKey: true
     },
@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     data: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
       allowNull: true
     }
   }, {
