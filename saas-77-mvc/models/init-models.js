@@ -18,8 +18,8 @@ function initModels(sequelize) {
   Users.hasMany(Answers, { foreignKey: "UsersId"});
   Keywords.belongsTo(Questions, { foreignKey: "QuestionsId"});
   Questions.hasMany(Keywords, { foreignKey: "QuestionsId"});
-  Questions.belongsTo(Questions, { foreignKey: "UsersId"});
-  Questions.hasMany(Questions, { foreignKey: "UsersId"});
+  Questions.belongsTo(Users, { foreignKey: "UsersId"});
+  Users.hasMany(Questions, { foreignKey: "UsersId"});
 
   return {
     Answers,
