@@ -37,6 +37,45 @@ exports.createQuestion = (req, res, next) => {
 
 exports.browseQuestions = (req, res, next) => {
 
-    res.render('browseQuestions.ejs', { pageTitle: "Browse Questions Page" });
+    models.Questions.findAll({
+        // raw: true,
+        include: [
+            {
+                model: models.Users,
+                on: {
+                    col1: sequelize.where(sequelize.col("Questions.UsersId"), "=", sequelize.col("User.id")),
+                },
+                attributes: ['name', 'surname']
+            },
+            { model: models.Keywords }
+        ]
+    })
+    .then(rows => {
+        let questionsArr = [];
+        
+        rows.forEach(row => {
+
+            let question = {};
+            let keywords = [];
+
+            question.id = row.id;
+            question.title = row.title;
+            question.text = row.text;
+            question.dateCreated = row.dateCreated;
+            question.userId = row.UsersId;
+            question.name = row.User.name;
+            question.surname = row.User.surname;
+
+            row.dataValues.Keywords.forEach(el => keywords.push(el.dataValues.name))
+
+            question.keywords = keywords;
+            questionsArr.push(question)
+
+        })
+        console.log(questionsArr)
+ 
+        res.render('browseQuestions.ejs', { pageTitle: "Browse Questions Page", questions: questionsArr });
+    
+    })
 
 };

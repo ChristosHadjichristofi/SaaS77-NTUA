@@ -216,6 +216,12 @@
   padding: 6px;
   overflow-x: scroll;
 }
+.tag-cont {
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+
+}
 .tag-container .tag {
   height: 30px;
   margin: 5px;
@@ -229,6 +235,21 @@
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 1px 1px #fff;
   cursor: default;
 }
+
+.tag-cont .tag {
+  height: 30px;
+  margin: 5px;
+  padding: 5px 6px;
+  border: 1px solid rgb(149,165,166);
+  border-radius: 3px;
+  background: rgb(149,165,166);
+  display: flex;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgb(149,165,166);
+  cursor: default;
+}
+
 .tag i {
   font-size: 16px;
   color: #666;
