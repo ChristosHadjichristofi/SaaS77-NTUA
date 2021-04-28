@@ -3,7 +3,7 @@
   text-align: center;
 }
 
-img:hover {
+#imagelogo:hover {
   content: url(../../assets/img/logo1.2.png);
   vertical-align: middle;
   border-style: none;
