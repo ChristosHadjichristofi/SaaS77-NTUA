@@ -29,14 +29,17 @@
             <div class="card shadow" id="question-card" style="background: rgba(149,165,166,0.5);">
                 <div class="card-body" id="question-card-body">
                     <div class="row">
-                        <div class="col col-md-3"><span><img class="rounded-circle" src="/assets/img/Christos%20Hadjichristofi.png"></span>
-                            <h5>Christos Hadjichristofi</h5>
-                            <h6 class="text-muted mb-2">28/04/2010</h6>
+                        <div class="col col-md-3"><span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=question.name %> <%=question.surname %>"></span>
+                            <h5><%= question.name %> <%= question.surname %></h5>
+                            <h6 class="text-muted mb-2"><%= question.dateCreated %></h6>
                         </div>
                         <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-8">
-                            <h4>How to uninstall windows and add linux?</h4>
+                            <h4><%= question.title %></h4>
+                            <p><%= question.text %></p>
                         </div>
-                        <div class="col d-lg-flex justify-content-lg-center align-items-lg-center"><label class="col-form-label" id="answers-counter" style="border-style: solid;border-color: rgb(113,119,125);">5</label></div>
+                        <div class="col d-lg-flex justify-content-lg-center align-items-lg-center">
+                            <label class="col-form-label" id="answers-counter" style="border-style: solid;border-color: rgb(113,119,125);"><%= answersCounter %></label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,29 +48,38 @@
                     <div class="card-body" id="question-card-body">
                         <h3>Leave an Answer</h3>
                         <div class="row">
-                            <div class="col col-md-3"><span><img class="rounded-circle" src="/assets/img/Christos%20Hadjichristofi.png"></span>
-                                <h5>Christos Hadjichristofi</h5>
-                                <h6 class="text-muted mb-2">28/04/2010</h6>
+                            <div class="col col-md-3">
+                                <span>
+                                    <img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=user.name %> <%=user.surname %>">
+                                </span>
+                                <h5><%=user.name %> <%=user.surname %></h5>
+                                <h6 class="text-muted mb-2"><!-- here maybe add something--></h6>
                             </div>
-                            <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9"><textarea id="answer-textarea" rows="8"></textarea><button class="btn btn-primary align-self-end" id="leave-answer-button" type="button">Button</button></div>
+                            <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9">
+                                <textarea id="answer-textarea" rows="8"></textarea>
+                                <form method="POST" action=""></form>
+                                <button class="btn btn-primary align-self-end" id="leave-answer-button" type="button">Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="answers-div" style="margin-top:10px">
-                <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+            <div id="answers-div" style="margin-top:20px">
+                <% answers.forEach((ans, index) => { %>
+                <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px;">
                     <div class="card-body" id="question-card-body">
                         <div class="row">
-                            <div class="col col-md-3"><span><img class="rounded-circle" src="/assets/img/Christos%20Hadjichristofi.png"></span>
-                                <h5>Christos Hadjichristofi</h5>
-                                <h6 class="text-muted mb-2">28/04/2010</h6>
+                            <div class="col col-md-3"><span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=ans['User.name'] %> <%=ans['User.surname'] %>"></span>
+                                <h5><%=ans['User.name'] %> <%=ans['User.surname'] %></h5>
+                                <h6 class="text-muted mb-2"><%= ans.dateCreated %></h6>
                             </div>
                             <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9" id="answers-paragraph">
-                                <p>This is it!</p>
+                                <p><%= ans.text %></p>
                             </div>
                         </div>
                     </div>
                 </div>
+                <% }) %>
             </div>
         </div>
     </div>

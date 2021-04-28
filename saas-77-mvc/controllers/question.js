@@ -75,13 +75,12 @@ exports.browseQuestions = (req, res, next) => {
             question.name = row.User.name;
             question.surname = row.User.surname;
 
-            row.dataValues.Keywords.forEach(el => keywords.push(el.dataValues.name))
+            row.dataValues.Keywords.forEach(el => keywords.push(el.dataValues.name));
 
             question.keywords = keywords;
-            questionsArr.push(question)
+            questionsArr.push(question);
 
         })
-        // console.log(questionsArr)
  
         res.render('browseQuestions.ejs', { pageTitle: "Browse Questions Page", questions: questionsArr });
     
@@ -91,6 +90,91 @@ exports.browseQuestions = (req, res, next) => {
 
 exports.browseQuestion = (req, res, next) => {
 
-    res.render('answerQuestion.ejs', { pageTitle: "Answer Question Page" });
+    const questionID = req.params.id;
+    
+    let question;
+    let answersArr;
+
+    let questionPromise = new Promise((resolve, reject) => { 
+        models.Questions.findAll({
+            where: { id: questionID },
+            include: [
+                {
+                    model: models.Users,
+                    on: {
+                        col1: sequelize.where(sequelize.col("Questions.UsersId"), "=", sequelize.col("User.id")),
+                    },
+                    attributes: ['name', 'surname']
+                },
+                { model: models.Keywords }
+            ]
+        })
+        .then(rows => {
+            
+            let q = {};
+            let keywords = [];
+            
+            dateOptions = { 
+                hour: 'numeric', minute: 'numeric', day: 'numeric',
+                month: 'long', year: 'numeric', weekday: 'long'
+            };
+            
+            q.id = rows[0].id;
+            q.title = rows[0].title;
+            q.text = rows[0].text;
+            q.dateCreated = new Intl.DateTimeFormat('en-US', dateOptions).format(rows[0].dateCreated);
+            q.userId = rows[0].UsersId;
+            q.name = rows[0].User.name;
+            q.surname = rows[0].User.surname;
+
+            rows[0].dataValues.Keywords.forEach(el => keywords.push(el.dataValues.name))
+
+            q.keywords = keywords;
+
+            question = q;
+            resolve();
+
+        })
+    })
+
+    let answersPromise = new Promise((resolve, reject) => {
+
+        models.Answers.findAll({
+            raw: true,
+            where: { QuestionsId: questionID },
+            include: [
+                {
+                    model: models.Users,
+                    on: {
+                        col1: sequelize.where(sequelize.col("Answers.UsersId"), "=", sequelize.col("User.id")),
+                    },
+                    attributes: ['name', 'surname']
+                }
+            ] 
+        })
+        .then(answers => {
+
+            dateOptions = { 
+                hour: 'numeric', minute: 'numeric', day: 'numeric',
+                month: 'long', year: 'numeric', weekday: 'long'
+            };
+
+            answersArr = answers;
+            answersArr.forEach(ans => ans.dateCreated = new Intl.DateTimeFormat('en-US', dateOptions).format(ans.dateCreated))
+            console.log(answersArr);
+            resolve();
+        });
+
+    })
+
+    Promise.all([questionPromise, answersPromise]).then(() => {
+        res.render('answerQuestion.ejs', 
+        { 
+            pageTitle: "Answer Question Page",
+            question: question,
+            answers: answersArr,
+            answersCounter: answersArr.length
+        });
+    })
 
 }
