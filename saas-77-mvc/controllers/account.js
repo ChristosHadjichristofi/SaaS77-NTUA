@@ -18,30 +18,32 @@ exports.signIn = (req, res, next) => {
     .then(user => {
         if (!user) {
             console.log("Here must return a pop up");
-            return;
+            return res.redirect('/');
         }
 
         loadedUser = user;
-        return bcrypt.compare(password, user.password);
-    })
-    .then (isEqual => {
+        bcrypt.compare(password, user.password).then(isEqual => {
 
-        if (!isEqual) {
-            console.log("Here must return a pop up");
-            return;
-        }
-
-        req.session.authenticated = true;
-        req.session.user = {
-            id: loadedUser.id,
-            name: loadedUser.name,
-            surname: loadedUser.surname,
-            username: loadedUser.email  
-        }
+            if (!isEqual) {
+                console.log("Here must return a pop up");
+                return res.redirect('/');
+            }
         
-        return res.redirect("/home");
+            req.session.authenticated = true;
+            req.session.user = {
+                id: loadedUser.id,
+                name: loadedUser.name,
+                surname: loadedUser.surname,
+                username: loadedUser.email  
+            }
+
+            return res.redirect("/home");
+
+        })
+        .catch(err => {
+            res.redirect('/')
+        })
     })
- 
 }
 
 exports.signUp = (req, res, next) => {
