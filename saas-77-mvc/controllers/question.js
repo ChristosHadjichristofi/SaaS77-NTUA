@@ -16,7 +16,7 @@ exports.createQuestion = (req, res, next) => {
         title: qname,
         text: qtext,
         dateCreated: Date.now(),
-        UsersId: req.session.userID
+        UsersId: req.session.user.id
     })
     .then(question => {
         

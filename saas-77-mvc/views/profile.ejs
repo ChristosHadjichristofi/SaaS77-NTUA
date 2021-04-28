@@ -25,13 +25,13 @@
             <%- include("includes/navbar.ejs") %>
         </div>
         <div class="container" id="main-screen-cards">
-            <h2 id="message" style="color: var(--blue);"><strong>My.AskMeAnything</strong></h2>
+            <h2 id="message" style="color: var(--blue);"><strong>My.AskMeAnything <%= user.name %></strong></h2>
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4">
                 <div class="col">
                     <div class="card shadow" style="background: rgba(149,165,166,0.5);">
                         <div class="card-body">
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);"><strong>My Questions:</strong></h4>
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);"><strong>My Answers:</strong></h4>
+                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);"><strong>My Questions: <%= totalQuestions %></strong></h4>
+                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);"><strong>My Answers: <%= totalAnswers %></strong></h4>
                         </div>
                     </div>
                 </div>

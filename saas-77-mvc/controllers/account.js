@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const capitalize = require('../utils/capitalizeWords');
 
 // require models
 const sequelize = require("../utils/database");
@@ -31,23 +32,36 @@ exports.signIn = (req, res, next) => {
         }
 
         req.session.authenticated = true;
-        req.session.userID = loadedUser.id;
-
+        req.session.user = {
+            id: loadedUser.id,
+            name: loadedUser.name,
+            surname: loadedUser.surname,
+            username: loadedUser.email  
+        }
+        
         return res.redirect("/home");
     })
  
 }
 
 exports.signUp = (req, res, next) => {
+
+  const name = req.body.name;
+  const surname = req.body.surname;
   const email = req.body.email;
   const password = req.body.password;
   const repeatedPassword = req.body.password;
+
+  const nameCapitalized = capitalize(name);
+  const surnameCapitalized = capitalize(surname);
 
     if (password === repeatedPassword) {
         models.Users.findOne({ where: { email: email } }).then((user) => {
             if (!user) {
                 bcrypt.hash(password, 12).then((hashedPW) => {
                     const newUser = models.Users.create({
+                        name: nameCapitalized,
+                        surname: surnameCapitalized,
                         email: email,
                         password: hashedPW,
                     });
