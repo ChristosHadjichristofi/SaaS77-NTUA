@@ -264,3 +264,44 @@
   color: #333;
   flex: 1;
 }
+
+/* css for answer questions page */
+
+#question-card-body {
+  min-height: 0;
+}
+
+#answers-counter {
+  border-radius: 50px;
+  min-width: 40px;
+  border-width: thin;
+  min-height: 40px;
+  font-size: 17px;
+  background-color: #dddddd;
+}
+
+#answer-textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+}
+
+#question-card {
+  background-color: #000000;
+}
+
+#leave-answer-button {
+  margin-top: 10px;
+}
+
+#answers-div {
+  overflow-y: scroll;
+  max-height: 500px;
+}
+
+@media (min-width:992px) {
+  #answers-paragraph {
+    /*-ms-flex-align: center!important;*/
+    align-items: start!important;
+  }
+}

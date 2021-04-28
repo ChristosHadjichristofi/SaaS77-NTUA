@@ -9,7 +9,7 @@ router.post('/create', isAuth, questionController.createQuestion);
 
 router.get('/show', isAuth, questionController.browseQuestions);
 
-// router.post('/answer', questionController.answerQuestion);
+router.get('/:id', isAuth, questionController.browseQuestion);
 
 // router.get('/fetch', questionController.getQuestions);
 

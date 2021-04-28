@@ -88,3 +88,9 @@ exports.browseQuestions = (req, res, next) => {
     })
 
 };
+
+exports.browseQuestion = (req, res, next) => {
+
+    res.render('answerQuestion.ejs', { pageTitle: "Answer Question Page" });
+
+}

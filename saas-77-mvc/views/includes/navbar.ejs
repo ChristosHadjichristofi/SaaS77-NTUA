@@ -43,6 +43,15 @@
                         <i class="fa fa-user" id="icons-nav"> Profile</i>
                     </a>
                 </li>
+                <% } else if (pageTitle === "Answer Question Page" && authenticated) { %>
+                    <li class="nav-item">
+                        <a class="btn btn-secondary" role="button" id="redirect-button" href="/home">
+                            <i class="fa fa-home" id="icons-nav"> Home</i>
+                        </a>
+                        <a class="btn btn-secondary" role="button" id="redirect-button" href="/profile">
+                            <i class="fa fa-user" id="icons-nav"> Profile</i>
+                        </a>
+                    </li>
                 <% } else { %>
                 <li class="nav-item">
                     <a class="nav-link active" href="#">
