@@ -150,7 +150,8 @@ exports.browseQuestion = (req, res, next) => {
                     },
                     attributes: ['name', 'surname']
                 }
-            ] 
+            ],
+            order: [['dateCreated', 'DESC']]
         })
         .then(answers => {
 
