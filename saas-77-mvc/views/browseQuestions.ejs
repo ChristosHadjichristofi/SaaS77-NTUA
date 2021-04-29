@@ -26,7 +26,16 @@
 
         <div class="container" id="main-screen-cards">
             <h2 id="message" style="color: var(--blue);"><strong>My.AskMeAnything</strong></h2>
-            <div></div>
+            
+            <% if ( questions.length == 0 ) { %> 
+
+                <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px; margin-bottom:170px; ">
+                    <div class="card-body" id="question-card-body">
+                        <h5>No questions found</h5>
+                    </div>
+                </div>
+
+            <% } else { %>
             
             <% questions.forEach((question, index) => { %>
             <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px;">
@@ -58,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <% }) %>
+            <% })} %>
         </div>
     </div>
     
