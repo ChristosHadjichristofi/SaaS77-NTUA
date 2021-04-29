@@ -22,10 +22,12 @@ exports.createQuestion = (req, res, next) => {
         
         let insertKeywords = new Promise((resolve, reject) => {
             keywordsArr.forEach((keywordName, index) => {
-                models.Keywords.create({
-                    name: keywordName,
-                    QuestionsId: question.id
-                })
+                if(keywordName !== "") {
+                    models.Keywords.create({
+                        name: keywordName,
+                        QuestionsId: question.id
+                    })
+                }
                 if (index === keywordsArr.length -1) return resolve(true);
             });
         });
@@ -37,54 +39,74 @@ exports.createQuestion = (req, res, next) => {
 
 exports.browseQuestions = (req, res, next) => {
 
-    models.Questions.findAll({
-        // raw: true,
-        include: [
-            {
-                model: models.Users,
-                on: {
-                    col1: sequelize.where(sequelize.col("Questions.UsersId"), "=", sequelize.col("User.id")),
+    let questionsArr = [];
+    let qsGotAnswered;
+
+    let browseQuestionsPromise = new Promise((resolve, reject) => { 
+
+        models.Questions.findAll({
+            // raw: true,
+            include: [
+                {
+                    model: models.Users,
+                    on: {
+                        col1: sequelize.where(sequelize.col("Questions.UsersId"), "=", sequelize.col("User.id")),
+                    },
+                    attributes: ['name', 'surname']
                 },
-                attributes: ['name', 'surname']
-            },
-            { model: models.Keywords }
-        ]
-    })
-    .then(rows => {
-        let questionsArr = [];
-        
-        rows.forEach(row => {
-
-            let question = {};
-            let keywords = [];
-            
-            dateOptions = { 
-                hour: 'numeric',
-                minute: 'numeric',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-                weekday: 'long'
-            };
-            
-            question.id = row.id;
-            question.title = row.title;
-            question.text = row.text;
-            question.dateCreated = new Intl.DateTimeFormat('en-US', dateOptions).format(row.dateCreated);
-            question.userId = row.UsersId;
-            question.name = row.User.name;
-            question.surname = row.User.surname;
-
-            row.dataValues.Keywords.forEach(el => keywords.push(el.dataValues.name));
-
-            question.keywords = keywords;
-            questionsArr.push(question);
-
+                { model: models.Keywords }
+            ]
         })
- 
-        res.render('browseQuestions.ejs', { pageTitle: "Browse Questions Page", questions: questionsArr });
-    
+        .then(rows => {
+            
+            rows.forEach((row, index) => {
+
+                let question = {};
+                let keywords = [];
+                
+                dateOptions = { 
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                    weekday: 'long'
+                };
+                
+                question.id = row.id;
+                question.title = row.title;
+                question.text = row.text;
+                question.dateCreated = new Intl.DateTimeFormat('en-US', dateOptions).format(row.dateCreated);
+                question.userId = row.UsersId;
+                question.name = row.User.name;
+                question.surname = row.User.surname;
+
+                row.dataValues.Keywords.forEach(el => keywords.push(el.dataValues.name));
+
+                question.keywords = keywords;
+                questionsArr.push(question);
+
+                if (index === questionsArr.length - 1) return resolve();
+            })
+        })
     })
+
+    let qsGotAnsweredPromise = new Promise((resolve, reject) => { 
+
+        models.Answers.count({ distinct:true, col: 'QuestionsId' }).then( res => {
+            qsGotAnswered = res;
+            resolve(); 
+        });
+    })
+
+    Promise.all([browseQuestionsPromise, qsGotAnsweredPromise]).then(() => { 
+        res.render('browseQuestions.ejs', {
+            pageTitle: "Browse Questions Page", 
+            questions: questionsArr, 
+            qsGotAnswered: qsGotAnswered 
+        });
+    })
+
 
 };
 
