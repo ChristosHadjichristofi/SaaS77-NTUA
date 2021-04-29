@@ -162,7 +162,6 @@ exports.browseQuestion = (req, res, next) => {
 
             answersArr = answers;
             answersArr.forEach(ans => ans.dateCreated = new Intl.DateTimeFormat('en-US', dateOptions).format(ans.dateCreated))
-            console.log(answersArr);
             resolve();
         });
 
@@ -177,5 +176,20 @@ exports.browseQuestion = (req, res, next) => {
             answersCounter: answersArr.length
         });
     })
+
+}
+
+exports.answerQuestion = (req, res, next) => {
+
+    const questionID = req.params.id;
+    const answerText = req.body.answer;
+    
+    models.Answers.create({
+        text: answerText,
+        dateCreated: Date.now(),
+        UsersId: req.session.user.id,
+        QuestionsId: questionID
+    })
+    .then(() => res.redirect('/questions/' + questionID))
 
 }

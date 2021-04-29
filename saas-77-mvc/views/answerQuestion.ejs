@@ -82,11 +82,10 @@
                                 <h5><%=user.name %> <%=user.surname %></h5>
                                 <h6 class="text-muted mb-2"><!-- here maybe add something--></h6>
                             </div>
-                            <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9">
-                                <textarea id="answer-textarea" rows="8"></textarea>
-                                <form method="POST" action=""></form>
-                                <button class="btn btn-primary align-self-end" id="leave-answer-button" type="button">Submit</button>
-                            </div>
+                            <form class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9" method="POST" action="/questions/answer/<%= question.id %>">
+                                <textarea id="answer-textarea" name="answer" rows="8"></textarea>
+                                <button class="btn btn-primary align-self-end" id="leave-answer-button" type="submit">Submit</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,6 @@ router.get('/show', isAuth, questionController.browseQuestions);
 
 router.get('/:id', isAuth, questionController.browseQuestion);
 
-// router.get('/fetch', questionController.getQuestions);
+router.post('/answer/:id', questionController.answerQuestion);
 
 module.exports = router;
