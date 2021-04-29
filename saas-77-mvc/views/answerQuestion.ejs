@@ -54,7 +54,10 @@
             <% } else { %>
             <div id="answers-div" style="margin-top:20px">
                 <% answers.forEach((ans, index) => { %>
+                <% if (index == 0) { %> <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+                <% } else { %> 
                 <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px;">
+                <% } %>
                     <div class="card-body" id="question-card-body">
                         <div class="row">
                             <div class="col col-md-3"><span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=ans['User.name'] %> <%=ans['User.surname'] %>"></span>
