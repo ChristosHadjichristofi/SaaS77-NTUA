@@ -22,16 +22,6 @@
 <body>
     <div id="main-div">
         <div class="container-fluid" id="header-el">
-            <!-- <nav class="navbar navbar-light navbar-expand-md sticky-top bg-white" id="header-el">
-                <div class="container-fluid"><a class="navbar-brand" href="#"><img src="/assets/img/logo1.1.png" width="200" height="50"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse" id="navcol-1">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><a class="nav-link active" href="#"><button class="btn btn-outline-primary" data-toggle="modal" data-target="#signin" type="button">Log In</button></a></li>
-                            <li class="nav-item"><a class="nav-link active" href="#"><button class="btn btn-primary" data-toggle="modal" data-target="#signup" type="button">Sign Up</button></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav> -->
             
             <%- include("includes/navbar.ejs")%>
 
@@ -63,15 +53,19 @@
                     <div class="card shadow" style="background: rgba(149,165,166,0.5);">
                         <div class="card-body">
                             <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Ask a Question</h4>
-                            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Got a question? <br>Feel free to ask!</p><button class="btn btn-primary" id="button-in-card" type="button">Ask</button>
+                            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Got a question? <br>Feel free to ask!</p>
+                            <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Ask</button>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card shadow" style="background: rgba(149,165,166,0.5);">
                         <div class="card-body">
-                            <h4 class="card-title" style="font-size: 18px;">Answer a Question</h4>
-                            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Want to help others?<br>Answer some questions!</p><button class="btn btn-primary" id="button-in-card" type="button">Answer</button>
+                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Browse Questions</h4>
+                            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">
+                                Want to help others?<br>See what you can answer!
+                            </p>
+                            <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Browse</button>
                         </div>
                     </div>
                 </div>
