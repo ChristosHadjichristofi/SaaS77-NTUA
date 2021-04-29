@@ -54,7 +54,8 @@ exports.browseQuestions = (req, res, next) => {
                     },
                     attributes: ['name', 'surname']
                 },
-                { model: models.Keywords }
+                { model: models.Keywords },
+                { model: models.Answers }
             ]
         })
         .then(rows => {
@@ -80,6 +81,7 @@ exports.browseQuestions = (req, res, next) => {
                 question.userId = row.UsersId;
                 question.name = row.User.name;
                 question.surname = row.User.surname;
+                question.totalAnswers = row.dataValues.Answers.length;
 
                 row.dataValues.Keywords.forEach(el => keywords.push(el.dataValues.name));
 
