@@ -34,6 +34,7 @@ exports.signIn = (req, res, next) => {
                 id: loadedUser.id,
                 name: loadedUser.name,
                 surname: loadedUser.surname,
+                dateCreated: loadedUser.dateCreated,
                 username: loadedUser.email  
             }
 
@@ -66,6 +67,7 @@ exports.signUp = (req, res, next) => {
                         surname: surnameCapitalized,
                         email: email,
                         password: hashedPW,
+                        dateCreated: Date.now()
                     });
                 
                     return res.redirect("/");
