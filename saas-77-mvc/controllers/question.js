@@ -184,7 +184,7 @@ exports.browseQuestion = (req, res, next) => {
         models.Answers.count({ where: { QuestionsId: questionID }}).then(numAnswers => {
             totalAnswers = numAnswers;
 
-            if(page > Math.ceil(totalAnswers / ANSWERS_PER_PAGE)) return res.redirect('/questions' + questionID + '?page=1')
+            if(page > Math.ceil(totalAnswers / ANSWERS_PER_PAGE) && totalAnswers !== 0) return res.redirect('/questions' + questionID + '/?page=1')
             
             return models.Answers.findAll({
                 offset: ((page - 1) * ANSWERS_PER_PAGE),
