@@ -25,8 +25,8 @@
         <%- include("includes/navbar.ejs")%>
 
         <div class="container" id="main-screen-cards">
-            <h4 style="color: var(--blue);"><strong>Questions submitted: <%= questions.length %></strong></h4>
-            <h4 id="message" style="color: var(--blue);"><strong>Unanswered questions: <%= questions.length - qsGotAnswered %></strong></h4>
+            <h4 style="color: var(--blue);"><strong>Questions submitted: <%= totalQuestions %></strong></h4>
+            <h4 id="message" style="color: var(--blue);"><strong>Unanswered questions: <%= totalQuestions - qsGotAnswered %></strong></h4>
             
             <% if ( questions.length == 0 ) { %> 
 
@@ -73,8 +73,13 @@
             </div>
             <% })} %>
         </div>
+        
     </div>
-    
+
+    <% if ( questions.length != 0 ) { %> 
+        <%- include("includes/pagination.ejs")%>
+    <% } %>
+
     <%- include("includes/footer.ejs")%>
 
     <script src="/assets/js/jquery.min.js"></script>

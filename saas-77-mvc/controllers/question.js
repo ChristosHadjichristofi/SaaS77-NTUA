@@ -4,6 +4,9 @@ var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 // end of require models
 
+const QUESTIONS_PER_PAGE = 3;
+const ANSWERS_PER_PAGE = 2;
+
 exports.createQuestion = (req, res, next) => {
 
     let qname = req.body.qname;
@@ -39,24 +42,32 @@ exports.createQuestion = (req, res, next) => {
 
 exports.browseQuestions = (req, res, next) => {
 
-    let questionsArr = [];
-    let qsGotAnswered;
+    const page = +req.query.page || 1;
+
+    let questionsArr = [], qsGotAnswered, totalQuestions;
 
     let browseQuestionsPromise = new Promise((resolve, reject) => { 
 
-        models.Questions.findAll({
-            // raw: true,
-            include: [
-                {
-                    model: models.Users,
-                    on: {
-                        col1: sequelize.where(sequelize.col("Questions.UsersId"), "=", sequelize.col("User.id")),
+        models.Questions.count().then(numQuestions => {
+            totalQuestions = numQuestions;
+
+            if (page > Math.ceil(totalQuestions / QUESTIONS_PER_PAGE)) return res.redirect('/questions/show?page=1')
+
+            return models.Questions.findAll({
+                offset: ((page - 1) * QUESTIONS_PER_PAGE),
+                limit: QUESTIONS_PER_PAGE,
+                include: [
+                    {
+                        model: models.Users,
+                        on: {
+                            col1: sequelize.where(sequelize.col("Questions.UsersId"), "=", sequelize.col("User.id")),
+                        },
+                        attributes: ['name', 'surname']
                     },
-                    attributes: ['name', 'surname']
-                },
-                { model: models.Keywords },
-                { model: models.Answers }
-            ]
+                    { model: models.Keywords },
+                    { model: models.Answers }
+                ]
+            });
         })
         .then(rows => {
             
@@ -105,7 +116,14 @@ exports.browseQuestions = (req, res, next) => {
         res.render('browseQuestions.ejs', {
             pageTitle: "Browse Questions Page", 
             questions: questionsArr, 
-            qsGotAnswered: qsGotAnswered 
+            qsGotAnswered: qsGotAnswered,
+            totalQuestions: totalQuestions,
+            currentPage: page,
+            hasNextPage: QUESTIONS_PER_PAGE * page < totalQuestions,
+            hasPrevPage: page > 1,
+            nextPage: page + 1,
+            prevPage: page - 1,
+            lastPage: Math.ceil(totalQuestions / QUESTIONS_PER_PAGE)
         });
     })
 
@@ -115,9 +133,9 @@ exports.browseQuestions = (req, res, next) => {
 exports.browseQuestion = (req, res, next) => {
 
     const questionID = req.params.id;
-    
-    let question;
-    let answersArr;
+    const page = +req.query.page || 1;
+
+    let question, totalAnswers, answersArr;
 
     let questionPromise = new Promise((resolve, reject) => { 
         models.Questions.findAll({
@@ -163,20 +181,28 @@ exports.browseQuestion = (req, res, next) => {
 
     let answersPromise = new Promise((resolve, reject) => {
 
-        models.Answers.findAll({
-            raw: true,
-            where: { QuestionsId: questionID },
-            include: [
-                {
-                    model: models.Users,
-                    on: {
-                        col1: sequelize.where(sequelize.col("Answers.UsersId"), "=", sequelize.col("User.id")),
-                    },
-                    attributes: ['name', 'surname']
-                }
-            ],
-            order: [['dateCreated', 'DESC']]
-        })
+        models.Answers.count({ where: { QuestionsId: questionID }}).then(numAnswers => {
+            totalAnswers = numAnswers;
+
+            if(page > Math.ceil(totalAnswers / ANSWERS_PER_PAGE)) return res.redirect('/questions' + questionID + '?page=1')
+            
+            return models.Answers.findAll({
+                offset: ((page - 1) * ANSWERS_PER_PAGE),
+                limit: ANSWERS_PER_PAGE,
+                raw: true,
+                where: { QuestionsId: questionID },
+                include: [
+                    {
+                        model: models.Users,
+                        on: {
+                            col1: sequelize.where(sequelize.col("Answers.UsersId"), "=", sequelize.col("User.id")),
+                        },
+                        attributes: ['name', 'surname']
+                    }
+                ],
+                order: [['dateCreated', 'DESC']]
+            });
+        })        
         .then(answers => {
 
             dateOptions = { 
@@ -190,14 +216,20 @@ exports.browseQuestion = (req, res, next) => {
         });
 
     })
-
     Promise.all([questionPromise, answersPromise]).then(() => {
         res.render('answerQuestion.ejs', 
         { 
             pageTitle: "Answer Question Page",
             question: question,
             answers: answersArr,
-            answersCounter: answersArr.length
+            answersCounter: answersArr.length,
+            totalAnswers: totalAnswers,
+            currentPage: page,
+            hasNextPage: ANSWERS_PER_PAGE * page < totalAnswers,
+            hasPrevPage: page > 1,
+            nextPage: page + 1,
+            prevPage: page - 1,
+            lastPage: Math.ceil(totalAnswers / ANSWERS_PER_PAGE)
         });
     })
 

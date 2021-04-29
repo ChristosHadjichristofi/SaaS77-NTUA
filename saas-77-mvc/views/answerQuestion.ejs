@@ -41,12 +41,12 @@
                             <p class="text-left" style="color: var(--blue); white-space: pre-line"><%= question.text %></p>
                         </div>
                         <div class="col d-lg-flex justify-content-lg-center align-items-lg-center">
-                            <label class="col-form-label" id="answers-counter" ><%= answersCounter %></label>
+                            <label class="col-form-label" id="answers-counter" ><%= totalAnswers %></label>
                         </div>
                     </div>
                 </div>
             </div>
-            <% if ( answersCounter == 0 ) { %> 
+            <% if ( totalAnswers == 0 ) { %> 
 
                 <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px;">
                     <div class="card-body" id="question-card-body">
@@ -76,6 +76,11 @@
                 <% }) %>
             </div>
             <% } %>
+
+            <% if ( totalAnswers != 0 ) { %> 
+                <%- include("includes/pagination.ejs")%>
+            <% } %>
+
             <div style="margin-top:30px">
                 <div class="card shadow" id="answer-question-card" style="background: rgba(149,165,166,0.5);">
                     <div class="card-body" id="question-card-body">

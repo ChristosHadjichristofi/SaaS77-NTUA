@@ -311,7 +311,7 @@
 }
 
 #answers-div {
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   max-height: 500px;
 }
 
@@ -329,3 +329,22 @@
   transform: scale(0.95);
 }
 
+.pagination {
+  margin: 2rem;
+  text-align: center;
+}
+
+.pagination a {
+  text-decoration: none;
+  color: cadetblue;
+  padding: 0.4rem;
+  border: 0.5px solid cadetblue;
+  margin: 0 0.2rem;
+}
+
+.pagination a:hover,
+.pagination a:active,
+.pagination a.active {
+  background-color: cadetblue;
+  color: white;
+}
