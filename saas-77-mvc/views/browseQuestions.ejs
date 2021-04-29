@@ -25,13 +25,14 @@
         <%- include("includes/navbar.ejs")%>
 
         <div class="container" id="main-screen-cards">
-            <h2 id="message" style="color: var(--blue);"><strong>My.AskMeAnything</strong></h2>
+            <h4 style="color: var(--blue);"><strong>Questions submitted: <%= questions.length %></strong></h4>
+            <h4 id="message" style="color: var(--blue);"><strong>Unanswered questions: <%= questions.length - qsGotAnswered %></strong></h4>
             
             <% if ( questions.length == 0 ) { %> 
 
                 <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px; margin-bottom:170px; ">
                     <div class="card-body" id="question-card-body">
-                        <h5>No questions found</h5>
+                        <h5 style="color: var(--blue);">No questions found</h5>
                     </div>
                 </div>
 
@@ -43,17 +44,17 @@
                     <div class="row">
                         <div class="col col-md-3">
                             <span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=question.name %> <%=question.surname %>"></span>
-                            <h5><%= question.name%> <%= question.surname%></h5>
-                            <h6 class="text-muted mb-2"><%= question.dateCreated %></h6>
+                            <h5 style="color: var(--blue);"><%= question.name%> <%= question.surname%></h5>
+                            <h6 class="text-muted mb-2" style="color: var(--blue);"><%= question.dateCreated %></h6>
                         </div>
                         <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-7">
-                            <h4><%= question.title %></h4>
+                            <h4 style="color: var(--blue);"><%= question.title %></h4>
                             <div class="tag-cont">
                                 
                                 <% question.keywords.forEach((el, idx) => { %>
                                     
                                     <div class="tag">
-                                        <span><%= el %></span>
+                                        <span style="color: var(--blue);"><%= el %></span>
                                     </div>
 
                                 <% }) %>
@@ -61,9 +62,12 @@
                             </div>
                         </div>
                         <div class="col d-lg-flex justify-content-lg-center align-items-lg-center col-md-2">
-                        <form method="GET" action="/questions/<%= question.id %>">
-                            <button class="btn btn-primary" type="submit">Answer</button></div>
-                        </form>
+                            <form method="GET" action="/questions/<%= question.id %>">
+                                <button class="btn btn-primary" type="submit">
+                                    Answer <label class="col-form-label" id="answers-counter-on-browse"><p style="transform: translateY(-30%);"><%= question.totalAnswers %></p></label>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

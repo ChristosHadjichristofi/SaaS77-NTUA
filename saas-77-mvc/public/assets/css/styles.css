@@ -278,8 +278,24 @@
   min-height: 40px;
   font-size: 17px;
   background-color: #dddddd;
+  border-style: solid;
+  border-color: rgb(113,119,125); 
+  color: var(--blue);
 }
 
+#answers-counter-on-browse {
+  border-radius: 50px;
+  border-width: thin;
+  font-weight: 900;
+  font-size: 12px;
+  width: 23px;
+  height: 23px;
+  background-color: #dddddd;
+  border-style: solid;
+  border-color: rgb(113,119,125); 
+  color: var(--blue);
+  transform: translateY(15%);
+}
 #answer-textarea {
   width: 100%;
   height: 100%;
@@ -305,3 +321,11 @@
     align-items: start!important;
   }
 }
+
+.text-box {
+  color: var(--blue);
+  background: rgba(100, 100, 100, 0.17);
+  border-radius: 10px;
+  transform: scale(0.95);
+}
+
