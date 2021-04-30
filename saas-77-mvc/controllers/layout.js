@@ -48,7 +48,7 @@ exports.getProfile = function (req, res, next) {
     let totalQuestions, totalAnswers, contributions;
     
     let questionsPromise = new Promise((resolve, reject) => {
-        models.Questions.count({ where: { id: req.session.user.id } })
+        models.Questions.count({ where: { UsersId: req.session.user.id } })
         .then(questions => {
             totalQuestions = questions;
             resolve();
@@ -58,7 +58,7 @@ exports.getProfile = function (req, res, next) {
     let answersPromise = new Promise((resolve, reject) => {
 
         models.Answers.findAll({ 
-            where: { id: req.session.user.id },
+            where: { UsersId: req.session.user.id },
             order: [['dateCreated', 'DESC']]
         })
         .then(answers => {
@@ -68,8 +68,8 @@ exports.getProfile = function (req, res, next) {
         })
         
     })
-
     Promise.all([questionsPromise, answersPromise]).then(() => {
+        console.log(totalAnswers, totalQuestions, contributions)
         res.render('profile.ejs', {
             pageTitle: "Profile Page",
             totalQuestions: totalQuestions,
