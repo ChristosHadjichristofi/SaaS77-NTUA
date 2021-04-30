@@ -33,11 +33,14 @@ module.exports = () => {
                     name.push(el['Keywords.name']);
                 }
             })
-
-            frequency.push(totalKeywords.toString());
-            name.push('Other');
-            frequency.push(noKeyword.toString());
-            name.push('No Keywords')
+            
+            if (noKeyword != null) {
+                frequency.push(totalKeywords.toString());
+                name.push('Other');
+                frequency.push(noKeyword.toString());
+                name.push('No Keywords')
+            }
+            
             return resolve({ topThreeKeywords, name, frequency });
 
         })
