@@ -51,6 +51,8 @@ exports.browseQuestions = (req, res, next) => {
         models.Questions.count().then(numQuestions => {
             totalQuestions = numQuestions;
 
+            if (totalQuestions == 0) return resolve();
+
             if (page > Math.ceil(totalQuestions / QUESTIONS_PER_PAGE)) return res.redirect('/questions/show?page=1')
 
             return models.Questions.findAll({
@@ -72,6 +74,8 @@ exports.browseQuestions = (req, res, next) => {
         })
         .then(rows => {
             
+            if (!rows) return resolve();
+
             rows.forEach((row, index) => {
 
                 let question = {};
@@ -102,13 +106,15 @@ exports.browseQuestions = (req, res, next) => {
 
                 if (index === questionsArr.length - 1) return resolve();
             })
+
+            return resolve();
         })
     })
 
     let qsGotAnsweredPromise = new Promise((resolve, reject) => { 
 
-        models.Answers.count({ distinct:true, col: 'QuestionsId' }).then( res => {
-            qsGotAnswered = res;
+        models.Answers.count({ distinct:true, col: 'QuestionsId' }).then( result => {
+            qsGotAnswered = result;
             resolve(); 
         });
     })
@@ -127,8 +133,6 @@ exports.browseQuestions = (req, res, next) => {
             lastPage: Math.ceil(totalQuestions / QUESTIONS_PER_PAGE)
         });
     })
-
-
 };
 
 exports.browseQuestion = (req, res, next) => {
