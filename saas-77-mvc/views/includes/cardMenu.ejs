@@ -1,0 +1,44 @@
+<div class="col">
+    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+        <div class="card-body">
+            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Questions per keyword</h4>
+            <% if (topKeywords.length == 0) { %> 
+                <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">No data found <br>Be the first to ask!</p>
+                <% } else {%>
+                <canvas id="qsPerKWGraph" width="400" height="400"></canvas>
+            <% } %>
+        </div>
+    </div>
+</div>
+<div class="col">
+    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+        <div class="card-body">
+            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Questions per day<br></h4>
+            <% if (qsPerDayDates.length == 0) { %> 
+                <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">No data found <br>Be the first to ask!</p>
+            <% } else {%>
+                <canvas id="qsPerDay" width="400" height="400"></canvas>
+            <% } %>
+        </div>
+    </div>
+</div>
+<div class="col">
+    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+        <div class="card-body">
+            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Ask a Question</h4>
+            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Got a question? <br>Feel free to ask!</p>
+            <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Ask</button>
+        </div>
+    </div>
+</div>
+<div class="col">
+    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+        <div class="card-body">
+            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Browse Questions</h4>
+            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">
+                Want to help others?<br>See what you can answer!
+            </p>
+            <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Browse</button>
+        </div>
+    </div>
+</div>
