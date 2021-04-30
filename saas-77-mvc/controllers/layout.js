@@ -52,7 +52,7 @@ exports.getProfile = function (req, res, next) {
             pageTitle: "Profile Page",
             totalQuestions: totalQuestions,
             totalAnswers: totalAnswers,
-            contributions: contributions 
+            contributions: contributions.toFixed(2)
         });
     })
 
