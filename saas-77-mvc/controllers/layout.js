@@ -30,7 +30,7 @@ exports.getLanding = (req, res, next) => {
     })
 
     Promise.all([qsPerKeyWordDataPromise, qsPerDayDataPromise]).then(() => {
-        console.log(qsPerKWName, qsPerKWFreq)
+
         res.render('landing.ejs', {
             pageTitle: "Landing Page",
             topThreeKeywords: qsPerKWTop3,
@@ -102,7 +102,7 @@ exports.getHome = (req, res, next) => {
     })
 
     Promise.all([qsPerKeyWordDataPromise, qsPerDayDataPromise]).then(() => {
-        console.log(qsPerKWName, qsPerKWFreq)
+
         res.render('home.ejs', {
             pageTitle: "Home Page",
             topThreeKeywords: qsPerKWTop3,
