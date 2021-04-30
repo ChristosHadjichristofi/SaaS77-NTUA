@@ -27,7 +27,11 @@
         <div class="card-body">
             <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Ask a Question</h4>
             <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Got a question? <br>Feel free to ask!</p>
-            <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Ask</button>
+            <% if (pageTitle === "Landing Page") { %>
+                <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Ask</button>
+            <% } else { %>
+                <button class="btn btn-primary" id="button-in-card" type="button" data-toggle="modal" data-target="#ask-question">Ask</button>
+            <% } %>
         </div>
     </div>
 </div>
@@ -38,7 +42,14 @@
             <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">
                 Want to help others?<br>See what you can answer!
             </p>
-            <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Browse</button>
+            <% if (pageTitle === "Landing Page") { %>
+                <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Browse</button>
+            <% } else { %>
+                <form method="GET" action="/questions/show">
+                    <button class="btn btn-primary" id="button-in-card" type="submit">Browse</button>
+                </form>
+            <% } %>
+            
         </div>
     </div>
 </div>
