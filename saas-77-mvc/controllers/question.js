@@ -137,10 +137,12 @@ exports.browseQuestions = (req, res, next) => {
 
 exports.browseQuestion = (req, res, next) => {
 
-    const questionID = req.params.id;
+    let questionID = req.params.id;
     const page = +req.query.page || 1;
 
     let question, totalAnswers, answersArr;
+
+    if (isNaN(questionID)) questionID = 1;
 
     let questionPromise = new Promise((resolve, reject) => { 
         models.Questions.findAll({
@@ -158,6 +160,8 @@ exports.browseQuestion = (req, res, next) => {
         })
         .then(rows => {
             
+            if (rows.length == 0) return res.redirect('/questions/show');
+
             let q = {};
             let keywords = [];
             
