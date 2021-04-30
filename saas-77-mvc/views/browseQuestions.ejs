@@ -51,13 +51,18 @@
                             <h4 style="color: var(--blue);"><%= question.title %></h4>
                             <div class="tag-cont">
                                 
+                                <% if (question.keywords.length == 0) { %>
+                                    <div class="tag-not-found">
+                                        <span style="color: rgb(201, 201, 201);">No keywords</span>
+                                    </div>
+                                <% } else { %>
                                 <% question.keywords.forEach((el, idx) => { %>
                                     
                                     <div class="tag">
                                         <span style="color: var(--blue);"><%= el %></span>
                                     </div>
 
-                                <% }) %>
+                                <% })} %>
 
                             </div>
                         </div>

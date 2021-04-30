@@ -250,6 +250,20 @@
   cursor: default;
 }
 
+.tag-cont .tag-not-found {
+  height: 30px;
+  margin: 5px;
+  padding: 5px 6px;
+  border: 1px solid rgb(100, 111, 204);
+  border-radius: 3px;
+  background: rgb(100, 111, 204);
+  display: flex;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgb(100, 111, 204);
+  cursor: default;
+}
+
 .tag i {
   font-size: 16px;
   color: #666;
