@@ -66,7 +66,8 @@ exports.browseQuestions = (req, res, next) => {
                     },
                     { model: models.Keywords },
                     { model: models.Answers }
-                ]
+                ],
+                order: [['dateCreated', 'ASC']]
             });
         })
         .then(rows => {
