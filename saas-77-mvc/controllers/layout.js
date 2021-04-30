@@ -5,11 +5,19 @@ var models = initModels(sequelize);
 // end of require models
 
 const calcDays = require('../utils/calcDays');
+const qsPerKeywordData = require('../utils/qsPerKeywordData');
 
 exports.getLanding = (req, res, next) => {
 
-    res.render('landing.ejs', { pageTitle: "Landing Page" });
+    qsPerKeywordData().then(result => {
 
+        res.render('landing.ejs', {
+            pageTitle: "Landing Page",
+            topThreeKeywords: result.topThreeKeywords,
+            topKeywords: result.name,
+            topKeywordsFreq: result.frequency
+        });
+    });
 }
 
 
@@ -52,6 +60,13 @@ exports.getProfile = function (req, res, next) {
 
 exports.getHome = (req, res, next) => {
 
-    res.render('home.ejs', { pageTitle: "Home Page" });
+    qsPerKeywordData().then(result => {
 
+        res.render('home.ejs', {
+            pageTitle: "Home Page",
+            topThreeKeywords: result.topThreeKeywords,
+            topKeywords: result.name,
+            topKeywordsFreq: result.frequency
+        });
+    });
 }

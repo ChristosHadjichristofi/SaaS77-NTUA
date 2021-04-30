@@ -31,13 +31,13 @@
 
         </div>
         <div class="container" id="main-screen-cards">
-            <h2 id="message" style="color: var(--blue);">Welcome to AskMeAnything</h2>
+            <h2 id="message" style="color: var(--blue);"><Welcome to AskMeAnything></h2>
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4">
                 <div class="col">
                     <div class="card shadow" style="background: rgba(149,165,166,0.5);">
                         <div class="card-body">
                             <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Questions per keyword</h4>
-                            <p>Here goes the graph</p>
+                            <canvas id="qsPerKWGraph" width="400" height="400"></canvas>
                         </div>
                     </div>
                 </div>
@@ -75,6 +75,43 @@
     
     <%- include("includes/footer.ejs")%>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+    <script>
+        var ctx = document.getElementById('qsPerKWGraph').getContext('2d');
+        let topKeywords = '<%= topKeywords %>';
+        let topKeywordsFreq = '<%= topKeywordsFreq %>';
+
+        var qsPerKWGraph = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: topKeywords.split(','),
+                datasets: [{
+                    label: '# of Questions',
+                    data: topKeywordsFreq.split(',').map(x => +x),
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
