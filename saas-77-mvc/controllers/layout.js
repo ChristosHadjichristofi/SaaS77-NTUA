@@ -6,18 +6,40 @@ var models = initModels(sequelize);
 
 const calcDays = require('../utils/calcDays');
 const qsPerKeywordData = require('../utils/qsPerKeywordData');
+const qsPerDayData = require('../utils/qsPerDayData');
 
 exports.getLanding = (req, res, next) => {
+    
+    let qsPerKWTop3 = [], qsPerKWName = [], qsPerKWFreq = [], qsPerDayDates = [], qsPerDayFreq = [];
 
-    qsPerKeywordData().then(result => {
+    let qsPerKeyWordDataPromise = new Promise((resolve, reject) => {
+        qsPerKeywordData().then(result => {
+            qsPerKWTop3 = result.topThreeKeywords;
+            qsPerKWName = result.name;
+            qsPerKWFreq = result.frequency;
+            resolve();
+        })
+    });
 
+    let qsPerDayDataPromise = new Promise((resolve, reject) => {
+        qsPerDayData().then(result => {
+            qsPerDayDates = result.dates;
+            qsPerDayFreq = result.frequency;
+            resolve();
+        })
+    })
+
+    Promise.all([qsPerKeyWordDataPromise, qsPerDayDataPromise]).then(() => {
+        console.log(qsPerKWName, qsPerKWFreq)
         res.render('landing.ejs', {
             pageTitle: "Landing Page",
-            topThreeKeywords: result.topThreeKeywords,
-            topKeywords: result.name,
-            topKeywordsFreq: result.frequency
-        });
-    });
+            topThreeKeywords: qsPerKWTop3,
+            topKeywords: qsPerKWName,
+            topKeywordsFreq: qsPerKWFreq,
+            qsPerDayDates: qsPerDayDates,
+            qsPerDayFreq: qsPerDayFreq 
+        })
+    })
 }
 
 
@@ -60,13 +82,34 @@ exports.getProfile = function (req, res, next) {
 
 exports.getHome = (req, res, next) => {
 
-    qsPerKeywordData().then(result => {
+    let qsPerKWTop3 = [], qsPerKWName = [], qsPerKWFreq = [], qsPerDayDates = [], qsPerDayFreq = [];
 
+    let qsPerKeyWordDataPromise = new Promise((resolve, reject) => {
+        qsPerKeywordData().then(result => {
+            qsPerKWTop3 = result.topThreeKeywords;
+            qsPerKWName = result.name;
+            qsPerKWFreq = result.frequency;
+            resolve();
+        })
+    });
+
+    let qsPerDayDataPromise = new Promise((resolve, reject) => {
+        qsPerDayData().then(result => {
+            qsPerDayDates = result.dates;
+            qsPerDayFreq = result.frequency;
+            resolve();
+        })
+    })
+
+    Promise.all([qsPerKeyWordDataPromise, qsPerDayDataPromise]).then(() => {
+        console.log(qsPerKWName, qsPerKWFreq)
         res.render('home.ejs', {
             pageTitle: "Home Page",
-            topThreeKeywords: result.topThreeKeywords,
-            topKeywords: result.name,
-            topKeywordsFreq: result.frequency
-        });
-    });
+            topThreeKeywords: qsPerKWTop3,
+            topKeywords: qsPerKWName,
+            topKeywordsFreq: qsPerKWFreq,
+            qsPerDayDates: qsPerDayDates,
+            qsPerDayFreq: qsPerDayFreq 
+        })
+    })
 }

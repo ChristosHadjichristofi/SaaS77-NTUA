@@ -63,6 +63,7 @@
 
 #main-screen-cards {
   padding-top: 50px;
+  padding-bottom: 30px;
   margin: 0 auto;
 }
 
@@ -70,7 +71,7 @@
 }
 
 #message {
-  padding-bottom: 80px;
+  padding-bottom: 40px;
 }
 
 #question-text {

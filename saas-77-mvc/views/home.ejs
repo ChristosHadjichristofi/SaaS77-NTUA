@@ -40,8 +40,8 @@
                 <div class="col align-items-stretch">
                     <div class="card shadow" style="background: rgba(149,165,166,0.5);">
                         <div class="card-body flex-shrink-1">
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Questions per day/period<br></h4>
-                            <p>Here goes the graph<br></p>
+                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Questions per day<br></h4>
+                            <canvas id="qsPerDay" width="400" height="400"></canvas>
                         </div>
                     </div>
                 </div>
@@ -107,6 +107,33 @@
                 scales: {
                     y: {
                         beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var ctx = document.getElementById('qsPerDay').getContext('2d');
+        let qsPerDayDates = '<%= qsPerDayDates %>';
+        let qsPerDayFreq = '<%= qsPerDayFreq %>';
+
+        var qsPerDay = new Chart(document.getElementById("qsPerDay"), {
+            type: 'doughnut',
+            data: {
+            labels: qsPerDayDates.split(',').reverse(),
+            datasets: [{
+                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                data: qsPerDayFreq.split(',').map(x => +x).reverse()
+            }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            padding: 4,
+                        }
                     }
                 }
             }
