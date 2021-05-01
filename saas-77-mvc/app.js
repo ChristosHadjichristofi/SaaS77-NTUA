@@ -3,6 +3,7 @@ const path = require('path');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./utils/database');
+const flash = require('connect-flash')
 
 /* ROUTES and how to import routes */
 
@@ -20,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
+
+app.use(flash());
 
 app.use(session({
     secret: process.env.SECRET_SESSION_STRING,

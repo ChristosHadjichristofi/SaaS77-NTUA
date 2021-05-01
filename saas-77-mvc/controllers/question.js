@@ -35,7 +35,10 @@ exports.createQuestion = (req, res, next) => {
             });
         });
         
-        insertKeywords.then(() => { res.redirect('/home'); });
+        insertKeywords.then(() => { 
+            req.flash('messages', {type: 'success', value: 'Your question was submitted successfully.'})
+            res.redirect('/home'); 
+        });
     })
 
 }
@@ -226,6 +229,11 @@ exports.browseQuestion = (req, res, next) => {
 
     })
     Promise.all([questionPromise, answersPromise]).then(() => {
+
+        let messages = req.flash("messages");
+
+        if (messages.length == 0) messages = [];
+
         res.render('answerQuestion.ejs', 
         { 
             pageTitle: "Answer Question Page",
@@ -238,7 +246,8 @@ exports.browseQuestion = (req, res, next) => {
             hasPrevPage: page > 1,
             nextPage: page + 1,
             prevPage: page - 1,
-            lastPage: Math.ceil(totalAnswers / ANSWERS_PER_PAGE)
+            lastPage: Math.ceil(totalAnswers / ANSWERS_PER_PAGE),
+            messages: messages
         });
     })
 
@@ -255,6 +264,8 @@ exports.answerQuestion = (req, res, next) => {
         UsersId: req.session.user.id,
         QuestionsId: questionID
     })
-    .then(() => res.redirect('/questions/' + questionID))
-
+    .then(() => {
+        req.flash('messages', {type: 'success', value: 'Your answer was submitted successfully!'})
+        res.redirect('/questions/' + questionID)
+    })
 }

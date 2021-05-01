@@ -31,13 +31,18 @@ exports.getLanding = (req, res, next) => {
 
     Promise.all([qsPerKeyWordDataPromise, qsPerDayDataPromise]).then(() => {
 
+        let messages = req.flash("messages");
+
+        if (messages.length == 0) messages = [];
+
         res.render('landing.ejs', {
             pageTitle: "Landing Page",
             topThreeKeywords: qsPerKWTop3,
             topKeywords: qsPerKWName,
             topKeywordsFreq: qsPerKWFreq,
             qsPerDayDates: qsPerDayDates,
-            qsPerDayFreq: qsPerDayFreq 
+            qsPerDayFreq: qsPerDayFreq,
+            messages: messages
         })
     })
 }
@@ -69,12 +74,17 @@ exports.getProfile = function (req, res, next) {
         
     })
     Promise.all([questionsPromise, answersPromise]).then(() => {
-        console.log(totalAnswers, totalQuestions, contributions)
+
+        let messages = req.flash("messages");
+
+        if (messages.length == 0) messages = [];
+
         res.render('profile.ejs', {
             pageTitle: "Profile Page",
             totalQuestions: totalQuestions,
             totalAnswers: totalAnswers,
-            contributions: contributions.toFixed(2)
+            contributions: contributions.toFixed(2),
+            messages: messages
         });
     })
 
@@ -103,13 +113,18 @@ exports.getHome = (req, res, next) => {
 
     Promise.all([qsPerKeyWordDataPromise, qsPerDayDataPromise]).then(() => {
 
+        let messages = req.flash("messages");
+
+        if (messages.length == 0) messages = [];
+
         res.render('home.ejs', {
             pageTitle: "Home Page",
             topThreeKeywords: qsPerKWTop3,
             topKeywords: qsPerKWName,
             topKeywordsFreq: qsPerKWFreq,
             qsPerDayDates: qsPerDayDates,
-            qsPerDayFreq: qsPerDayFreq 
+            qsPerDayFreq: qsPerDayFreq,
+            messages: messages 
         })
     })
 }

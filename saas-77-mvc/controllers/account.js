@@ -17,7 +17,7 @@ exports.signIn = (req, res, next) => {
     models.Users.findOne({ where: { email: email } })
     .then(user => {
         if (!user) {
-            console.log("Here must return a pop up");
+            req.flash('messages', {type: 'error', value: 'Please check again your username and password!'})
             return res.redirect('/');
         }
 
@@ -25,7 +25,7 @@ exports.signIn = (req, res, next) => {
         bcrypt.compare(password, user.password).then(isEqual => {
 
             if (!isEqual) {
-                console.log("Here must return a pop up");
+                req.flash('messages', {type: 'error', value: 'Please check again your username and password!'})
                 return res.redirect('/');
             }
         
@@ -37,7 +37,7 @@ exports.signIn = (req, res, next) => {
                 dateCreated: loadedUser.dateCreated,
                 username: loadedUser.email  
             }
-
+            req.flash('messages', {type: 'success', value: 'Welcome back!'})
             return res.redirect("/home");
 
         })
@@ -58,6 +58,9 @@ exports.signUp = (req, res, next) => {
   const nameCapitalized = capitalize(name);
   const surnameCapitalized = capitalize(surname);
 
+    if (!name || !surname || !email || !password || !repeatedPassword) 
+        req.flash('messages', {type: 'error', value: 'Mandatory fields empty!'})
+
     if (password === repeatedPassword) {
         models.Users.findOne({ where: { email: email } }).then((user) => {
             if (!user) {
@@ -69,23 +72,23 @@ exports.signUp = (req, res, next) => {
                         password: hashedPW,
                         dateCreated: Date.now()
                     });
-                
+                    req.flash('messages', {type: 'success', value: 'Sign up successful!'})
                     return res.redirect("/");
                 });
             }
             else {
-                console.log('Here must place a notification like error pop up window!');
+                req.flash('messages', {type: 'error', value: 'This account already exists!'})
                 return res.redirect("/");
             }
         });
     } 
     else {
-        console.log("Here must place a notification like error pop up window!");
+        req.flash('messages', {type: 'error', value: 'Passwords do not match!'})
         return res.redirect("/");
     }
 };
 
-exports.signOut = (req, res) => { 
+exports.signOut = (req, res) => {
     req.session.destroy(err => {
         res.redirect('/');
     });
