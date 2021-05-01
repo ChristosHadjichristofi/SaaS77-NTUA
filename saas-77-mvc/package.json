@@ -18,6 +18,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "express-validator": "^6.10.1",
     "fast-csv": "^4.3.6",
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.3",

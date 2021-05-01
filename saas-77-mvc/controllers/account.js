@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const capitalize = require('../utils/capitalizeWords');
+const { validationResult } = require('express-validator');
 
 // require models
 const sequelize = require("../utils/database");
@@ -49,17 +50,20 @@ exports.signIn = (req, res, next) => {
 
 exports.signUp = (req, res, next) => {
 
-  const name = req.body.name;
-  const surname = req.body.surname;
-  const email = req.body.email;
-  const password = req.body.password;
-  const repeatedPassword = req.body.password;
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const email = req.body.email;
+    const password = req.body.password;
+    const repeatedPassword = req.body.repassword;
 
-  const nameCapitalized = capitalize(name);
-  const surnameCapitalized = capitalize(surname);
+    const nameCapitalized = capitalize(name);
+    const surnameCapitalized = capitalize(surname);
 
-    if (!name || !surname || !email || !password || !repeatedPassword) 
-        req.flash('messages', {type: 'error', value: 'Mandatory fields empty!'})
+    const validationErrors = validationResult(req);
+    if (validationErrors.errors.length > 0) {
+        validationErrors.errors.forEach(error => req.flash('messages', {type: 'error', value: `${error.msg}`}));
+        return res.redirect('/');
+    }
 
     if (password === repeatedPassword) {
         models.Users.findOne({ where: { email: email } }).then((user) => {
@@ -76,16 +80,10 @@ exports.signUp = (req, res, next) => {
                     return res.redirect("/");
                 });
             }
-            else {
-                req.flash('messages', {type: 'error', value: 'This account already exists!'})
-                return res.redirect("/");
-            }
+            else return res.redirect("/");
         });
     } 
-    else {
-        req.flash('messages', {type: 'error', value: 'Passwords do not match!'})
-        return res.redirect("/");
-    }
+    else return res.redirect("/");
 };
 
 exports.signOut = (req, res) => {
