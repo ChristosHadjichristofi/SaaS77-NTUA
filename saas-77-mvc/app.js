@@ -52,12 +52,12 @@ app.get('/download', (req, res) => {
     const file = __dirname + '/public/download/' + req.query.filename;
 
     res.download(file, err => {
-        if (err) (!req.session.authenticated) ? res.redirect('/') : res.redirect('/home')
+        if (err)(!req.session.authenticated) ? res.redirect('/') : res.redirect('/home')
     });
 
 });
 
 // In case of an endpoint does not exist must return 404.html
-app.use((req, res, next) => { res.status(404).render('404.ejs', {pageTitle: '404'}) })
+app.use((req, res, next) => { res.status(404).render('404.ejs', { pageTitle: '404' }) })
 
 module.exports = app;
