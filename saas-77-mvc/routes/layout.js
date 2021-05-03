@@ -10,4 +10,6 @@ router.get('/profile', isAuth, layoutController.getProfile);
 
 router.get('/home', isAuth, layoutController.getHome);
 
+router.get('/about', layoutController.getAbout);
+
 module.exports = router;

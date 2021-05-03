@@ -9,8 +9,12 @@ const qsPerKeywordData = require('../utils/qsPerKeywordData');
 const qsPerDayData = require('../utils/qsPerDayData');
 
 exports.getLanding = (req, res, next) => {
-    
-    let qsPerKWTop3 = [], qsPerKWName = [], qsPerKWFreq = [], qsPerDayDates = [], qsPerDayFreq = [];
+
+    let qsPerKWTop3 = [],
+        qsPerKWName = [],
+        qsPerKWFreq = [],
+        qsPerDayDates = [],
+        qsPerDayFreq = [];
 
     let qsPerKeyWordDataPromise = new Promise((resolve, reject) => {
         qsPerKeywordData().then(result => {
@@ -48,30 +52,32 @@ exports.getLanding = (req, res, next) => {
 }
 
 
-exports.getProfile = function (req, res, next) {
+exports.getProfile = function(req, res, next) {
 
     let totalQuestions, totalAnswers, contributions;
-    
+
     let questionsPromise = new Promise((resolve, reject) => {
         models.Questions.count({ where: { UsersId: req.session.user.id } })
-        .then(questions => {
-            totalQuestions = questions;
-            resolve();
-        })
+            .then(questions => {
+                totalQuestions = questions;
+                resolve();
+            })
     })
 
     let answersPromise = new Promise((resolve, reject) => {
 
-        models.Answers.findAll({ 
-            where: { UsersId: req.session.user.id },
-            order: [['dateCreated', 'DESC']]
-        })
-        .then(answers => {
-            totalAnswers = answers.length;
-            contributions = totalAnswers / calcDays(Date.now(), new Date(req.session.user.dateCreated));
-            resolve();
-        })
-        
+        models.Answers.findAll({
+                where: { UsersId: req.session.user.id },
+                order: [
+                    ['dateCreated', 'DESC']
+                ]
+            })
+            .then(answers => {
+                totalAnswers = answers.length;
+                contributions = totalAnswers / calcDays(Date.now(), new Date(req.session.user.dateCreated));
+                resolve();
+            })
+
     })
     Promise.all([questionsPromise, answersPromise]).then(() => {
 
@@ -92,7 +98,11 @@ exports.getProfile = function (req, res, next) {
 
 exports.getHome = (req, res, next) => {
 
-    let qsPerKWTop3 = [], qsPerKWName = [], qsPerKWFreq = [], qsPerDayDates = [], qsPerDayFreq = [];
+    let qsPerKWTop3 = [],
+        qsPerKWName = [],
+        qsPerKWFreq = [],
+        qsPerDayDates = [],
+        qsPerDayFreq = [];
 
     let qsPerKeyWordDataPromise = new Promise((resolve, reject) => {
         qsPerKeywordData().then(result => {
@@ -124,7 +134,13 @@ exports.getHome = (req, res, next) => {
             topKeywordsFreq: qsPerKWFreq,
             qsPerDayDates: qsPerDayDates,
             qsPerDayFreq: qsPerDayFreq,
-            messages: messages 
+            messages: messages
         })
+    })
+}
+
+exports.getAbout = (req, res, next) => {
+    res.render('about.ejs', {
+        pageTitle: "About Page"
     })
 }
