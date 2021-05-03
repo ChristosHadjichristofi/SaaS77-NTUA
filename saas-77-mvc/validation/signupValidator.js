@@ -22,7 +22,7 @@ module.exports = [
             return new Promise((resolve, reject) => {
                models.Users.findAll({ raw: true, where: { email: value } })
                .then(user => {
-                   if (user) return reject();
+                   if (user.length !== 0) return reject();
                    else return resolve(); 
                });
             });
