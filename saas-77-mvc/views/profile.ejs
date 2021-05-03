@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title><%= pageTitle %></title>
+    <title>
+        <%= pageTitle %>
+    </title>
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
@@ -17,6 +19,7 @@
     <link rel="stylesheet" href="/assets/css/Footer-Basic.css">
     <link rel="stylesheet" href="/assets/css/NZDropdown---Status.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/navbar.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 </head>
 
@@ -26,13 +29,19 @@
             <%- include("includes/navbar.ejs") %>
         </div>
         <div class="container" id="main-screen-cards">
-            <h2 id="message" style="color: var(--blue);">My.AskMeAnything <%= user.name %></h2>
+            <h2 id="message" style="color: var(--blue);">My.AskMeAnything
+                <%= user.name %>
+            </h2>
             <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4">
                 <div class="col">
                     <div class="card shadow" style="background: rgba(149,165,166,0.5);">
                         <div class="card-body">
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Questions: <%= totalQuestions %></h4>
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Answers: <%= totalAnswers %></h4>
+                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Questions:
+                                <%= totalQuestions %>
+                            </h4>
+                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Answers:
+                                <%= totalAnswers %>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -41,9 +50,10 @@
                         <div class="card-body">
                             <% if (contributions == 0.00) { %>
                                 <h4 class="card-title" style="font-size: 18px;color: var(--blue);">You have no contributions!<br> Help someone!</h4>
-                            <% } else { %>
-                                <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My contributions: <%= contributions %> per day<br></h4>
-                            <% } %>
+                                <% } else { %>
+                                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My contributions:
+                                        <%= contributions %> per day<br></h4>
+                                    <% } %>
                         </div>
                     </div>
                 </div>
@@ -69,47 +79,54 @@
                     </div>
                 </div>
             </div>
-            
+
             <%- include("includes/askModal.ejs")%>
-            
+
         </div>
     </div>
-    
+
     <%- include("includes/footer.ejs")%>
 
-    <script src="/assets/js/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            
-            toastr.options = { "closeButton": true, "positionClass": "toast-bottom-right", "preventDuplicates": false };
-            /* In order to access variables sent to ejs file to script you must Parse them to string */
-            /* then to parse them back to JSON */
-            let messages = '<%- JSON.stringify(messages) %>';
-            messages = JSON.parse(messages);
+        <script>
+            $(document).ready(function() {
 
-            messages.forEach(({type, value}) => {
-                switch (type) {
-                    case 'error':
-                        toastr.error(value)
-                        break;
-                    case 'success':
-                        toastr.success(value)
-                        break;
-                    case 'warning':
-                        toastr.warning(value)
-                        break;
-                    default:
-                        toastr.info(value)
-                        break;
-                }
-            });
+                toastr.options = {
+                    "closeButton": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false
+                };
+                /* In order to access variables sent to ejs file to script you must Parse them to string */
+                /* then to parse them back to JSON */
+                let messages = '<%- JSON.stringify(messages) %>';
+                messages = JSON.parse(messages);
 
-        })
-    </script>
+                messages.forEach(({
+                    type,
+                    value
+                }) => {
+                    switch (type) {
+                        case 'error':
+                            toastr.error(value)
+                            break;
+                        case 'success':
+                            toastr.success(value)
+                            break;
+                        case 'warning':
+                            toastr.warning(value)
+                            break;
+                        default:
+                            toastr.info(value)
+                            break;
+                    }
+                });
 
-    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+            })
+        </script>
+
+        <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

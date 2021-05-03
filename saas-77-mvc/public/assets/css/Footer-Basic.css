@@ -78,7 +78,8 @@
 #question-span {}
 
 #header-el {
-    background-color: var(--secondary) !important;
+    background-color: var(--primary)!important;
+    overflow: hidden;
 }
 
 #nav-buttons {

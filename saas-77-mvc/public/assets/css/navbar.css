@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+
+/*
+body {
+    background: #1E1F25;
+} */
+
+div ul {
+    display: flex;
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+    /* justify-content: space-between; */
+    text-align: center;
+}
+
+div ul li {
+    padding: 1rem 2rem 1.15rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #ebebeb;
+    min-width: 80px;
+    margin: auto;
+}
+
+div ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+div ul li:hover {
+    background-color: var(--white);
+    color: var(--primary);
+}
+
+div ul li:hover a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+div ul li:active {
+    transform: translateY(4px);
+}
+
+@keyframes spring {
+    15% {
+        -webkit-transform-origin: center center;
+        -webkit-transform: scale(1.2, 1.1);
+    }
+    40% {
+        -webkit-transform-origin: center center;
+        -webkit-transform: scale(0.95, 0.95);
+    }
+    75% {
+        -webkit-transform-origin: center center;
+        -webkit-transform: scale(1.05, 1);
+    }
+    100% {
+        -webkit-transform-origin: center center;
+        -webkit-transform: scale(1, 1);
+    }
+}
+
+.shameless-plug {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    padding: 8px 20px;
+    color: #ccc;
+    text-decoration: none;
+}

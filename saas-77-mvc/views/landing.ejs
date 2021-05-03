@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title><%= pageTitle %></title>
+    <title>
+        <%= pageTitle %>
+    </title>
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
@@ -17,132 +19,141 @@
     <link rel="stylesheet" href="/assets/css/Footer-Basic.css">
     <link rel="stylesheet" href="/assets/css/NZDropdown---Status.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/navbar.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 </head>
 
 <body>
     <div id="main-div">
-        <div class="container-fluid" id="header-el">
-            
-            <%- include("includes/navbar.ejs")%>
+        <%- include("includes/navbar.ejs")%>
+            <div class="container-fluid" id="header-el">
 
-            <%- include("includes/signupModal.ejs")%>
 
-            <%- include("includes/signinModal.ejs")%>
+                <%- include("includes/signupModal.ejs")%>
 
-        </div>
-        <div class="container" id="main-screen-cards">
-            <h2 id="message" style="color: var(--blue);">Welcome to AskMeAnything</h2>
-            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4">
-                <%- include("includes/cardMenu.ejs")%>
+                    <%- include("includes/signinModal.ejs")%>
+
             </div>
-        </div>
+            <div class="container" id="main-screen-cards">
+                <h2 id="message" style="color: var(--blue);">Welcome to AskMeAnything</h2>
+                <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4">
+                    <%- include("includes/cardMenu.ejs")%>
+                </div>
+            </div>
     </div>
-    
+
     <%- include("includes/footer.ejs")%>
 
 
-    
-    <script src="/assets/js/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            
-            toastr.options = { "closeButton": true, "positionClass": "toast-bottom-right", "preventDuplicates": false };
-            /* In order to access variables sent to ejs file to script you must Parse them to string */
-            /* then to parse them back to JSON */
-            let messages = '<%- JSON.stringify(messages) %>';
-            messages = JSON.parse(messages);
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-            messages.forEach(({type, value}) => {
-                switch (type) {
-                    case 'error':
-                        toastr.error(value)
-                        break;
-                    case 'success':
-                        toastr.success(value)
-                        break;
-                    case 'warning':
-                        toastr.warning(value)
-                        break;
-                    default:
-                        toastr.info(value)
-                        break;
-                }
-            });
+        <script>
+            $(document).ready(function() {
 
-        })
-    </script>
+                toastr.options = {
+                    "closeButton": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false
+                };
+                /* In order to access variables sent to ejs file to script you must Parse them to string */
+                /* then to parse them back to JSON */
+                let messages = '<%- JSON.stringify(messages) %>';
+                messages = JSON.parse(messages);
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
-    <script>
-        var ctx = document.getElementById('qsPerKWGraph').getContext('2d');
-        let topKeywords = '<%= topKeywords %>';
-        let topKeywordsFreq = '<%= topKeywordsFreq %>';
-
-        var qsPerKWGraph = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: topKeywords.split(','),
-                datasets: [{
-                    label: '# of Questions',
-                    data: topKeywordsFreq.split(',').map(x => +x),
-                    // minBarLength: 5,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 205, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 205, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(54, 162, 235, 1)',
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
+                messages.forEach(({
+                    type,
+                    value
+                }) => {
+                    switch (type) {
+                        case 'error':
+                            toastr.error(value)
+                            break;
+                        case 'success':
+                            toastr.success(value)
+                            break;
+                        case 'warning':
+                            toastr.warning(value)
+                            break;
+                        default:
+                            toastr.info(value)
+                            break;
                     }
-                }
-            }
-        });
-    </script>
+                });
 
-    <script>
-        var ctx = document.getElementById('qsPerDay').getContext('2d');
-        let qsPerDayDates = '<%= qsPerDayDates %>';
-        let qsPerDayFreq = '<%= qsPerDayFreq %>';
+            })
+        </script>
 
-        var qsPerDay = new Chart(document.getElementById("qsPerDay"), {
-            type: 'doughnut',
-            data: {
-            labels: qsPerDayDates.split(',').reverse(),
-            datasets: [{
-                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#d9cd57","#c45850"],
-                data: qsPerDayFreq.split(',').map(x => +x).reverse()
-            }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        labels: {
-                            padding: 4
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+        <script>
+            var ctx = document.getElementById('qsPerKWGraph').getContext('2d');
+            let topKeywords = '<%= topKeywords %>';
+            let topKeywordsFreq = '<%= topKeywordsFreq %>';
+
+            var qsPerKWGraph = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: topKeywords.split(','),
+                    datasets: [{
+                        label: '# of Questions',
+                        data: topKeywordsFreq.split(',').map(x => +x),
+                        // minBarLength: 5,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 205, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 205, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
                         }
                     }
                 }
-            }
-        });
-    </script>
-    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+            });
+        </script>
+
+        <script>
+            var ctx = document.getElementById('qsPerDay').getContext('2d');
+            let qsPerDayDates = '<%= qsPerDayDates %>';
+            let qsPerDayFreq = '<%= qsPerDayFreq %>';
+
+            var qsPerDay = new Chart(document.getElementById("qsPerDay"), {
+                type: 'doughnut',
+                data: {
+                    labels: qsPerDayDates.split(',').reverse(),
+                    datasets: [{
+                        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#d9cd57", "#c45850"],
+                        data: qsPerDayFreq.split(',').map(x => +x).reverse()
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                padding: 4
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        <script src="/assets/js/navbar.js"></script>
+        <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
