@@ -4,31 +4,42 @@
             <img src="/assets/img/logo1.1.png" id="imagelogo" width="200" height="50" />
         </a>
 
-        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="border-color: white;">
             <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon"></span>
+            <span class=""><i class="fa fa-bars" style="color: white;"></i></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="navbar-nav ml-auto">
 
-                <% if (pageTitle === "Landing Page" || !authenticated) { %>
-                    <% if (pageTitle !== "Landing Page") { %> 
-                        <a href="/"><li><i class="fa fa-globe"></i>  Landing</li></a>
-                    <% } %>
-                    <li data-toggle="modal" data-target="#signin"><a><i class="fa fa-sign-in"></i>  Sign In</a></li>
-                    <li data-toggle="modal" data-target="#signup"><a><i class="fa fa-user-plus"></i>  Sign Up</a></li>
-                <% } else if (pageTitle !== "Landing Page" && authenticated) {%>
-                    <a href="/home"><li><i class="fa fa-home"></i>  Home</li></a>
-                    <a href="/profile"><li><i class="fa fa-user"></i>  Profile</li></a>
-                    <a href="/questions/show"><li><i class="fa fa-question-circle"></i>  Browse Questions</li></a>
-                    <form id="signout" action="/account/signout" method="POST">
-                        <a type="submit"><li onclick="mySubmit()"><i class="fa fa-sign-out"></i>  Sign Out</li></a>
-                    </form>
+            <% if (pageTitle === "Landing Page" || !authenticated) { %>
+                <ul id="nonauthentication" class="navbar-nav ml-auto">
+                    <% if (pageTitle !== "Landing Page") { %>
+                        <a href="/">
+                            <li><i class="fa fa-globe"></i> Landing</li>
+                        </a>
+                        <% } %>
+                            <li data-toggle="modal" data-target="#signin"><a><i class="fa fa-sign-in"></i>  Sign In</a></li>
+                            <li data-toggle="modal" data-target="#signup"><a><i class="fa fa-user-plus"></i>  Sign Up</a></li>
+                            <% } else if (pageTitle !== "Landing Page" && authenticated) {%>
+                                <ul class="navbar-nav ml-auto">
+                                    <a href="/home">
+                                        <li><i class="fa fa-home"></i> Home</li>
+                                    </a>
+                                    <a href="/profile">
+                                        <li><i class="fa fa-user"></i> Profile</li>
+                                    </a>
+                                    <a href="/questions/show">
+                                        <li><i class="fa fa-question-circle"></i> Browse Questions</li>
+                                    </a>
+                                    <form id="signout" action="/account/signout" method="POST">
+                                        <a type="submit">
+                                            <li onclick="mySubmit()"><i class="fa fa-sign-out"></i> Sign Out</li>
+                                        </a>
+                                    </form>
 
-                <% } %>
+                                    <% } %>
 
-            </ul>
+                                </ul>
         </div>
     </div>
 </nav>

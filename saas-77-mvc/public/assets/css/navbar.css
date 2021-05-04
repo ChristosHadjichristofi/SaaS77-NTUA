@@ -4,19 +4,17 @@
     list-style-type: none;
 }
 
-
-/*
-body {
-    background: #1E1F25;
-} */
-
 div ul {
     display: flex;
     width: 100%;
     height: auto;
-    max-width: 800px;
+    max-width: 80%;
     /* justify-content: space-between; */
     text-align: center;
+}
+
+#nonauthentication {
+    max-width: 50%;
 }
 
 div ul li {
@@ -29,6 +27,11 @@ div ul li {
 }
 
 div ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+div ul a:hover {
     color: white;
     text-decoration: none;
 }
@@ -73,4 +76,8 @@ div ul li:active {
     padding: 8px 20px;
     color: #ccc;
     text-decoration: none;
+}
+
+.navbar-toggler .line {
+    color: white;
 }
