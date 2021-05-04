@@ -17,6 +17,10 @@ div ul {
     max-width: 50%;
 }
 
+#nonauthentication-landing {
+    max-width: 33%;
+}
+
 div ul li {
     padding: 1rem 2rem 1.15rem;
     text-transform: uppercase;
@@ -76,8 +80,4 @@ div ul li:active {
     padding: 8px 20px;
     color: #ccc;
     text-decoration: none;
-}
-
-.navbar-toggler .line {
-    color: white;
 }
