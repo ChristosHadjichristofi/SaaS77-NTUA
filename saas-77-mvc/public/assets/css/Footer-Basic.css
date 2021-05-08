@@ -2,9 +2,10 @@
     padding: 15px 0;
     background-color: rgba(255, 255, 255, 0.25);
     color: #4b4c4d;
-    /*position: fixed;*/
+    /* position:fixed; */
     width: 100%;
     bottom: 0;
+    /* max-height: 20vh; */
 }
 
 .footer-basic ul {
