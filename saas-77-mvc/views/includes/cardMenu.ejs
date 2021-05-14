@@ -1,55 +1,83 @@
-<div class="col">
-    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
-        <div class="card-body">
-            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Top Keywords</h4>
-            <% if (topKeywords.length == 0) { %> 
-                <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">No data found <br>Be the first to ask!</p>
-                <% } else {%>
-                <canvas id="qsPerKWGraph" width="400" height="400"></canvas>
-            <% } %>
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3" style="justify-content: center;">
+
+    <div class="col">
+        <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+            <div class="card-body">
+                <% if (pageTitle == "Profile Page") { %>
+                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Questions:
+                        <%= totalQuestions %>
+                    </h4>
+                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Answers:
+                        <%= totalAnswers %>
+                    </h4>
+                <% } else { %>
+                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Top Keywords</h4>
+                    <% if (topKeywords.length == 0) { %> 
+                        <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">No data found <br>Be the first to ask!</p>
+                        <% } else {%>
+                        <canvas id="qsPerKWGraph" width="400" height="400"></canvas>
+                    <% } %>
+                <% } %>
+            </div>
         </div>
     </div>
+    <div class="col">
+        <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+            <div class="card-body">
+
+                <% if (pageTitle == "Profile Page") { %>
+                    <% if (contributions == 0.00) { %>
+                        <h4 class="card-title" style="font-size: 18px;color: var(--blue);">You have no contributions!<br> Help someone!</h4>
+                    <% } else { %>
+                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My contributions:
+                        <%= contributions %> per day<br></h4>
+                    <% } %>
+                <% } else { %>
+                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Questions per day<br></h4>
+                    <% if (qsPerDayDates.length == 0) { %> 
+                        <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">No data found <br>Be the first to ask!</p>
+                    <% } else {%>
+                        <canvas id="qsPerDay" width="400" height="400"></canvas>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
 </div>
-<div class="col">
-    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
-        <div class="card-body">
-            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Questions per day<br></h4>
-            <% if (qsPerDayDates.length == 0) { %> 
-                <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">No data found <br>Be the first to ask!</p>
-            <% } else {%>
-                <canvas id="qsPerDay" width="400" height="400"></canvas>
-            <% } %>
+
+<div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-3 row-cols-xl-3" style="padding-top: 20px; justify-content: center;">
+
+    <div class="col">
+        <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+            <div class="card-body">
+                <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Ask a Question</h4>
+                <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Got a question? <br>Feel free to ask!</p>
+                <% if (pageTitle === "Landing Page") { %>
+                    <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Ask</button>
+                <% } else { %>
+                    <button class="btn btn-primary" id="button-in-card" type="button" data-toggle="modal" data-target="#ask-question">Ask</button>
+                <% } %>
+            </div>
         </div>
     </div>
-</div>
-<div class="col">
-    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
-        <div class="card-body">
-            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Ask a Question</h4>
-            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Got a question? <br>Feel free to ask!</p>
-            <% if (pageTitle === "Landing Page") { %>
-                <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Ask</button>
-            <% } else { %>
-                <button class="btn btn-primary" id="button-in-card" type="button" data-toggle="modal" data-target="#ask-question">Ask</button>
-            <% } %>
+    <div class="col">
+        <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+            <div class="card-body">
+                <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Browse Questions</h4>
+                <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">
+                    Want to help others?<br>See what you can answer!
+                </p>
+                <% if (pageTitle === "Landing Page") { %>
+                    <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Browse</button>
+                <% } else { %>
+                    <form method="GET" action="/questions/show">
+                        <button class="btn btn-primary" id="button-in-card" type="submit">Browse</button>
+                    </form>
+                <% } %>
+                
+            </div>
         </div>
     </div>
-</div>
-<div class="col">
-    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
-        <div class="card-body">
-            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Browse Questions</h4>
-            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">
-                Want to help others?<br>See what you can answer!
-            </p>
-            <% if (pageTitle === "Landing Page") { %>
-                <button class="btn btn-primary" id="button-in-card" data-toggle="modal" data-target="#signin" type="button">Browse</button>
-            <% } else { %>
-                <form method="GET" action="/questions/show">
-                    <button class="btn btn-primary" id="button-in-card" type="submit">Browse</button>
-                </form>
-            <% } %>
-            
-        </div>
-    </div>
+
 </div>

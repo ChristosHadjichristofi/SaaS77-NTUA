@@ -28,57 +28,12 @@
         <div class="container-fluid" id="header-el">
             <%- include("includes/navbar.ejs") %>
         </div>
-        <div class="container" id="main-screen-cards">
+        <div class="container" id="main-screen-cards" style="text-align: center;">
             <h2 id="message" style="color: var(--blue);">My.AskMeAnything
                 <%= user.name %>
             </h2>
-            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4">
-                <div class="col">
-                    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
-                        <div class="card-body">
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Questions:
-                                <%= totalQuestions %>
-                            </h4>
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Answers:
-                                <%= totalAnswers %>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
-                        <div class="card-body">
-                            <% if (contributions == 0.00) { %>
-                                <h4 class="card-title" style="font-size: 18px;color: var(--blue);">You have no contributions!<br> Help someone!</h4>
-                                <% } else { %>
-                                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My contributions:
-                                        <%= contributions %> per day<br></h4>
-                                    <% } %>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
-                        <div class="card-body">
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Ask a new Question</h4>
-                            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Got a question? <br>Feel free to ask!</p><button class="btn btn-primary" id="button-in-card" type="button" data-toggle="modal" data-target="#ask-question">Ask</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
-                        <div class="card-body">
-                            <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Browse Questions</h4>
-                            <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">
-                                Want to help others?<br>See what you can answer!
-                            </p>
-                            <form method="GET" action="/questions/show">
-                                <button class="btn btn-primary" id="button-in-card" type="submit">Browse</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
+            <%- include("includes/cardMenu.ejs")%>
 
             <%- include("includes/askModal.ejs")%>
 

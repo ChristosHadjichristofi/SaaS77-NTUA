@@ -34,11 +34,11 @@
             <%- include("includes/signinModal.ejs")%>
 
         </div>
-        <div class="container" id="main-screen-cards">
+        <div class="container" id="main-screen-cards" style="text-align: center;">
             <h2 id="message" style="color: var(--blue);">Welcome to AskMeAnything</h2>
-            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-4 row-cols-lg-4 row-cols-xl-4">
-                <%- include("includes/cardMenu.ejs")%>
-            </div>
+
+            <%- include("includes/cardMenu.ejs")%>
+
         </div>
     </div>
 
@@ -132,11 +132,15 @@
         let qsPerDayFreq = '<%= qsPerDayFreq %>';
 
         var qsPerDay = new Chart(document.getElementById("qsPerDay"), {
-            type: 'doughnut',
+            type: 'line',
             data: {
                 labels: qsPerDayDates.split(',').reverse(),
                 datasets: [{
+                    label: '#Questions',
                     backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#d9cd57", "#c45850"],
+                    fill: false,
+                    borderColor: 'rgba(54, 162, 235, 0.2)',
+                    // tension: 0.1,
                     data: qsPerDayFreq.split(',').map(x => +x).reverse()
                 }]
             },
