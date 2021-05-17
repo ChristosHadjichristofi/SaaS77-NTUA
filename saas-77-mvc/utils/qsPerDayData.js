@@ -11,7 +11,7 @@ module.exports = () => {
     return new Promise((resolve, reject) => {
         sequelize.query('SELECT DATE("dateCreated") AS "date", COUNT(*) AS "count" '
         + 'FROM "saas-77-mvc"."Questions" AS "Questions" '
-        + 'GROUP BY "date" ORDER BY "date" DESC LIMIT 5 ', { type: sequelize.QueryTypes.SELECT })
+        + 'GROUP BY "date" ORDER BY "date" DESC LIMIT 21 ', { type: sequelize.QueryTypes.SELECT })
         .then(result => {
 
             result.forEach(el => {
