@@ -8,7 +8,7 @@ var models = initModels(sequelize);
 
 const calcDays = require('../utils/calcDays');
 
-module.exports = (req, res, next) => {
+exports.stats = (req, res, next) => {
 
     let totalQuestions, totalAnswers, contributions;
 
@@ -34,5 +34,13 @@ module.exports = (req, res, next) => {
         })
 
     })
+
+}
+
+exports.events = (req, res, next) => {
+
+    console.log(req.body);
+
+    res.status(200).json({});
 
 }

@@ -8,4 +8,6 @@ router.get('/question/:id', answersController.getQuestion);
 
 router.post('/answer/:id', answersController.postAnswer);
 
+router.post('/events', answersController.events);
+
 module.exports = router;

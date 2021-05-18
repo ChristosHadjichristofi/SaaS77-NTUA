@@ -87,5 +87,8 @@ exports.show = (req, res, next) => {
 
 exports.events = (req, res, next) => {
 
-    console.log('');
+    console.log(req.body);
+
+    res.status(200).json({});
+
 }
