@@ -104,6 +104,8 @@ exports.postAnswer = (req, res, next) => {
     
     const userData = jwt_decode(req.header('X-OBSERVATORY-AUTH'));
 
+    let answerID;
+
     models.Answers.create({
         text: answerText,
         dateCreated: Date.now(),
@@ -113,13 +115,17 @@ exports.postAnswer = (req, res, next) => {
         QuestionsId: questionID
     })
     .then(answer => {
+        answerID = answer.id;
+
         models.Answers.findAll({ raw: true, where: { id: answer.id } })
         .then(answer => {
             
             const url = 'http://localhost:4006/events';
-          
+            console.log(answer)
             const data = {
                 type: 'ANSWER CREATE',
+                answerID: answerID,
+                questionID: questionID,
                 text: answer[0].text,
                 dateCreated: answer[0].dateCreated,
                 usersId: answer[0].UsersId,
@@ -133,7 +139,7 @@ exports.postAnswer = (req, res, next) => {
             .then(result => { return res.status(200).json({ message: 'Answer submitted successfully.' }) })
             .catch(err => { return res.status(500).json({ message: 'Internal server error.' }) })
         })
-        .catch(err => { console.log(err); return res.status(500).json({message: 'Internal server error.'}) })
+        .catch(err => { return res.status(500).json({message: 'Internal server error.'}) })
 
     })
     .catch(err => { return res.status(500).json({message: 'Internal server error.'}) })
