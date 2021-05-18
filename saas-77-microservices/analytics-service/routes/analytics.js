@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/analytics', isAuth, analyticsController.stats);
 
-router.post('/events', analyticsController.events);
+router.post('/events', isAuth, analyticsController.events);
 
 module.exports = router;

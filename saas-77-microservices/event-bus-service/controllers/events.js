@@ -12,10 +12,10 @@ module.exports = (req, res, next) => {
     const data = event;
     let responses = [];
 
-    const config_answersService = { method: 'post', url: url_answersService, data: data };
-    const config_browseQuestionsService = { method: 'post', url: url_browseQuestionsService, data: data };
-    const config_analyticsService = { method: 'post', url: url_analyticsService, data: data };
-    const config_graphsService = { method: 'post', url: url_graphsService, data: data };
+    const config_answersService = { method: 'post', url: url_answersService, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
+    const config_browseQuestionsService = { method: 'post', url: url_browseQuestionsService, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
+    const config_analyticsService = { method: 'post', url: url_analyticsService, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
+    const config_graphsService = { method: 'post', url: url_graphsService, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
 
     let answersServicePromise = new Promise((resolve, reject) => { 
 
