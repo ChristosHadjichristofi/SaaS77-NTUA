@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
         usersSurname: userData.user.surname
     }
     
-    const config = { method: 'post', url: url, data: data };
+    const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
 
     axios(config)
     .then(result => { return res.status(200).json({ message: result.data.message }) })
