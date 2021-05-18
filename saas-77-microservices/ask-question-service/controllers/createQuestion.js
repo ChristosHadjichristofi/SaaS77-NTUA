@@ -1,4 +1,5 @@
 const axios = require('axios');
+const jwt_decode = require('jwt-decode');
 
 module.exports = (req, res, next) => {
     
@@ -12,11 +13,17 @@ module.exports = (req, res, next) => {
 
     const url = 'http://localhost:4006/events';
 
+    const userData = jwt_decode(req.header('X-OBSERVATORY-AUTH'));
+
     const data = {
         type: 'QUESTION CREATE',
         qname: qname,
         qtext: qtext,
-        qkeywords: keywordsArr
+        qkeywords: keywordsArr,
+        dateCreated: Date.now(),
+        usersId: userData.user.id,
+        usersName: userData.user.name,
+        usersSurname: userData.user.surname
     }
     
     const config = { method: 'post', url: url, data: data };
