@@ -45,8 +45,36 @@ exports.QsPerDay = (req, res, next) => {
 
 exports.events = (req, res, next) => {
 
-    console.log(req.body);
+    const type = req.body.type;
 
-    res.status(200).json({});
+    if (type === 'QUESTION CREATE') {
+
+        let qkeywords = req.body.qkeywords;
+
+        models.Questions.create({
+            dateCreated: req.body.dateCreated,
+        })
+        .then(question => {
+            let insertKeywords = new Promise((resolve, reject) => {
+                qkeywords.forEach((keywordName, index) => {
+                    if(keywordName !== "") {
+                        models.Keywords.create({
+                            name: keywordName,
+                            QuestionsId: question.id
+                        })
+                        .catch(err => console.log(err))
+                    }
+                    if (index === qkeywords.length - 1) return resolve(true);
+                });
+            });
+            
+            insertKeywords.then(() => { 
+                res.status(200).json({});
+            });
+        })
+    }
+    else {
+        res.status(200).json({});
+    }
 
 }
