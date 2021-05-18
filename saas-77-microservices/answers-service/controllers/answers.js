@@ -1,3 +1,5 @@
+const jwt_decode = require('jwt-decode');
+
 // require models
 const sequelize = require('../utils/database');
 var initModels = require("../models/init-models");
@@ -96,5 +98,21 @@ exports.getQuestion = (req, res, next) => {
 
 exports.postAnswer = (req, res, next) => {
 
+    const questionID = req.params.id;
+    const answerText = req.body.answer;
+    
+    const userData = jwt_decode(req.header('X-OBSERVATORY-AUTH'));
 
+    models.Answers.create({
+        text: answerText,
+        dateCreated: Date.now(),
+        UsersId: userData.user.id,
+        UsersName: userData.user.name,
+        UsersSurname: userData.user.surname,
+        QuestionsId: questionID
+    })
+    .then(() => {
+        return res.status(201).json({ message: 'Answer submitted successfully.' })
+    })
+    .catch(err => { return res.status(500).json({message: 'Internal server error.'}) })
 }
