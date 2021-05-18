@@ -105,5 +105,21 @@ exports.events = (req, res, next) => {
         .catch(() => res.status(500).json({message: 'Internal server error.'}) )
 
     }
+    else if (type === 'ANSWER CREATE') {
+
+        const questionId = req.body.questionID;
+
+        models.Questions.update(
+        
+            { 'answers': sequelize.fn('array_append', sequelize.col('answers'), req.body.answerID )},
+            { where: { id: questionId } }
+        
+        )
+        .then(() => res.status(200).json({}))
+
+    }
+    else {
+        res.status(200).json({});
+    }
 
 }
