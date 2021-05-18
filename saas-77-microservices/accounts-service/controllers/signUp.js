@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const capitalize = require('../utils/capitalizeWords');
+const axios = require('axios');
 
 // require models
 const sequelize = require('../utils/database');
@@ -21,16 +23,35 @@ module.exports = (req, res, next) => {
 
     models.Users.findOne({ where: { email: email } })
     .then(user => {
+        
         if (!user) {
             bcrypt.hash(password, 12).then(hashedPw => {
-                const newUser = models.Users.create({
+                return newUser = models.Users.create({
                     name: nameCapitalized,
                     surname: surnameCapitalized,
                     email: email,
                     dateCreated: Date.now(),
                     password: hashedPw
-                });
-                res.status(201).json({signup: 'true', message: 'Account created succesfully!'});
+                })
+            })
+            .then(newUser => {
+                const token = jwt.sign({
+                    user: {
+                        id: newUser.id,
+                        name: newUser.name,
+                        surname: newUser.surname,
+                        dateCreated: newUser.dateCreated,
+                        username: newUser.email
+                    }}, process.env.SECRET_JWT, { expiresIn: '20s' }
+                );
+
+                const url = 'http://localhost:4006/events';
+                const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': token }, data: { type: 'USER CREATE', usersId: newUser.id } };
+                
+                axios(config)
+                .then(result => { return res.status(201).json({ signup: 'true', message: 'Account created succesfully!' }) })
+                .catch(err => { return res.status(500).json({ message: 'Internal server error.' }) })
+                
             })
             .catch(err => {
                 return res.status(500).json({message: 'Internal server error.'})
