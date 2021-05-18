@@ -52,6 +52,6 @@ module.exports = (req, res, next) => {
         responses.forEach(el => {
             isOK = (el.status == 200 && isOK) ? true : false;
         });
-        res.status(200).json({ message: (isOK) ? 'OK' : 'NOT OK' })
+        return res.status(200).json({ message: (isOK) ? 'OK' : 'NOT OK' })
     })
 }

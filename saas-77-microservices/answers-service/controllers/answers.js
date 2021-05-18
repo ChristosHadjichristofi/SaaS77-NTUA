@@ -1,3 +1,4 @@
+const axios = require('axios');
 const jwt_decode = require('jwt-decode');
 
 // require models
@@ -111,8 +112,29 @@ exports.postAnswer = (req, res, next) => {
         UsersSurname: userData.user.surname,
         QuestionsId: questionID
     })
-    .then(() => {
-        return res.status(201).json({ message: 'Answer submitted successfully.' })
+    .then(answer => {
+        models.Answers.findAll({ raw: true, where: { id: answer.id } })
+        .then(answer => {
+            
+            const url = 'http://localhost:4006/events';
+          
+            const data = {
+                type: 'ANSWER CREATE',
+                text: answer[0].text,
+                dateCreated: answer[0].dateCreated,
+                usersId: answer[0].UsersId,
+                usersName: answer[0].UsersName,
+                usersSurname: answer[0].UsersSurname
+            }
+            
+            const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
+        
+            axios(config)
+            .then(result => { return res.status(200).json({ message: 'Answer submitted successfully.' }) })
+            .catch(err => { return res.status(500).json({ message: 'Internal server error.' }) })
+        })
+        .catch(err => { console.log(err); return res.status(500).json({message: 'Internal server error.'}) })
+
     })
     .catch(err => { return res.status(500).json({message: 'Internal server error.'}) })
 }
