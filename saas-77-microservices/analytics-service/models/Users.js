@@ -8,11 +8,11 @@ module.exports = function(sequelize, DataTypes) {
             primaryKey: true
         },
         questions: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
         answers: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
     }, {

@@ -16,20 +16,20 @@ exports.stats = (req, res, next) => {
 
     let analyticsPromise = new Promise((resolve, reject) => {
         models.Users.findAll({ raw: true, where: { id: userData.user.id } })
-        .then(row => {
-            totalQuestions = row[0].questions.length;
-            totalAnswers = row[0].answers.length;
-            resolve();
-        })
+            .then(row => {
+                totalQuestions = row[0].questions;
+                totalAnswers = row[0].answers;
+                resolve();
+            })
     })
 
     Promise.all([analyticsPromise]).then(() => {
 
         contributions = totalAnswers / calcDays(Date.now(), new Date(userData.user.dateCreated));
 
-        return res.status(200).json({ 
+        return res.status(200).json({
             totalQuestions: totalQuestions,
-            totalAnswers: totalAnswers, 
+            totalAnswers: totalAnswers,
             contributions: contributions.toFixed(2),
         })
 
@@ -39,8 +39,38 @@ exports.stats = (req, res, next) => {
 
 exports.events = (req, res, next) => {
 
-    console.log(req.body);
+    const type = req.body.type;
 
-    res.status(200).json({});
+    if (type === 'QUESTION CREATE') {
+
+        models.Users.increment('questions', {
+                by: 1,
+                where: { id: req.body.usersId }
+            })
+            .then(() => res.status(200).json({}))
+            .catch(() => res.status(500).json({ message: 'Internal server error' }))
+
+    } else if (type === 'ANSWER CREATE') {
+
+        models.Users.increment('answers', {
+                by: 1,
+                where: { id: req.body.usersId }
+            })
+            .then(() => res.status(200).json({}))
+            .catch(() => res.status(500).json({ message: 'Internal server error' }))
+
+    } else if (type === 'USER CREATE') {
+
+        models.Users.create({
+                id: req.body.usersId,
+                questions: 0,
+                answers: 0
+            })
+            .then(() => res.status(200).json({}))
+            .catch(() => res.status(500).json({ message: 'Internal server error' }))
+
+    } else {
+        res.status(200).json({});
+    }
 
 }
