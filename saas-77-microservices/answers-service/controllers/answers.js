@@ -121,7 +121,7 @@ exports.postAnswer = (req, res, next) => {
         .then(answer => {
             
             const url = 'http://localhost:4006/events';
-            console.log(answer)
+
             const data = {
                 type: 'ANSWER CREATE',
                 answerID: answerID,
@@ -147,8 +147,25 @@ exports.postAnswer = (req, res, next) => {
 
 exports.events = (req, res, next) => {
 
-    console.log(req.body);
+    const type = req.body.type;
 
-    res.status(200).json({});
+    if (type === 'QUESTION CREATE') {
+
+        models.Questions.create({
+            title: req.body.qname,
+            text: req.body.qtext,
+            dateCreated: req.body.dateCreated,
+            keywords: req.body.qkeywords,
+            UsersId: req.body.usersId,
+            UsersName: req.body.usersName,
+            UsersSurname: req.body.usersSurname
+        })
+        .then(() => res.status(200).json({}) )
+        .catch(() => res.status(500).json({message: 'Internal server error.'}) )
+
+    }
+    else {
+        res.status(200).json({});
+    }
 
 }
