@@ -119,6 +119,10 @@
             options: {
                 scales: {
                     y: {
+                        ticks: {
+                            min: 0,
+                            stepSize: 1
+                        },
                         beginAtZero: true,
                     }
                 }
@@ -145,6 +149,14 @@
                 }]
             },
             options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            min: 0,
+                            stepSize: 1
+                        }
+                    }
+                },
                 plugins: {
                     legend: {
                         display: true,
