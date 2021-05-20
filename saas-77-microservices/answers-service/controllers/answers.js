@@ -136,13 +136,13 @@ exports.postAnswer = (req, res, next) => {
             const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
         
             axios(config)
-            .then(result => { return res.status(200).json({ message: 'Answer submitted successfully.' }) })
-            .catch(err => { return res.status(500).json({ message: 'Internal server error.' }) })
+            .then(result => { return res.status(201).json({ message: 'Answer submitted successfully.', type: 'success' })})
+            .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })})
         })
-        .catch(err => { return res.status(500).json({message: 'Internal server error.'}) })
+        .catch(err => { return res.status(500).json({message: 'Internal server error.', type: 'error' })})
 
     })
-    .catch(err => { return res.status(500).json({message: 'Internal server error.'}) })
+    .catch(err => { return res.status(500).json({message: 'Internal server error.', type: 'error' })})
 }
 
 exports.events = (req, res, next) => {
