@@ -12,7 +12,7 @@ const ANSWERS_PER_PAGE = 2;
 exports.getQuestion = (req, res, next) => {
 
     let questionID = req.params.id;
-    const page = +req.query.page || 1;
+    const page = req.body.pageNumber;
 
     let question, totalAnswers, answersArr;
 
@@ -22,7 +22,7 @@ exports.getQuestion = (req, res, next) => {
         models.Questions.findAll({ raw: true, where: { id: questionID } })
         .then(row => {
             
-            if (row.length == 0) res.status(404).json({message: 'Question not found!'}); 
+            if (row.length == 0) res.status(404).json( {message: 'Question not found!', type: 'error' }); 
 
             let q = {};
             
@@ -44,7 +44,7 @@ exports.getQuestion = (req, res, next) => {
             resolve();
 
         })
-        .catch(err => { return res.status(500).json({message: 'Internal server error.'}) });
+        .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })});
     })
 
     let answersPromise = new Promise((resolve, reject) => {
@@ -52,7 +52,7 @@ exports.getQuestion = (req, res, next) => {
         models.Answers.count({ where: { QuestionsId: questionID }}).then(numAnswers => {
             totalAnswers = numAnswers;
 
-            if(page > Math.ceil(totalAnswers / ANSWERS_PER_PAGE) && totalAnswers !== 0) return res.status(404).json({ message: 'This answer page does not exist.' })
+            if(page > Math.ceil(totalAnswers / ANSWERS_PER_PAGE) && totalAnswers !== 0) return res.status(404).json({ message: 'This answer page does not exist.', type: 'error'})
             
             return models.Answers.findAll({
                 offset: ((page - 1) * ANSWERS_PER_PAGE),
@@ -73,7 +73,7 @@ exports.getQuestion = (req, res, next) => {
             answersArr.forEach(ans => ans.dateCreated = new Intl.DateTimeFormat('en-US', dateOptions).format(ans.dateCreated))
             resolve();
         })
-        .catch(err => { return res.status(500).json({message: 'Internal server error.'}) });
+        .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })});
 
     })
     Promise.all([questionPromise, answersPromise]).then(() => {
@@ -93,7 +93,7 @@ exports.getQuestion = (req, res, next) => {
             totalAnswers: totalAnswers,
         })
 
-    }).catch(err => { return res.status(500).json({message: 'Internal server error.'}) })
+    }).catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })})
 
 }
 
