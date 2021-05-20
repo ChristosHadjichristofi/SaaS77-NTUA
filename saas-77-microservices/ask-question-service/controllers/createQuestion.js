@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     let qtext = req.body.qtext;
     let qkeywords = req.body.qkeywords;
 
-    if (!qname || !qtext || !qkeywords) return res.status(400).json({message: 'Some parameters are undefined', type: 'error'});
+    if (!qname || !qtext || !qkeywords) return res.status(400).json({ message: 'Some parameters are undefined', type: 'error' });
 
     const keywordsArr = qkeywords.split(',');
 
@@ -29,7 +29,7 @@ module.exports = (req, res, next) => {
     const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
 
     axios(config)
-    .then(result => { return res.status(200).json({ message: 'Your question was submitted successfully.', type: 'success' }) })
-    .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' }) })
+    .then(result => res.status(200).json({ message: 'Your question was submitted successfully.', type: 'success' }))
+    .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 
 }

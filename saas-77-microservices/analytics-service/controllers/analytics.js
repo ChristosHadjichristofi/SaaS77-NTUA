@@ -16,11 +16,12 @@ exports.stats = (req, res, next) => {
 
     let analyticsPromise = new Promise((resolve, reject) => {
         models.Users.findAll({ raw: true, where: { id: userData.user.id } })
-            .then(row => {
-                totalQuestions = row[0].questions.length;
-                totalAnswers = row[0].answers.length;
-                resolve();
-            })
+        .then(row => {
+            totalQuestions = row[0].questions.length;
+            totalAnswers = row[0].answers.length;
+            resolve();
+        })
+        .catch(err => { return res.status(500).json({ message: 'Internal server error', type: 'error' }); })
     })
 
     Promise.all([analyticsPromise]).then(() => {
@@ -34,6 +35,7 @@ exports.stats = (req, res, next) => {
         })
 
     })
+    .catch(err => { return res.status(500).json({ message: 'Internal server error', type: 'error' }); })
 
 }
 
@@ -43,31 +45,21 @@ exports.events = (req, res, next) => {
 
     if (type === 'QUESTION CREATE') {
 
-        models.Users.increment('questions', {
-                by: 1,
-                where: { id: req.body.usersId }
-            })
-            .then(() => res.status(200).json({}))
-            .catch(() => res.status(500).json({ message: 'Internal server error' }))
+        models.Users.increment('questions', { by: 1, where: { id: req.body.usersId } })
+        .then(() => res.status(200).json({}))
+        .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
 
     } else if (type === 'ANSWER CREATE') {
 
-        models.Users.increment('answers', {
-                by: 1,
-                where: { id: req.body.usersId }
-            })
-            .then(() => res.status(200).json({}))
-            .catch(() => res.status(500).json({ message: 'Internal server error' }))
+        models.Users.increment('answers', { by: 1, where: { id: req.body.usersId } })
+        .then(() => res.status(200).json({}))
+        .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
 
     } else if (type === 'USER CREATE') {
 
-        models.Users.create({
-                id: req.body.usersId,
-                questions: 0,
-                answers: 0
-            })
-            .then(() => res.status(200).json({}))
-            .catch(() => res.status(500).json({ message: 'Internal server error' }))
+        models.Users.create({ id: req.body.usersId, questions: 0, answers: 0 })
+        .then(() => res.status(200).json({}))
+        .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
 
     } else {
         res.status(200).json({});

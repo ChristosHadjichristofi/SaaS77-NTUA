@@ -46,7 +46,6 @@ module.exports = (req, res, next) => {
         res.status(200).json({ token: token, type: 'success', message:'Welcome back!' });
     })
     .catch(err => {
-        console.log(err)
         return res.status(500).json({ message: 'Internal server error.', type: 'error' })
     });
 

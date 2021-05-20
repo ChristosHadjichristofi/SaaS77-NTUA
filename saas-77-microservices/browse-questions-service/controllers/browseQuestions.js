@@ -55,6 +55,7 @@ exports.show = (req, res, next) => {
 
             return resolve();
         })
+        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
     })
 
     let qsNotAnsweredPromise = new Promise((resolve, reject) => { 
@@ -62,7 +63,8 @@ exports.show = (req, res, next) => {
         models.Questions.count({ where: { answers: null } }).then( result => {
             qsNotAnswered = result;
             resolve(); 
-        });
+        })
+        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
     })
 
     Promise.all([browseQuestionsPromise, qsNotAnsweredPromise]).then(() => {
@@ -81,6 +83,7 @@ exports.show = (req, res, next) => {
             questions: questionsArr 
         })
     })
+    .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 
 }
 
@@ -101,8 +104,8 @@ exports.events = (req, res, next) => {
             UsersName: req.body.usersName,
             UsersSurname: req.body.usersSurname
         })
-        .then(() => res.status(200).json({}) )
-        .catch(() => res.status(500).json({message: 'Internal server error.'}) )
+        .then(() => res.status(200).json({}))
+        .catch(() => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 
     }
     else if (type === 'ANSWER CREATE') {
@@ -116,7 +119,7 @@ exports.events = (req, res, next) => {
         
         )
         .then(() => res.status(200).json({}))
-
+        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
     }
     else {
         res.status(200).json({});

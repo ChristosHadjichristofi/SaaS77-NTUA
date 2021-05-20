@@ -24,6 +24,7 @@ exports.topKeywords = (req, res, next) => {
         })
 
     })
+    .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
 
 }
 
@@ -40,6 +41,7 @@ exports.QsPerDay = (req, res, next) => {
             qsPerDayFreq: qsPerDayFreq
         })
     })
+    .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
 
 }
 
@@ -70,8 +72,10 @@ exports.events = (req, res, next) => {
             
             insertKeywords.then(() => { 
                 res.status(200).json({});
-            });
+            })
+            .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
         })
+        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
     }
     else {
         res.status(200).json({});

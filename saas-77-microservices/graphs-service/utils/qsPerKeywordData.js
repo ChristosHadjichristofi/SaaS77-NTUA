@@ -26,5 +26,6 @@ module.exports = () => {
             return resolve({ name, frequency });
             
         })
+        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
     })
 }

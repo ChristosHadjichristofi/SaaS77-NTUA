@@ -22,7 +22,7 @@ exports.getQuestion = (req, res, next) => {
         models.Questions.findAll({ raw: true, where: { id: questionID } })
         .then(row => {
             
-            if (row.length == 0) res.status(404).json( {message: 'Question not found!', type: 'error' }); 
+            if (row.length == 0) return res.status(404).json( {message: 'Question not found!', type: 'error' }); 
 
             let q = {};
             
@@ -44,7 +44,7 @@ exports.getQuestion = (req, res, next) => {
             resolve();
 
         })
-        .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })});
+        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
     })
 
     let answersPromise = new Promise((resolve, reject) => {
@@ -73,7 +73,7 @@ exports.getQuestion = (req, res, next) => {
             answersArr.forEach(ans => ans.dateCreated = new Intl.DateTimeFormat('en-US', dateOptions).format(ans.dateCreated))
             resolve();
         })
-        .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })});
+        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
 
     })
     Promise.all([questionPromise, answersPromise]).then(() => {
@@ -93,7 +93,7 @@ exports.getQuestion = (req, res, next) => {
             totalAnswers: totalAnswers,
         })
 
-    }).catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })})
+    }).catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 
 }
 
@@ -139,10 +139,10 @@ exports.postAnswer = (req, res, next) => {
             .then(result => { return res.status(201).json({ message: 'Answer submitted successfully.', type: 'success' })})
             .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })})
         })
-        .catch(err => { return res.status(500).json({message: 'Internal server error.', type: 'error' })})
+        .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })})
 
     })
-    .catch(err => { return res.status(500).json({message: 'Internal server error.', type: 'error' })})
+    .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' })})
 }
 
 exports.events = (req, res, next) => {
@@ -160,8 +160,8 @@ exports.events = (req, res, next) => {
             UsersName: req.body.usersName,
             UsersSurname: req.body.usersSurname
         })
-        .then(() => res.status(200).json({}) )
-        .catch(() => res.status(500).json({message: 'Internal server error.'}) )
+        .then(() => res.status(200).json({}))
+        .catch(() => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 
     }
     else {
