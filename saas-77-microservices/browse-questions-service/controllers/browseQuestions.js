@@ -8,7 +8,7 @@ const QUESTIONS_PER_PAGE = 3;
 
 exports.show = (req, res, next) => {
 
-    const page = +req.query.page || 1;
+    const page = req.body.pageNumber;
 
     let questionsArr = [], qsNotAnswered, totalQuestions;
 
@@ -19,7 +19,7 @@ exports.show = (req, res, next) => {
 
             if (totalQuestions == 0) return resolve();
 
-            if (page > Math.ceil(totalQuestions / QUESTIONS_PER_PAGE)) return res.status(404).json({ message: 'This questions page does not exist.' })
+            if (page > Math.ceil(totalQuestions / QUESTIONS_PER_PAGE)) return res.status(404).json({ message: 'This questions page does not exist.', type: 'error' })
 
             return models.Questions.findAll({
                 raw: true,
