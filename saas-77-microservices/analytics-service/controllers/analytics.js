@@ -17,8 +17,8 @@ exports.stats = (req, res, next) => {
     let analyticsPromise = new Promise((resolve, reject) => {
         models.Users.findAll({ raw: true, where: { id: userData.user.id } })
             .then(row => {
-                totalQuestions = row[0].questions;
-                totalAnswers = row[0].answers;
+                totalQuestions = row[0].questions.length;
+                totalAnswers = row[0].answers.length;
                 resolve();
             })
     })
