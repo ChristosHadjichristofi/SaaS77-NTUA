@@ -12,21 +12,21 @@ module.exports = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    if (!email || !password) return res.status(400).json({message: 'Some parameters are undefined'});
+    if (!email || !password) return res.status(400).json({ message: 'Some parameters are undefined', type: 'error' });
 
     let loadedUser;
     
     models.Users.findOne({ where: { email: email } })
     .then(user => {
         if (!user) {
-            res.status(401).json({message:'Wrong credentials!'});
+            res.status(401).json({ message:'Wrong credentials!', type: 'error' });
         }
         loadedUser = user;
         return bcrypt.compare(password, user.password);
     })
     .then(isEqual => {
         if (!isEqual) {
-            res.status(401).json({message:'Wrong credentials!'});
+            res.status(401).json({ message:'Wrong credentials!', type: 'error' });
         }
         
         const token = jwt.sign(
@@ -43,11 +43,11 @@ module.exports = (req, res, next) => {
             { expiresIn: '1h'}
         );
 
-        res.status(200).json({token: token});
+        res.status(200).json({ token: token, type: 'success', message:'Welcome back!' });
     })
     .catch(err => {
         console.log(err)
-        return res.status(500).json({message: 'Internal server error.'})
+        return res.status(500).json({ message: 'Internal server error.', type: 'error' })
     });
 
 }

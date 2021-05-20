@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const capitalize = require('../utils/capitalizeWords');
+const { validationResult } = require('express-validator');
 const axios = require('axios');
 
 // require models
@@ -16,10 +17,13 @@ module.exports = (req, res, next) => {
     const password = req.body.password;
     const email = req.body.email;
     
-    if (!name || !surname || !email || !password) return res.status(400).json({message: 'Some mandatory fields are missing!'});
+    if (!name || !surname || !email || !password) return res.status(400).json({message: 'Some mandatory fields are missing!', type: 'error'});
     
     const nameCapitalized = capitalize(name);
     const surnameCapitalized = capitalize(surname);
+
+    const validationErrors = validationResult(req);
+    if (validationErrors.errors.length > 0) return res.status(400).json({ message: 'Validation Error!', errors: validationErrors.errors, type: 'error' });
 
     models.Users.findOne({ where: { email: email } })
     .then(user => {
@@ -49,20 +53,20 @@ module.exports = (req, res, next) => {
                 const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': token }, data: { type: 'USER CREATE', usersId: newUser.id } };
                 
                 axios(config)
-                .then(result => { return res.status(201).json({ signup: 'true', message: 'Account created succesfully!' }) })
-                .catch(err => { return res.status(500).json({ message: 'Internal server error.' }) })
+                .then(result => { return res.status(201).json({ signup: 'true', message: 'Account created succesfully!', type: 'success'}) })
+                .catch(err => { return res.status(500).json({ message: 'Internal server error.', type: 'error' }) })
                 
             })
             .catch(err => {
-                return res.status(500).json({message: 'Internal server error.'})
+                return res.status(500).json({message: 'Internal server error.', type: 'error'})
             });
         }
         else {
-            return res.status(200).json({message: 'This email is already in use.'})
+            return res.status(200).json({message: 'This email is already in use.', type: 'error'})
         }
     })
     .catch(err => {
-        return res.status(500).json({message: 'Internal server error.'})
+        return res.status(500).json({message: 'Internal server error.', type: 'error'})
     });
 
 }

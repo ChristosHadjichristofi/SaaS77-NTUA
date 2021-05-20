@@ -20,7 +20,7 @@ module.exports = [
         .isEmail().withMessage('Email does not have a proper formation')
         .custom((value, { req }) => {
             return new Promise((resolve, reject) => {
-               if (email) {
+               if (value) {
                    models.Users.findAll({ raw: true, where: { email: value } })
                    .then(user => {
                        if (user.length !== 0) return reject();
