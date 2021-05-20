@@ -1,4 +1,5 @@
 const axios = require('axios');
+const e = require('cors');
 const jwt_decode = require('jwt-decode');
 
 module.exports = (req, res, next) => {
@@ -7,7 +8,18 @@ module.exports = (req, res, next) => {
     let qtext = req.body.qtext;
     let qkeywords = req.body.qkeywords;
 
-    if (!qname || !qtext) return res.status(400).json({ message: 'Some parameters are undefined.', type: 'error' });
+    let validationError = false, errors = [];
+    if (!qname) {
+        validationError = true;
+        errors.push({type: 'error', msg: 'Question name is not defined.'});
+    }
+
+    if (!qtext) {
+        validationError = true;
+        errors.push({type: 'error', msg: 'Question text is not defined.'});
+    }
+
+    if (validationError) return res.status(400).json({ message: 'Validation Error!', errors: errors })
 
     const keywordsArr = qkeywords.split(',');
 
