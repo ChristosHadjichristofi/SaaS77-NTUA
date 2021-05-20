@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     let qtext = req.body.qtext;
     let qkeywords = req.body.qkeywords;
 
-    if (!qname || !qtext || !qkeywords) return res.status(400).json({ message: 'Some parameters are undefined', type: 'error' });
+    if (!qname || !qtext) return res.status(400).json({ message: 'Some parameters are undefined.', type: 'error' });
 
     const keywordsArr = qkeywords.split(',');
 

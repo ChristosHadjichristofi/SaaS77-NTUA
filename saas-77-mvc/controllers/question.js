@@ -13,6 +13,19 @@ exports.createQuestion = (req, res, next) => {
     let qtext = req.body.qtext;
     let qkeywords = req.body.qkeywords;
 
+    let hasError = false;
+
+    if (!qname) {
+        hasError = true;
+        req.flash('messages', {type: 'error', value: 'Question name is not defined.'});
+    }
+
+    if (!qtext) {
+        hasError = true;
+        req.flash('messages', {type: 'error', value: 'Question text is not defined.'});
+    }
+    if (hasError) return res.redirect('/home');
+    
     const keywordsArr = qkeywords.split(',');
 
     models.Questions.create({
