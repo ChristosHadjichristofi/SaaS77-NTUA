@@ -5,17 +5,17 @@
             <div class="card-body">
                 <% if (pageTitle == "Profile Page") { %>
                     <h4 class="card-title" style="font-size: 18px;color: var(--blue); padding-bottom: 20px;">User Analytics </h4>
-                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Questions:
+                    <h6 class="card-title" style="color: var(--blue);">My Questions:
                         <%= totalQuestions %>
-                    </h4>
-                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My Answers:
+                    </h6>
+                    <h6 class="card-title" style="color: var(--blue);">My Answers:
                         <%= totalAnswers %>
-                    </h4>
+                    </h6>
                     <% if (contributions == 0.00) { %>
-                        <h4 class="card-title" style="font-size: 18px;color: var(--blue);">You have no contributions!<br> Help someone!</h4>
+                        <h6 class="card-title" style="color: var(--blue);">You have no contributions!<br> Help someone!</h6>
                     <% } else { %>
-                    <h4 class="card-title" style="font-size: 18px;color: var(--blue);">My contributions:
-                        <%= contributions %> per day<br></h4>
+                    <h6 class="card-title" style="color: var(--blue);">My contributions:
+                        <%= contributions %> per day<br></h6>
                     <% } %>
                 <% } else { %>
                     <h4 class="card-title" style="font-size: 18px;color: var(--blue);">Top Keywords</h4>
