@@ -102,6 +102,8 @@ exports.postAnswer = (req, res, next) => {
     const questionID = req.params.id;
     const answerText = req.body.answer;
     
+    if (answerText === '') return res.status(400).json({ message: 'Answer body cannot be empty.', type: 'error' })
+
     const userData = jwt_decode(req.header('X-OBSERVATORY-AUTH'));
 
     let answerID;

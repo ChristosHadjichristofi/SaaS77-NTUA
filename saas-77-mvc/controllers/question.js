@@ -271,6 +271,11 @@ exports.answerQuestion = (req, res, next) => {
     const questionID = req.params.id;
     const answerText = req.body.answer;
     
+    if (answerText === '') {
+        req.flash('messages', {type: 'error', value: 'Answer body cannot be empty.'})
+        return res.redirect('/questions/' + questionID)
+    }
+
     models.Answers.create({
         text: answerText,
         dateCreated: Date.now(),
