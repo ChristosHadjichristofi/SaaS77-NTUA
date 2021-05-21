@@ -350,6 +350,22 @@
     max-height: 500px;
 }
 
+#user-questions-div {
+    min-height: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+#user-questions-div::-webkit-scrollbar {
+    display: none;
+}
+  
+/* Hide scrollbar for IE, Edge and Firefox */
+#user-questions-div {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 @media (min-width:992px) {
     #answers-paragraph {
         /*-ms-flex-align: center!important;*/

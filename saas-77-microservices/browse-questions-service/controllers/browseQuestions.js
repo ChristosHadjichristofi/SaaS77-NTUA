@@ -126,3 +126,27 @@ exports.events = (req, res, next) => {
     }
 
 }
+
+exports.getUserQuestions = (req, res, next) => {
+
+    let userQuestions;
+    const userID = req.params.id;
+
+    let questionsPromise = new Promise((resolve, reject) => { 
+
+        models.Questions.findAll({
+            raw: true,
+            where: { UsersId: userID },
+            order: [
+                ['dateCreated', 'DESC']
+            ]
+        })
+        .then(questions => { userQuestions = questions; resolve(); })
+        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
+
+    });
+
+    questionsPromise
+    .then(() => res.status(200).json({ questions: userQuestions }))
+    .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
+}

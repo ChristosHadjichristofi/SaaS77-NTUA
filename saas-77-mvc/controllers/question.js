@@ -8,7 +8,7 @@ const QUESTIONS_PER_PAGE = 3;
 const ANSWERS_PER_PAGE = 2;
 
 exports.createQuestion = (req, res, next) => {
-
+    console.log()
     let qname = req.body.qname;
     let qtext = req.body.qtext;
     let qkeywords = req.body.qkeywords;
@@ -24,7 +24,7 @@ exports.createQuestion = (req, res, next) => {
         hasError = true;
         req.flash('messages', {type: 'error', value: 'Question text is not defined.'});
     }
-    if (hasError) return res.redirect('/home');
+    if (hasError) return res.redirect(req.headers.referer);
     
     const keywordsArr = qkeywords.split(',');
 
@@ -49,8 +49,8 @@ exports.createQuestion = (req, res, next) => {
         });
         
         insertKeywords.then(() => { 
-            req.flash('messages', {type: 'success', value: 'Your question was submitted successfully.'})
-            res.redirect('/home'); 
+            req.flash('messages', {type: 'success', value: 'Your question was submitted successfully.'});
+            res.redirect(req.headers.referer); 
         });
     })
 

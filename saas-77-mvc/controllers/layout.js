@@ -54,14 +54,20 @@ exports.getLanding = (req, res, next) => {
 
 exports.getProfile = function(req, res, next) {
 
-    let totalQuestions, totalAnswers, contributions;
+    let totalQuestions, totalAnswers, contributions, questionsArr;
 
     let questionsPromise = new Promise((resolve, reject) => {
-        models.Questions.count({ where: { UsersId: req.session.user.id } })
-            .then(questions => {
-                totalQuestions = questions;
-                resolve();
-            })
+        models.Questions.findAll({ 
+            where: { UsersId: req.session.user.id },
+            order: [
+                ['dateCreated', 'DESC']
+            ] 
+        })
+        .then(questions => {
+            questionsArr = questions;
+            totalQuestions = questions.length;
+            resolve();
+        })
     })
 
     let answersPromise = new Promise((resolve, reject) => {
@@ -90,6 +96,7 @@ exports.getProfile = function(req, res, next) {
             totalQuestions: totalQuestions,
             totalAnswers: totalAnswers,
             contributions: contributions.toFixed(2),
+            questions: questionsArr,
             messages: messages
         });
     })
