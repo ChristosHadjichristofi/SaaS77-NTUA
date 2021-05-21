@@ -26,5 +26,6 @@ module.exports = () => {
             return resolve({ name, frequency });
             
         })
+        .catch(err => resolve({ dates, frequency }));
     })
 }

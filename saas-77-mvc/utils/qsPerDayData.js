@@ -18,19 +18,22 @@ module.exports = () => {
             const now = new Date();
             const endDate = new Date();
             endDate.setDate(now.getDate() - 21)
-            while (result[index].date.localeCompare(now.toISOString().split('T')[0]) == 1) index++
-            for (var d = now; d.toISOString().split('T')[0] !== endDate.toISOString().split('T')[0]; d.setDate(d.getDate() - 1)) {
-                if (result[index] != null && result[index].date === d.toISOString().split('T')[0]) {
-                    dates.push(result[index].date);
-                    frequency.push(result[index].count);
-                    index++;
-                } else {
-                    dates.push(d.toISOString().split('T')[0]);
-                    frequency.push(0);
+            if (result.length !== 0) {
+                while (result[index].date.localeCompare(now.toISOString().split('T')[0]) == 1) index++
+                for (var d = now; d.toISOString().split('T')[0] !== endDate.toISOString().split('T')[0]; d.setDate(d.getDate() - 1)) {
+                    if (result[index] != null && result[index].date === d.toISOString().split('T')[0]) {
+                        dates.push(result[index].date);
+                        frequency.push(result[index].count);
+                        index++;
+                    } else {
+                        dates.push(d.toISOString().split('T')[0]);
+                        frequency.push(0);
+                    }
                 }
             }
             
             return resolve({ dates, frequency });
         })
+        .catch(err => resolve({ dates, frequency }));
     })
 }
