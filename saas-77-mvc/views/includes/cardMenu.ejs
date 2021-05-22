@@ -45,11 +45,13 @@
                         <div class="row" style="padding-bottom: 5px; padding-top: 5px; border-bottom: 1px solid rgba(18, 76, 80, 0.25)">
                     <% } %>
                         <div class="col">
-                            <h6 style="color: var(--blue);"> <%= question.title %></h6>
+                            <h6 style="color: var(--blue);"> <%= question.dataValues.title %></h6>
                         </div>
                         <div class="col">
-                            <form method="GET" action="/questions/<%= question.id %>">
-                                <button class="btn btn-primary" type="submit"> Go </button>
+                            <form method="GET" action="/questions/<%= question.dataValues.id %>">
+                                <button class="btn btn-primary" type="submit"> 
+                                    Go <label class="col-form-label" id="answers-counter-on-browse"><p style="transform: translateY(-30%);"><%= question.dataValues.Answers ? question.Answers.length : 0 %></p></label>
+                                </button>
                             </form>
                         </div>
                     </div>

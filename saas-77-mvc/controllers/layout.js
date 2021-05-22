@@ -57,13 +57,20 @@ exports.getProfile = function(req, res, next) {
     let totalQuestions, totalAnswers, contributions, questionsArr;
 
     let questionsPromise = new Promise((resolve, reject) => {
-        models.Questions.findAll({ 
+        models.Questions.findAll({
             where: { UsersId: req.session.user.id },
+            include: [
+                { model: models.Answers }
+            ],
             order: [
                 ['dateCreated', 'DESC']
             ] 
         })
         .then(questions => {
+            /** Accessing questionsArr[i] values **/
+            // questionsArr[i].dataValues.Answers.length -> access answers length
+            // questionsArr[i].dataValues.id -> access question id
+            // questionsArr[i].dataValues.name -> access question name
             questionsArr = questions;
             totalQuestions = questions.length;
             resolve();
