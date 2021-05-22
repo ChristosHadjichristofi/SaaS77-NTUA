@@ -18,16 +18,17 @@ module.exports = (req, res, next) => {
     
     models.Users.findOne({ where: { email: email } })
     .then(user => {
-        if (!user) {
-            res.status(401).json({ message:'Wrong credentials!', type: 'error' });
-        }
+        
+        if (!user) return res.status(401).json({ message:'Wrong credentials!', type: 'error' });
+
         loadedUser = user;
         return bcrypt.compare(password, user.password);
     })
     .then(isEqual => {
-        if (!isEqual) {
-            res.status(401).json({ message:'Wrong credentials!', type: 'error' });
-        }
+
+        if (!loadedUser) return;
+
+        if (!isEqual) return res.status(401).json({ message:'Wrong credentials!', type: 'error' });
         
         const token = jwt.sign(
             {
