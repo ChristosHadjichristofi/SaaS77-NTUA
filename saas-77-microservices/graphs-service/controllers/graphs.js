@@ -53,32 +53,28 @@ exports.events = (req, res, next) => {
 
         let qkeywords = req.body.qkeywords;
 
-        models.Questions.create({
-            dateCreated: req.body.dateCreated,
-        })
+        models.Questions.create({ dateCreated: req.body.dateCreated })
         .then(question => {
+
             let insertKeywords = new Promise((resolve, reject) => {
                 qkeywords.forEach((keywordName, index) => {
+                    
                     if(keywordName !== "") {
-                        models.Keywords.create({
-                            name: keywordName,
-                            QuestionsId: question.id
-                        })
-                        .catch(err => console.log(err))
+                        models.Keywords
+                        .create({ name: keywordName, QuestionsId: question.id })
+                        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
                     }
+                    
                     if (index === qkeywords.length - 1) return resolve(true);
+                
                 });
             });
             
-            insertKeywords.then(() => { 
-                res.status(200).json({});
-            })
+            insertKeywords.then(() => res.status(200).json({}))
             .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
         })
         .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
     }
-    else {
-        res.status(200).json({});
-    }
+    else res.status(200).json({});
 
 }
