@@ -9,11 +9,11 @@ const { body } = require('express-validator');
 module.exports = [
     body('name')
         .not().isEmpty().withMessage('Name field is mandatory')
-        .isLength({min: 5, max: 30}).withMessage('Name must be of length 5 and 30')
+        .isLength({min: 3, max: 30}).withMessage('Name must be of length 5 and 30')
         .isAlpha().withMessage('Name must be only letters'),
     body('surname')
         .not().isEmpty().withMessage('Surname field is mandatory')
-        .isLength({min: 5, max: 50}).withMessage('Surname must be of length 5 and 30')
+        .isLength({min: 3, max: 50}).withMessage('Surname must be of length 5 and 30')
         .isAlpha().withMessage('Surname must be only letters'),
     body('email')
         .not().isEmpty().withMessage('Email field is mandatory')
