@@ -19,7 +19,7 @@ module.exports = () => {
                     
             /* Only top 5 */
             topFiveKeywords.forEach(({counter, keywordname}) => {
-                name.push(keywordname);
+                keywordname ? name.push(keywordname) : name.push('No Keyword');
                 frequency.push(counter);
             });
 
