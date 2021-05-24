@@ -1,0 +1,39 @@
+<div class="modal fade" role="dialog" tabindex="-1" id="signin">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color: var(--blue);">Sign In</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/account/signin">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="text-primary input-group-text">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" name="email" type="email" placeholder="Username">
+                            <div class="input-group-append"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="text-primary input-group-text">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" name="password" type="password" required="" placeholder="Password">
+                            <div class="input-group-append"></div>
+                        </div>
+                    </div>
+                    <div class="form-group"><button class="btn btn-primary btn-lg text-white" style="width: 100%;" type="submit">Log in</button></div>
+                </form>
+                <hr style="background-color: #bababa;">
+                <p class="text-center" style="color: var(--blue);">Or&nbsp;<a class="text-decoration-none" href="#">Forget password</a></p>
+                <p class="text-center" style="color: var(--blue);">Don't have an account? &nbsp;<a class="text-decoration-none" data-dismiss="modal" data-toggle="modal" data-target="#signup" href="#">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+</div>

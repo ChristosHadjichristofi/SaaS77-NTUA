@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>
+        <%= pageTitle %>
+    </title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cairo">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="/assets/css/NZDropdown---Status.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+</head>
+
+<body>
+    <div id="main-div">
+
+        <%- include("includes/navbar.ejs")%>
+
+        <div class="container" id="main-screen-cards">
+            <h4 style="color: var(--blue);"><strong>Questions submitted: <%= totalQuestions %></strong></h4>
+            <h4 id="message" style="color: var(--blue);"><strong>Unanswered questions: <%= questionsNotAnswered %></strong></h4>
+
+            <% if ( questions.length == 0 ) { %>
+
+                <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px; margin-bottom:170px; ">
+                    <div class="card-body" id="question-card-body">
+                            <h5 style="color: var(--blue);">No questions found</h5>
+                        </div>
+                    </div>
+
+            <% } else { %>
+
+                <% questions.forEach((question, index) => { %>
+                <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px;">
+                    <div class="card-body" id="question-card-body">
+                        <div class="row">
+                            <div class="col col-md-3">
+                                <span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=question.name %> <%=question.surname %>"></span>
+                                <h5 style="color: var(--blue);">
+                                    <%= question.name%>
+                                    <%= question.surname%>
+                                </h5>
+                                <h6 class="text-muted mb-2" style="color: var(--blue);">
+                                    <%= question.dateCreated %>
+                                </h6>
+                            </div>
+                            <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-7">
+                                <h4 style="color: var(--blue);">
+                                    <%= question.title %>
+                                </h4>
+                            <div class="tag-cont">
+                                <% if (question.keywords.length == 0) { %>
+                                    <div class="tag-not-found">
+                                        <span style="color: rgb(201, 201, 201);">No keywords</span>
+                                    </div>
+                                <% } else { %>
+                                    <% question.keywords.forEach((el, idx) => { %>
+
+                                    <div class="tag">
+                                        <span style="color: var(--blue);"><%= el %></span>
+                                    </div>
+
+                                <% })} %>
+
+                            </div>
+                        </div>
+                        <div class="col d-lg-flex justify-content-lg-center align-items-lg-center col-md-2">
+                            <form method="GET" action="/questions/<%= question.id %>">
+                                <button class="btn btn-primary" type="submit">
+                                    Answer <label class="col-form-label" id="answers-counter-on-browse"><p style="transform: translateY(-30%);"><%= question.numberOfAnswers %></p></label>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% })} %>
+        </div>
+    </div>
+
+    <% if ( questions.length != 0 ) { %>
+        <%- include("includes/pagination.ejs")%>
+    <% } %>
+
+    <%- include("includes/footer.ejs")%>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            toastr.options = {
+                "closeButton": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false
+            };
+            /* In order to access variables sent to ejs file to script you must Parse them to string */
+            /* then to parse them back to JSON */
+            let messages = '<%- JSON.stringify(messages) %>';
+            messages = JSON.parse(messages);
+
+            messages.forEach(({type, value}) => {
+                switch (type) {
+                    case 'error':
+                        toastr.error(value)
+                        break;
+                    case 'success':
+                        toastr.success(value)
+                        break;
+                    case 'warning':
+                        toastr.warning(value)
+                        break;
+                    default:
+                        toastr.info(value)
+                        break;
+                }
+            });
+
+        })
+    </script>
+
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
