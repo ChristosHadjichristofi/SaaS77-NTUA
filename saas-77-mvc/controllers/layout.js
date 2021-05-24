@@ -10,15 +10,10 @@ const qsPerDayData = require('../utils/qsPerDayData');
 
 exports.getLanding = (req, res, next) => {
 
-    let qsPerKWTop3 = [],
-        qsPerKWName = [],
-        qsPerKWFreq = [],
-        qsPerDayDates = [],
-        qsPerDayFreq = [];
+    let qsPerKWName = [], qsPerKWFreq = [], qsPerDayDates = [], qsPerDayFreq = [];
 
     let qsPerKeyWordDataPromise = new Promise((resolve, reject) => {
         qsPerKeywordData().then(result => {
-            qsPerKWTop3 = result.topThreeKeywords;
             qsPerKWName = result.name;
             qsPerKWFreq = result.frequency;
             resolve();
@@ -41,7 +36,6 @@ exports.getLanding = (req, res, next) => {
 
         res.render('landing.ejs', {
             pageTitle: "Landing Page",
-            topThreeKeywords: qsPerKWTop3,
             topKeywords: qsPerKWName,
             topKeywordsFreq: qsPerKWFreq,
             qsPerDayDates: qsPerDayDates,
@@ -112,15 +106,10 @@ exports.getProfile = function(req, res, next) {
 
 exports.getHome = (req, res, next) => {
 
-    let qsPerKWTop3 = [],
-        qsPerKWName = [],
-        qsPerKWFreq = [],
-        qsPerDayDates = [],
-        qsPerDayFreq = [];
+    let qsPerKWName = [], qsPerKWFreq = [], qsPerDayDates = [], qsPerDayFreq = [];
 
     let qsPerKeyWordDataPromise = new Promise((resolve, reject) => {
         qsPerKeywordData().then(result => {
-            qsPerKWTop3 = result.topThreeKeywords;
             qsPerKWName = result.name;
             qsPerKWFreq = result.frequency;
             resolve();
@@ -143,7 +132,6 @@ exports.getHome = (req, res, next) => {
 
         res.render('home.ejs', {
             pageTitle: "Home Page",
-            topThreeKeywords: qsPerKWTop3,
             topKeywords: qsPerKWName,
             topKeywordsFreq: qsPerKWFreq,
             qsPerDayDates: qsPerDayDates,
