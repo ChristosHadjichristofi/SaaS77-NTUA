@@ -4,6 +4,8 @@ const capitalize = require('../utils/capitalizeWords');
 const { validationResult } = require('express-validator');
 const axios = require('axios');
 
+const encrypt = require('../utils/encrypt');
+
 // require models
 const sequelize = require('../utils/database');
 var initModels = require("../models/init-models");
@@ -50,7 +52,13 @@ module.exports = (req, res, next) => {
                 );
 
                 const url = 'http://localhost:4006/events';
-                const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': token }, data: { type: 'USER CREATE', usersId: newUser.id } };
+
+                const headers = { 
+                    "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)),
+                    'X-OBSERVATORY-AUTH': token
+                };
+                
+                const config = { method: 'post', url: url, headers: headers, data: { type: 'USER CREATE', usersId: newUser.id } };
                 
                 axios(config)
                 .then(result => { return res.status(201).json({ signup: 'true', message: 'Account created succesfully!', type: 'success'}) })

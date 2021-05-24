@@ -1,5 +1,6 @@
 const jwt_decode = require('jwt-decode');
 const axios = require('axios');
+const encrypt = require('../utils/encrypt');
 
 exports.createQuestion = (req, res, next) => {
 
@@ -10,6 +11,11 @@ exports.createQuestion = (req, res, next) => {
     const userData = jwt_decode(req.session.user.jwtToken);
     const url_createQuestion = 'http://localhost:4001/create';
 
+    const headers = { 
+        'X-OBSERVATORY-AUTH': req.session.user.jwtToken,
+        "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) 
+    };
+
     const data = {
         qname: qname,
         qtext: qtext,
@@ -19,7 +25,7 @@ exports.createQuestion = (req, res, next) => {
         usersSurname: userData.user.surname
     };
 
-    const config_createQuestion = { method: 'post', url: url_createQuestion, data: data, headers: { 'X-OBSERVATORY-AUTH': req.session.user.jwtToken } };
+    const config_createQuestion = { method: 'post', url: url_createQuestion, data: data, headers: headers };
 
     let insertKeywords = new Promise((resolve, reject) => {
         axios(config_createQuestion)
@@ -59,7 +65,13 @@ exports.browseQuestions = (req, res, next) => {
     let isOK = true, notExist = false, questions, questionsNotAnswered, totalQuestions, pagination;
     const url_browseQuestions = 'http://localhost:4003/show';
     const page = +req.query.page || 1;
-    const config_browseQuestions = { method: 'post', url: url_browseQuestions, headers: { 'X-OBSERVATORY-AUTH': req.session.user.jwtToken }, data: { pageNumber: page } };
+
+    const headers = { 
+        'X-OBSERVATORY-AUTH': req.session.user.jwtToken,
+        "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) 
+    };
+
+    const config_browseQuestions = { method: 'post', url: url_browseQuestions, headers: headers, data: { pageNumber: page } };
 
     let browseQuestionsPromise = new Promise((resolve, reject) => {
 
@@ -127,7 +139,13 @@ exports.browseQuestion = (req, res, next) => {
 
     const url_browseQuestion = 'http://localhost:4002/question/' + req.params.id;
     const page = +req.query.page || 1;
-    const config_browseQuestion = { method: 'post', url: url_browseQuestion, headers: { 'X-OBSERVATORY-AUTH': req.session.user.jwtToken }, data: { pageNumber: page } };
+
+    const headers = { 
+        'X-OBSERVATORY-AUTH': req.session.user.jwtToken,
+        "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) 
+    };
+
+    const config_browseQuestion = { method: 'post', url: url_browseQuestion, headers: headers, data: { pageNumber: page } };
     const userData = jwt_decode(req.session.user.jwtToken);
 
     let browseQuestionPromise = new Promise((resolve, reject) => {
@@ -202,7 +220,13 @@ exports.answerQuestion = (req, res, next) => {
     };
 
     const url_postAnswer = 'http://localhost:4002/answer/' + req.params.id;
-    const config_postAnswer = { method: 'post', url: url_postAnswer, headers: { 'X-OBSERVATORY-AUTH': req.session.user.jwtToken }, data: data };
+
+    const headers = { 
+        'X-OBSERVATORY-AUTH': req.session.user.jwtToken,
+        "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) 
+    };
+
+    const config_postAnswer = { method: 'post', url: url_postAnswer, headers: headers, data: data };
 
     let answerQuestionPromise = new Promise((resolve, reject) => {
         

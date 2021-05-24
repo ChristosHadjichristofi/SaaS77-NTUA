@@ -1,6 +1,6 @@
 const axios = require('axios');
-const e = require('cors');
 const jwt_decode = require('jwt-decode');
+const encrypt = require('../utils/encrypt');
 
 module.exports = (req, res, next) => {
     
@@ -38,7 +38,12 @@ module.exports = (req, res, next) => {
         usersSurname: userData.user.surname
     }
     
-    const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
+    const headers = {
+        'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH'),
+        "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES))
+    };
+
+    const config = { method: 'post', url: url, headers: headers, data: data };
 
     axios(config)
     .then(result => res.status(200).json({ message: 'Your question was submitted successfully.', type: 'success' }))

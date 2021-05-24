@@ -1,4 +1,5 @@
 const jwt_decode = require('jwt-decode');
+const encrypt = require('../utils/encrypt');
 const axios = require('axios');
 
 exports.getLanding = (req, res, next) => {
@@ -8,8 +9,10 @@ exports.getLanding = (req, res, next) => {
     const url_keywords = 'http://localhost:4005/topkeywords';
     const url_qsperday = 'http://localhost:4005/qsperday';
 
-    const config_keywords = { method: 'get', url: url_keywords };
-    const config_qsperday = { method: 'get', url: url_qsperday };
+    const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
+
+    const config_keywords = { method: 'get', url: url_keywords, headers: headers };
+    const config_qsperday = { method: 'get', url: url_qsperday, headers: headers };
 
     let qsPerKeywordsDataPromise = new Promise((resolve, reject) => {
         axios(config_keywords)
@@ -24,7 +27,6 @@ exports.getLanding = (req, res, next) => {
     })
 
     Promise.all([qsPerKeywordsDataPromise, qsPerDayPromise]).then(() => {
-        console.log(resultKeywords)
         let messages = req.flash("messages");
         
         if (messages.length == 0) messages = [];
@@ -61,8 +63,13 @@ exports.getProfile = function(req, res, next) {
     const url_analytics = 'http://localhost:4004/analytics';
     const url_userQuestions = 'http://localhost:4003/questions/user/' + userData.user.id;
 
-    const config_analytics = { method: 'get', url: url_analytics, headers: { 'X-OBSERVATORY-AUTH': req.session.user.jwtToken } };
-    const config_userQuestions = { method: 'get', url: url_userQuestions, headers: { 'X-OBSERVATORY-AUTH': req.session.user.jwtToken } };
+    const headers = { 
+        'X-OBSERVATORY-AUTH': req.session.user.jwtToken,
+        "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) 
+    };
+
+    const config_analytics = { method: 'get', url: url_analytics, headers: headers };
+    const config_userQuestions = { method: 'get', url: url_userQuestions, headers: headers };
 
     let analyticsPromise = new Promise((resolve, reject) => {
         axios(config_analytics)
@@ -122,8 +129,10 @@ exports.getHome = (req, res, next) => {
     const url_keywords = 'http://localhost:4005/topkeywords';
     const url_qsperday = 'http://localhost:4005/qsperday';
 
-    const config_keywords = { method: 'get', url: url_keywords };
-    const config_qsperday = { method: 'get', url: url_qsperday };
+    const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
+
+    const config_keywords = { method: 'get', url: url_keywords, headers: headers };
+    const config_qsperday = { method: 'get', url: url_qsperday, headers: headers };
 
     let qsPerKeywordsDataPromise = new Promise((resolve, reject) => {
         axios(config_keywords)

@@ -1,5 +1,6 @@
 const axios = require('axios');
 const jwt_decode = require('jwt-decode');
+const encrypt = require('../utils/encrypt');
 
 // require models
 const sequelize = require('../utils/database');
@@ -135,7 +136,12 @@ exports.postAnswer = (req, res, next) => {
                 usersSurname: answer[0].UsersSurname
             }
             
-            const config = { method: 'post', url: url, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
+            const headers = {
+                'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH'),
+                "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES))
+            };
+
+            const config = { method: 'post', url: url, headers: headers, data: data };
         
             axios(config)
             .then(result => { return res.status(201).json({ message: 'Answer submitted successfully.', type: 'success' })})

@@ -1,4 +1,5 @@
 const axios = require('axios');
+const encrypt = require('../utils/encrypt');
 
 module.exports = (req, res, next) => {
     
@@ -12,10 +13,15 @@ module.exports = (req, res, next) => {
     const data = event;
     let responses = [];
 
-    const config_answersService = { method: 'post', url: url_answersService, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
-    const config_browseQuestionsService = { method: 'post', url: url_browseQuestionsService, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
-    const config_analyticsService = { method: 'post', url: url_analyticsService, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
-    const config_graphsService = { method: 'post', url: url_graphsService, headers: { 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH') }, data: data };
+    const headers = { 
+        'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH'),
+        "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) 
+    };
+
+    const config_answersService = { method: 'post', url: url_answersService, headers: headers, data: data };
+    const config_browseQuestionsService = { method: 'post', url: url_browseQuestionsService, headers: headers, data: data };
+    const config_analyticsService = { method: 'post', url: url_analyticsService, headers: headers, data: data };
+    const config_graphsService = { method: 'post', url: url_graphsService, headers: headers, data: data };
 
     let answersServicePromise = new Promise((resolve, reject) => { 
 

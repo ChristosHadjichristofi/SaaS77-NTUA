@@ -1,4 +1,5 @@
 const express = require('express');
+const decrypt = require('./utils/decrypt');
 
 /* ROUTES and how to import routes */
 
@@ -10,6 +11,16 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+    const customServicesHeader = req.header('custom-services-header');
+
+    if (customServicesHeader !== undefined) 
+        decrypt(JSON.parse(customServicesHeader)) === process.env.SECRET_STRING_SERVICES 
+        ? next() : res.send(403).json({ message: 'Not allowed origin.', type: 'error' });
+    
+    else return res.status(403).json({ message: 'Not allowed origin.', type: 'error' });
+});
 
 // /* Routes used by our project */
 app.use('/', events);

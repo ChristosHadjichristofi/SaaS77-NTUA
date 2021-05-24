@@ -1,4 +1,5 @@
 const axios = require('axios');
+const encrypt = require('../utils/encrypt');
 
 exports.signIn = (req, res, next) => {
 
@@ -7,12 +8,14 @@ exports.signIn = (req, res, next) => {
 
     const url_accountService = 'http://localhost:4000/signin';
 
+    const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
+
     const data = {
         email: email,
         password: password
     };
 
-    const config_accountService = { method: 'post', url: url_accountService, data: data };
+    const config_accountService = { method: 'post', url: url_accountService, headers: headers, data: data };
 
     axios(config_accountService)
     .then(result => {
@@ -52,6 +55,8 @@ exports.signUp = (req, res, next) => {
 
     const url_accountService = 'http://localhost:4000/signup';
 
+    const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
+
     const data = {
         name: name,
         surname: surname,
@@ -60,7 +65,7 @@ exports.signUp = (req, res, next) => {
         repassword: repassword
     };
 
-    const config_accountService = { method: 'post', url: url_accountService, data: data };
+    const config_accountService = { method: 'post', url: url_accountService, headers: headers, data: data };
 
     axios(config_accountService)
     .then(result => { 
