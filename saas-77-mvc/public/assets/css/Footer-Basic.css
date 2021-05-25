@@ -1,8 +1,9 @@
 .footer-basic {
     padding: 15px 0;
-    background-color: rgba(255, 255, 255, 0.25);
+    /* background-color: rgba(255, 255, 255, 0.25); */
+    background-color: rgb(255, 255, 255);
     color: #4b4c4d;
-    /* position:fixed; */
+    position:fixed;
     width: 100%;
     bottom: 0;
     /* max-height: 20vh; */
@@ -64,7 +65,7 @@
 
 #main-screen-cards {
     padding-top: 50px;
-    padding-bottom: 30px;
+    padding-bottom: 70px;
     margin: 0 auto;
 }
 

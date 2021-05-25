@@ -97,12 +97,12 @@
                 </div>
             </div>
         <% })} %>
+        <% if ( questions.length != 0 ) { %>
+            <%- include("includes/pagination.ejs")%>
+        <% } %>
         </div>
     </div>
 
-    <% if ( questions.length != 0 ) { %>
-        <%- include("includes/pagination.ejs")%>
-    <% } %>
 
     <%- include("includes/footer.ejs")%>
 
@@ -114,7 +114,11 @@
             let input = document.getElementById('searchInput');
             let inputValue = input.value.toLowerCase();
 
+            let pagination = document.getElementById('pagination');
             let questions = document.getElementsByClassName('card shadow');
+
+            if (inputValue.length > 0) pagination.style.display = "none";
+            if (inputValue.length === 0) pagination.style.display = "";
 
             for (let i = 0; i < questions.length; i++) {
                 if (questions[i].innerText.toLowerCase().includes(inputValue)) questions[i].style.display = "";

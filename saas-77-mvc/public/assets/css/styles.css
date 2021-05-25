@@ -347,7 +347,7 @@
 
 #answers-div {
     /* overflow-y: scroll; */
-    max-height: 500px;
+    max-height: auto;
 }
 
 #user-questions-div {
