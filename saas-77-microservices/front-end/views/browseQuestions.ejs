@@ -29,8 +29,19 @@
         <%- include("includes/navbar.ejs")%>
 
         <div class="container" id="main-screen-cards">
-            <h4 style="color: var(--blue);"><strong>Questions submitted: <%= totalQuestions %></strong></h4>
-            <h4 id="message" style="color: var(--blue);"><strong>Unanswered questions: <%= questionsNotAnswered %></strong></h4>
+            <div class="row">
+                <div class="col-xs-7 col-sm-7 col-lg-9">
+                    <h4 style="color: var(--blue);"><strong>Questions submitted: <%= totalQuestions %></strong></h4>
+                    <h4 id="message" style="color: var(--blue);"><strong>Unanswered questions: <%= totalQuestions - qsGotAnswered %></strong></h4>
+                </div>
+                
+                <div class="col-xs-5 col-sm-5 col-lg-3">
+                    <div class="searchbar">
+                        <input type="text" id="searchInput" onkeyup="search()">
+                        <i class="fa fa-search" id="searchIcon"></i>
+                    </div>
+                </div>
+            </div>
 
             <% if ( questions.length == 0 ) { %>
 
@@ -130,6 +141,21 @@
             });
 
         })
+    </script>
+
+    <script>
+        function search() {
+            
+            let input = document.getElementById('searchInput');
+            let inputValue = input.value.toLowerCase();
+
+            let questions = document.getElementsByClassName('card shadow');
+
+            for (let i = 0; i < questions.length; i++) {
+                if (questions[i].innerText.toLowerCase().includes(inputValue)) questions[i].style.display = "";
+                else questions[i].style.display = "none";
+            }
+        }
     </script>
 
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>

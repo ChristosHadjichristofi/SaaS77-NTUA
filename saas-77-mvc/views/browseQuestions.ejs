@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="/assets/css/NZDropdown---Status.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/navbar.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 
 <body>
@@ -28,9 +30,20 @@
         <%- include("includes/navbar.ejs")%>
 
         <div class="container" id="main-screen-cards">
-            <h4 style="color: var(--blue);"><strong>Questions submitted: <%= totalQuestions %></strong></h4>
-            <h4 id="message" style="color: var(--blue);"><strong>Unanswered questions: <%= totalQuestions - qsGotAnswered %></strong></h4>
-
+            <div class="row">
+                <div class="col-xs-7 col-sm-7 col-lg-9">
+                    <h4 style="color: var(--blue);"><strong>Questions submitted: <%= totalQuestions %></strong></h4>
+                    <h4 id="message" style="color: var(--blue);"><strong>Unanswered questions: <%= totalQuestions - qsGotAnswered %></strong></h4>
+                </div>
+                
+                <div class="col-xs-5 col-sm-5 col-lg-3">
+                    <div class="searchbar">
+                        <input type="text" id="searchInput" onkeyup="search()">
+                        <i class="fa fa-search" id="searchIcon"></i>
+                    </div>
+                </div>
+            </div>
+            
             <% if ( questions.length == 0 ) { %>
 
                 <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px; margin-bottom:170px; ">
@@ -96,7 +109,23 @@
     <%- include("includes/footer.ejs")%>
 
     <script src="/assets/js/jquery.min.js"></script>
-    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+        function search() {
+            
+            let input = document.getElementById('searchInput');
+            let inputValue = input.value.toLowerCase();
+
+            let questions = document.getElementsByClassName('card shadow');
+
+            for (let i = 0; i < questions.length; i++) {
+                if (questions[i].innerText.toLowerCase().includes(inputValue)) questions[i].style.display = "";
+                else questions[i].style.display = "none";
+            }
+        }
+    </script>
+
+<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

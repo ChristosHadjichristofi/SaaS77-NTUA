@@ -4,7 +4,7 @@ var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 // end of require models
 
-const QUESTIONS_PER_PAGE = 3;
+const QUESTIONS_PER_PAGE = 20;
 const ANSWERS_PER_PAGE = 2;
 
 exports.createQuestion = (req, res, next) => {
