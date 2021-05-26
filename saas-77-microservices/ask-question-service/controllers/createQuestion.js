@@ -21,8 +21,10 @@ module.exports = (req, res, next) => {
 
     if (validationError) return res.status(400).json({ message: 'Validation Error!', errors: errors })
 
-    const keywordsArr = qkeywords.split(',');
-
+    let keywordsArr = qkeywords.split(',');
+    const keywordsSet = new Set(keywordsArr);
+    keywordsArr = Array.from(keywordsSet);
+    
     const url = 'http://localhost:4006/events';
 
     const userData = jwt_decode(req.header('X-OBSERVATORY-AUTH'));

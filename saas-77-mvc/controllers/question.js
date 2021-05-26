@@ -8,7 +8,7 @@ const QUESTIONS_PER_PAGE = 20;
 const ANSWERS_PER_PAGE = 2;
 
 exports.createQuestion = (req, res, next) => {
-    console.log()
+
     let qname = req.body.qname;
     let qtext = req.body.qtext;
     let qkeywords = req.body.qkeywords;
@@ -26,7 +26,9 @@ exports.createQuestion = (req, res, next) => {
     }
     if (hasError) return res.redirect(req.headers.referer);
     
-    const keywordsArr = qkeywords.split(',');
+    let keywordsArr = qkeywords.split(',');
+    const keywordsSet = new Set(keywordsArr);
+    keywordsArr = Array.from(keywordsSet);
 
     models.Questions.create({
         title: qname,
