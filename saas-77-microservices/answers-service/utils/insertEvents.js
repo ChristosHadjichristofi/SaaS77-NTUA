@@ -28,5 +28,9 @@ module.exports = events => {
             .catch(err => console.log(err))
     
         }
+        else {
+            models.Events.increment('counter', { by: 1, where: { id: 1 } })
+            .catch(err => console.log(err))
+        }
     })
 }

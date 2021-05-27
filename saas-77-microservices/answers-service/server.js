@@ -17,7 +17,7 @@ initModels(sequelize);
 sequelize
     .sync({
         // delete if system is ready to deploy
-        // force: true,
+        force: true,
         // end
     })
     .then((result) => {
@@ -54,7 +54,10 @@ sequelize
             .then(result => {
                 if (result.data.events.length !== 0) insertEvents(result.data.events);
             })
-            .catch(err => { console.log(err) })
+            .catch(err => { 
+                if (err.code === 'ECONNREFUSED') console.log('Event Bus is not running.');
+                else console.log(err);  
+            })
 
         })
 
