@@ -4,7 +4,7 @@ var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 
 module.exports = events => {
-    console.log(events.data)
+
     const parsedData = JSON.parse(events.data);
 
     if (parsedData.type === 'USER CREATE') {

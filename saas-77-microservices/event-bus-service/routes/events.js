@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post('/events', isAuth, eventController.postEvents);
 
-router.get('/events/:id', eventController.getEvents);
+router.get('/events/:id', isAuth, eventController.getEvents);
 
 module.exports = router;

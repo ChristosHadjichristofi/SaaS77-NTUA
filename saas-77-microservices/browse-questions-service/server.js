@@ -1,5 +1,6 @@
 const app = require("./app");
 const encrypt = require('./utils/encrypt');
+const jwt = require('jsonwebtoken');
 
 const chalk = require("chalk");
 const axios = require('axios');
@@ -43,8 +44,10 @@ sequelize
 
             const url = 'http://localhost:4006/events/' + counter;
 
+            const token = jwt.sign({ service: 'Browse Questions Service' }, process.env.SECRET_JWT, { expiresIn: '20s' });
+
             const headers = {
-                // 'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH'),
+                'X-OBSERVATORY-AUTH': token,
                 "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES))
             };
             
