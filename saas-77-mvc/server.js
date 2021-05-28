@@ -7,7 +7,7 @@ const sequelize = require("./utils/database");
 var initModels = require("./models/init-models");
 const populate_db = require('./utils/populateDB/populate-db');
 
-const port = Number(8765);
+const port = process.env.PORT;
 
 initModels(sequelize);
 sequelize
