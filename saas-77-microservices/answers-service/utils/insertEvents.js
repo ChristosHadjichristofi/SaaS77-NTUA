@@ -28,6 +28,20 @@ module.exports = events => {
             .catch(err => console.log(err))
     
         }
+        else if (type === 'ANSWER CREATE' && process.env.TESTING === 'On') {
+
+            models.Answers.create({
+                text: parsedData.text,
+                dateCreated: parsedData.dateCreated,
+                UsersId: parsedData.usersId,
+                UsersName: parsedData.usersName,
+                UsersSurname: parsedData.usersSurname,
+                QuestionsId: parsedData.questionID
+
+            })
+            .then(() => models.Events.increment('counter', { by: 1, where: { id: 1 } }))
+            .catch(err => console.log(err))
+        }
         else {
             models.Events.increment('counter', { by: 1, where: { id: 1 } })
             .catch(err => console.log(err))
