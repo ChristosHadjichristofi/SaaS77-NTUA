@@ -22,6 +22,10 @@ To develop the project with the Microservices Architecture we started to make a 
 * Graphs Service: Get Top Keywords data, Get Questions Per Day data
 * Front End: The presentation layer of the project
 
+### Securing our Microservices Architecture Project
+We decided that our MSA Project had to be protected, so as only the Front End that was developed by us could communicate with the services.
+To make this happen we made a custom Header, in which we have a SECRET-WORD that exists in the .env variables. This word is been encrypted with a specific algorithm, and is set as value of the custom Header. So when a service receives a request, it first searches for the specific custom header. It decodes its value and tries to match it with the SECRET-WORD that has also stored in the .env variables. If it matches the request continues through the service, else it gets a **401 status code**. Also the service that sent the request must always have the custom header set, or else will receive a **401 status code**.
+
 ### Event Bus
 The event bus was developed from scratch by our team. The Event Bus has the **/events** endpoint (POST). When an Event occurs (i.e USER CREATED) the service that was used to create the user also emits the event on that specific endpoint of the Event Bus. Then the Event Bus notifies all subscribers.
 The subscribers need to have a specific endpoint which is called **/events** (POST). So when the Event Bus receives a request on its **/events** endpoint, it makes sure to POST on every service that has the **/events** endpoint developed. So every service/subscriber has the event.
@@ -44,10 +48,6 @@ The reasons we made this decision are:
 We make sure to store how many events each Service received and parsed, so as when the service/subscriber (re)starts to make a GET request on the **/events/:id** endpoint of the Event Bus.
 The **/events/:id** endpoint simply returns all the Events of id greated than the requested param **id**
 Also this task is performed asynchronously because the lost Events that the service eventually receives will be posted on its database (if needed) by using the async functions of the **Sequelize ORM**.  
-
-### Securing our Microservices Architecture Project
-We decided that our MSA Project had to be protected, so as only the Front End that was developed by us could communicate with the services.
-To make this happen we made a custom Header, in which we have a SECRET-WORD that exists in the .env variables. This word is been encrypted with a specific algorithm, and is set as value of the custom Header. So when a service receives a request, it first searches for the specific custom header. It decodes its value and tries to match it with the SECRET-WORD that has also stored in the .env variables. If it matches the request continues through the service, else it gets a **401 status code**. Also the service that sent the request must always have the custom header set, or else will receive a **401 status code**.
 
 # Deployment
 The deployment was done using Heroku. 
