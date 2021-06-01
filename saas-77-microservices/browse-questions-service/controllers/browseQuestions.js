@@ -92,38 +92,44 @@ exports.events = (req, res, next) => {
 
     const type = req.body.type;
 
-    if (type === 'QUESTION CREATE') {
+    models.Events.increment('counter', { by: 1, where: { id: 1 } })
+    .then(() => {
 
-        models.Questions.create({
-            title: req.body.qname,
-            text: req.body.qtext,
-            dateCreated: req.body.dateCreated,
-            keywords: req.body.qkeywords,
-            answers: null,
-            UsersId: req.body.usersId,
-            UsersName: req.body.usersName,
-            UsersSurname: req.body.usersSurname
-        })
-        .then(() => res.status(200).json({}))
-        .catch(() => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
+        if (type === 'QUESTION CREATE') {
+    
+            models.Questions.create({
+                title: req.body.qname,
+                text: req.body.qtext,
+                dateCreated: req.body.dateCreated,
+                keywords: req.body.qkeywords,
+                answers: null,
+                UsersId: req.body.usersId,
+                UsersName: req.body.usersName,
+                UsersSurname: req.body.usersSurname
+            })
+            .then(() => res.status(200).json({}))
+            .catch(() => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
+    
+        }
+        else if (type === 'ANSWER CREATE') {
+    
+            const questionId = req.body.questionID;
+    
+            models.Questions.update(
+            
+                { 'answers': sequelize.fn('array_append', sequelize.col('answers'), req.body.answerID )},
+                { where: { id: questionId } }
+            
+            )
+            .then(() => res.status(200).json({}))
+            .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
+        }
+        else {
+            res.status(200).json({});
+        }
 
-    }
-    else if (type === 'ANSWER CREATE') {
-
-        const questionId = req.body.questionID;
-
-        models.Questions.update(
-        
-            { 'answers': sequelize.fn('array_append', sequelize.col('answers'), req.body.answerID )},
-            { where: { id: questionId } }
-        
-        )
-        .then(() => res.status(200).json({}))
-        .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
-    }
-    else {
-        res.status(200).json({});
-    }
+    })
+    .catch(() => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 
 }
 

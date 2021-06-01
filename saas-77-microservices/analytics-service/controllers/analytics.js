@@ -43,26 +43,32 @@ exports.events = (req, res, next) => {
 
     const type = req.body.type;
 
-    if (type === 'QUESTION CREATE') {
-
-        models.Users.increment('questions', { by: 1, where: { id: req.body.usersId } })
-        .then(() => res.status(200).json({}))
-        .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
-
-    } else if (type === 'ANSWER CREATE') {
-
-        models.Users.increment('answers', { by: 1, where: { id: req.body.usersId } })
-        .then(() => res.status(200).json({}))
-        .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
-
-    } else if (type === 'USER CREATE') {
-
-        models.Users.create({ id: req.body.usersId, questions: 0, answers: 0 })
-        .then(() => res.status(200).json({}))
-        .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
-
-    } else {
-        res.status(200).json({});
-    }
+    models.Events.increment('counter', { by: 1, where: { id: 1 } })
+    .then(() => {
+        
+        if (type === 'QUESTION CREATE') {
+    
+            models.Users.increment('questions', { by: 1, where: { id: req.body.usersId } })
+            .then(() => res.status(200).json({}))
+            .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
+    
+        } else if (type === 'ANSWER CREATE') {
+    
+            models.Users.increment('answers', { by: 1, where: { id: req.body.usersId } })
+            .then(() => res.status(200).json({}))
+            .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
+    
+        } else if (type === 'USER CREATE') {
+    
+            models.Users.create({ id: req.body.usersId, questions: 0, answers: 0 })
+            .then(() => res.status(200).json({}))
+            .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
+    
+        } else {
+            res.status(200).json({});
+        }
+    
+    })
+    .catch(() => res.status(500).json({ message: 'Internal server error', type: 'error' }))
 
 }
