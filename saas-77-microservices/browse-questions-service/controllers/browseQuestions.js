@@ -156,3 +156,11 @@ exports.getUserQuestions = (req, res, next) => {
     .then(() => res.status(200).json({ questions: userQuestions }))
     .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 }
+
+exports.status = (req, res, next) => {
+
+    sequelize.authenticate()
+    .then(() => res.status(200).json({ service: 'Browse Questions', status: 'UP', uptime: Math.floor(process.uptime()), database: 'Connection - OK' }))
+    .catch(err => res.status(200).json({ service: 'Browse Questions', status: 'UP', uptime: Math.floor(process.uptime()), database: 'Connection - FAILED' }))
+
+}

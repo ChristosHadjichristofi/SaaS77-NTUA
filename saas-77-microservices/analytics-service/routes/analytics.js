@@ -9,4 +9,6 @@ router.get('/analytics', isAuth, analyticsController.stats);
 
 router.post('/events', isAuth, analyticsController.events);
 
+router.get('/status', analyticsController.status);
+
 module.exports = router;

@@ -11,4 +11,6 @@ router.post('/answer/:id', isAuth, answersController.postAnswer);
 
 router.post('/events', isAuth, answersController.events);
 
+router.get('/status', answersController.status);
+
 module.exports = router;

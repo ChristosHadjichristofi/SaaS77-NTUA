@@ -11,4 +11,6 @@ router.post('/events', isAuth, browseQuestionsController.events);
 
 router.get('/questions/user/:id', isAuth, browseQuestionsController.getUserQuestions);
 
+router.get('/status', browseQuestionsController.status);
+
 module.exports = router;

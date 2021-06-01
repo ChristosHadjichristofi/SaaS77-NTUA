@@ -11,4 +11,6 @@ router.get('/qsperday', graphsController.QsPerDay);
 
 router.post('/events', isAuth, graphsController.events);
 
+router.get('/status', graphsController.status);
+
 module.exports = router;
