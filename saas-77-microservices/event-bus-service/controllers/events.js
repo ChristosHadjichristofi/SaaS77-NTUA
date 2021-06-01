@@ -1,4 +1,5 @@
 const axios = require('axios');
+const jwt_decode = require('jwt-decode');
 const encrypt = require('../utils/encrypt');
 
 // for database
@@ -11,6 +12,8 @@ var models = initModels(sequelize);
 exports.postEvents = (req, res, next) => {
     
     const event = req.body;
+
+    console.log(`Event of Type: ${event.type} received.`);
 
     models.Events.create({ data: JSON.stringify(event) })
     .then(() => {
@@ -34,7 +37,9 @@ exports.postEvents = (req, res, next) => {
         const config_graphsService = { method: 'post', url: url_graphsService, headers: headers, data: data };
     
         let answersServicePromise = new Promise((resolve, reject) => { 
-    
+            
+            console.log(`Try sending the Event to Subscriber: Answers Service.`);
+
             axios(config_answersService)
             .then(result => { responses.push({ status: 200, message: 'OK - ANSWERS SERVICE.' } ); return resolve(); })
             .catch(err => { responses.push({ status: 500, message: 'NOT OK - ANSWERS SERVICE.' } ); return resolve(); });
@@ -42,13 +47,18 @@ exports.postEvents = (req, res, next) => {
         })
         
         let browseQuestionsServicePromise = new Promise((resolve, reject) => { 
-    
+
+            console.log(`Try sending the Event to Subscriber: Browse Questions Service.`);
+
             axios(config_browseQuestionsService)
             .then(result => { responses.push({ status: 200, message: 'OK - BROWSE QUESTIONS SERVICE.' } ); return resolve(); })
             .catch(err => { responses.push({ status: 500, message: 'NOT OK - BROWSE QUESTIONS SERVICE.' } ); return resolve(); });
         })
     
-        let analyticsServicePromise = new Promise((resolve, reject) => { 
+        let analyticsServicePromise = new Promise((resolve, reject) => {
+
+            console.log(`Try sending the Event to Subscriber: Analytics Service.`);
+
             axios(config_analyticsService)
             .then(result => { responses.push({ status: 200, message: 'OK - ANALYTICS SERVICE.' } ); return resolve(); })
             .catch(err => { responses.push({ status: 500, message: 'NOT OK - ANALYTICS SERVICE.' } ); return resolve(); });
@@ -56,6 +66,8 @@ exports.postEvents = (req, res, next) => {
     
         let graphsServicePromise = new Promise((resolve, reject) => { 
             
+            console.log(`Try sending the Event to Subscriber: Graphs Service.`);
+
             axios(config_graphsService)
             .then(result => { responses.push({ status: 200, message: 'OK - GRAPHS SERVICE.' } ); return resolve(); })
             .catch(err => { responses.push({ status: 500, message: 'NOT OK - GRAPHS SERVICE.' } ); return resolve(); });
@@ -65,7 +77,10 @@ exports.postEvents = (req, res, next) => {
             
             let isOK = true;
     
-            responses.forEach(el => {
+            responses.forEach((el, index) => {
+                
+                console.log(`Response ${index + 1}: ${el.message}`);
+
                 isOK = (el.status == 200 && isOK) ? true : false;
             });
             return res.status(200).json({ message: (isOK) ? 'OK' : 'NOT OK' })
@@ -78,6 +93,10 @@ exports.postEvents = (req, res, next) => {
 exports.getEvents = (req, res, next) => {
 
     let id = req.params.id;
+    
+    const serviceData = jwt_decode(req.header('X-OBSERVATORY-AUTH'));
+    
+    console.log(`Received request from ${serviceData.service} Subscriber to fetch Events of ID greater than ${id}.`);
 
     models.Events.findAll({ 
         raw: true, 
