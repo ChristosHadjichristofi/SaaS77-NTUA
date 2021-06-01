@@ -4,7 +4,7 @@ const encrypt = require('../utils/encrypt');
 const chalk = require("chalk");
 
 exports.moderate = () => {
-    
+
     console.log(chalk.yellow(`-------------------`))
     console.log(chalk.yellow(`Subscribers Status:`));
     console.log(chalk.yellow(`-------------------`))
@@ -62,7 +62,10 @@ exports.moderate = () => {
 
         responses.forEach((el, index) => {
             
-            console.log(`${index + 1}. Response from: ${el.service} Service -> Status: ${el.status == 'DOWN' ? chalk.red(`${el.status}`) : chalk.green(`${el.status}`)} | Uptime: ${el.uptime == '0' ? '-' : el.uptime + 'seconds'} | Database: ${el.database == 'Connection - OK' ? chalk.green(`${el.database}`) : chalk.red(`${el.database}`)}`);
+            console.log(`${index + 1}. Response from: ${el.service} Service
+            Status: ${el.status == 'DOWN' ? chalk.red(`${el.status}`) : chalk.green(`${el.status}`)}
+            Uptime: ${el.uptime == '0' ? '-' : el.uptime + 'seconds'}
+            Database: ${el.database == 'Connection - OK' ? chalk.green(`${el.database}`) : chalk.red(`${el.database}`)}`);
 
         });
     })

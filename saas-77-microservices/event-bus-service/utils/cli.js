@@ -6,6 +6,7 @@ process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
 process.stdin.on('data', (text) => {
+    clear();
     if (text.trim() === 'commands --list') 
         console.log(`Commands List: 
         1. Subscribers --status
