@@ -10,8 +10,10 @@ process.stdin.on('data', (text) => {
     if (text.trim() === 'commands --list') 
         console.log(`Commands List: 
         1. Subscribers --status
-        2. clear`)
-    else if (text.trim() === 'Subscribers --status') modController.moderate();
+        2. Services --status
+        3. clear`)
+    else if (text.trim() === 'Subscribers --status') modController.moderateSubs();
+    else if (text.trim() === 'Services --status') modController.moderateServices();
     else if (text.trim() === 'clear') clear();
     else console.log(chalk.red(`Unknown CLI command. Use commands --list to see the available commands.`));
 });
