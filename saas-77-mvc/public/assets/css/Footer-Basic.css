@@ -3,7 +3,7 @@
     /* background-color: rgba(255, 255, 255, 0.25); */
     background-color: rgb(255, 255, 255);
     color: #4b4c4d;
-    position:fixed;
+    position: fixed;
     width: 100%;
     bottom: 0;
     /* max-height: 20vh; */
@@ -69,15 +69,9 @@
     margin: 0 auto;
 }
 
-#card-main {}
-
 #message {
     padding-bottom: 40px;
 }
-
-#question-text {}
-
-#question-span {}
 
 #header-el {
     background-color: var(--primary)!important;
@@ -108,8 +102,6 @@ body {
 #text-card {
     margin-top: 50px;
 }
-
-#ask-question {}
 
 #redirect-button {
     margin-right: 10px;

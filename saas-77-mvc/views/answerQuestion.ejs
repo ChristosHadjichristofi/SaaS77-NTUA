@@ -8,14 +8,7 @@
         <%= pageTitle %>
     </title>
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cairo">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="/assets/css/Footer-Basic.css">
     <link rel="stylesheet" href="/assets/css/NZDropdown---Status.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
@@ -34,27 +27,60 @@
                 <strong><a href="/questions/show"><i class="fa fa-arrow-circle-left" style="color: cadetblue;"></i></a> <%= question.title %></strong>
             </h2>
             <div class="card shadow" id="question-card" style="background: rgba(149,165,166,0.5);">
-                <div class="card-body" id="question-card-body">
-                    <div class="row">
-                        <div class="col col-md-3"><span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=question.name %> <%=question.surname %>"></span>
-                            <h5 style="color: var(--blue);">
-                                <%= question.name %>
-                                <%= question.surname %>
-                            </h5>
-                            <h6 class="text-muted mb-2" style="color: var(--blue);">Posted at:<br>
-                                <%= question.dateCreated %>
-                            </h6>
+                <div class="show-mobile">
+                    <div class="card-body" id="question-card-body" style="padding-left: 40px; padding-right: 40px;">
+                        <div class="row" style="padding-bottom: 30px;">
+                            <div class="col-2">
+                                <span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=question.name %> <%=question.surname %>"></span>
+                            </div>
+                            <div class="col-8" style="padding-left: 30px;">
+                                <h5 style="color: var(--blue);">
+                                    <%= question.name %>
+                                    <%= question.surname %>
+                                </h5>
+                                <h6 class="text-muted mb-2" style="color: var(--blue);">Posted at:<br>
+                                    <%= question.dateCreated %>
+                                </h6>
+                            </div>
+                            <div class="col-1" style="margin-right:20px">
+                                <label class="col-form-label" id="answers-counter"><%= totalAnswers %></label>
+                            </div>
                         </div>
-                        <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-8">
+                        <div class="row d-sm-flex flex-row justify-content-sm-center align-items-sm-center" style="justify-content: center;">
                             <h4 style="color: var(--blue);">
                                 <%= question.title %>
                             </h4>
+                        </div>
+                        <div class="row d-sm-flex flex-row justify-content-sm-center align-items-sm-center">
                             <p class="text-left" style="color: var(--blue); white-space: pre-line">
                                 <%= question.text %>
                             </p>
                         </div>
-                        <div class="col d-lg-flex justify-content-lg-center align-items-lg-center">
-                            <label class="col-form-label" id="answers-counter"><%= totalAnswers %></label>
+                    </div>
+                </div>
+                <div class="hide-mobile">
+                    <div class="card-body" id="question-card-body">
+                        <div class="row">
+                            <div class="col col-md-3"><span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=question.name %> <%=question.surname %>"></span>
+                                <h5 style="color: var(--blue);">
+                                    <%= question.name %>
+                                    <%= question.surname %>
+                                </h5>
+                                <h6 class="text-muted mb-2" style="color: var(--blue);">Posted at:<br>
+                                    <%= question.dateCreated %>
+                                </h6>
+                            </div>
+                            <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-8">
+                                <h4 style="color: var(--blue);">
+                                    <%= question.title %>
+                                </h4>
+                                <p class="text-left" style="color: var(--blue); white-space: pre-line">
+                                    <%= question.text %>
+                                </p>
+                            </div>
+                            <div class="col d-lg-flex justify-content-lg-center align-items-lg-center">
+                                <label class="col-form-label" id="answers-counter"><%= totalAnswers %></label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,9 +101,14 @@
                         <% } else { %>
                             <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px;">
                         <% } %>
-                                <div class="card-body" id="question-card-body">
+                            <div class="show-mobile">
+                                <div class="card-body" id="question-card-body" style="padding-left: 40px; padding-right: 40px;">
+                                    
                                     <div class="row">
-                                        <div class="col col-md-3"><span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=ans['User.name'] %> <%=ans['User.surname'] %>"></span>
+                                        <div class="col-2">
+                                            <span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=ans['User.name'] %> <%=ans['User.surname'] %>"></span>
+                                        </div>
+                                        <div clas="col-8" style="padding-left: 30px;">    
                                             <h5 style="color: var(--blue);">
                                                 <%=ans['User.name'] %>
                                                 <%=ans['User.surname'] %>
@@ -86,10 +117,31 @@
                                                 <%= ans.dateCreated %>
                                             </h6>
                                         </div>
-                                        <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9" id="answers-paragraph">
+                                    </div>
+                                        <div class="row d-sm-flex flex-row justify-content-sm-center align-items-sm-center" id="answers-paragraph">
                                             <p class="text-left" style="color: var(--blue); white-space: pre-line">
                                                 <%= ans.text %>
                                             </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hide-mobile">
+                                    <div class="card-body" id="question-card-body">
+                                        <div class="row">
+                                            <div class="col col-md-3"><span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=ans['User.name'] %> <%=ans['User.surname'] %>"></span>
+                                                <h5 style="color: var(--blue);">
+                                                    <%=ans['User.name'] %>
+                                                    <%=ans['User.surname'] %>
+                                                </h5>
+                                                <h6 class="text-muted mb-2" style="color: var(--blue);">Replied at:<br>
+                                                    <%= ans.dateCreated %>
+                                                </h6>
+                                            </div>
+                                            <div class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9" id="answers-paragraph">
+                                                <p class="text-left" style="color: var(--blue); white-space: pre-line">
+                                                    <%= ans.text %>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -104,23 +156,45 @@
 
                     <div style="margin-top:30px; margin-bottom: 30px;">
                         <div class="card shadow" id="answer-question-card" style="background: rgba(149,165,166,0.5);">
-                            <div class="card-body" id="question-card-body">
-                                <h3 style="color: var(--blue);">Leave an Answer</h3>
-                                <div class="row">
-                                    <div class="col col-md-3">
-                                        <span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=user.name %> <%=user.surname %>"></span>
-                                        <h5 style="color: var(--blue);">
-                                            <%=user.name %>
-                                                <%=user.surname %>
-                                        </h5>
-                                        <h6 class="text-muted mb-2">
-                                            <!-- here maybe add something-->
-                                        </h6>
+                            <div class="show-mobile">
+                                <div class="card-body" id="question-card-body" style="padding-left: 40px; padding-right: 40px;">
+                                    <h3 style="color: var(--blue);">Leave an Answer</h3>
+                                        <div class="row" style="padding-top: 10px; padding-bottom: 20px;">
+                                        <div class="col-2">
+                                            <span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=user.name %> <%=user.surname %>"></span>
+                                        </div>
+                                        <div class="col-8" style="padding-top: 20px; margin-left: 30px;">
+                                            <h5 style="color: var(--blue);">
+                                                <%=user.name %>
+                                                    <%=user.surname %>
+                                            </h5>
+                                        </div>
                                     </div>
-                                    <form class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9" method="POST" action="/questions/answer/<%= question.id %>">
-                                        <textarea id="answer-textarea" style="color: var(--blue);" name="answer" rows="8"></textarea>
+                                    <form class="row d-sm-flex flex-row justify-content-sm-center align-items-sm-center" method="POST" action="/questions/answer/<%= question.id %>" style="justify-content: center;">
+                                        <textarea id="answer-textarea" style="color: var(--blue); margin-bottom: 10px;" name="answer" rows="8"></textarea>
                                         <button class="btn btn-primary align-self-end" id="leave-answer-button" type="submit">Submit</button>
                                     </form>
+                                </div>
+                            </div>
+                            <div class="hide-mobile">
+                                <div class="card-body" id="question-card-body">
+                                    <h3 style="color: var(--blue);">Leave an Answer</h3>
+                                    <div class="row">
+                                        <div class="col col-md-3">
+                                            <span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=user.name %> <%=user.surname %>"></span>
+                                            <h5 style="color: var(--blue);">
+                                                <%=user.name %>
+                                                    <%=user.surname %>
+                                            </h5>
+                                            <h6 class="text-muted mb-2">
+                                                <!-- here maybe add something-->
+                                            </h6>
+                                        </div>
+                                        <form class="col d-lg-flex flex-column justify-content-lg-center align-items-lg-center col-md-9" method="POST" action="/questions/answer/<%= question.id %>">
+                                            <textarea id="answer-textarea" style="color: var(--blue);" name="answer" rows="8"></textarea>
+                                            <button class="btn btn-primary align-self-end" id="leave-answer-button" type="submit">Submit</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
