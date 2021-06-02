@@ -146,3 +146,9 @@ exports.getAbout = (req, res, next) => {
         pageTitle: "About Page"
     })
 }
+
+exports.getDocumentation = (req, res, next) => {
+    res.render('documentation.ejs', {
+        pageTitle: "Documentation Page"
+    })
+}
