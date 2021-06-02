@@ -43,7 +43,8 @@
                         <p class="card-text" id="text-card" style="font-size: 15px;color: var(--blue);">Sorry for the inconvinience <br>Service is down.</p>
                     <% } else { %>
                         <% if ( questions.length == 0 ) { %>
-                            <h5 style="color: var(--blue);">You have never posted a question!</h5>        
+                            <h5 style="color: var(--blue); padding-top: 50px; padding-bottom: 30px;">You have never posted a question!</h5>
+                            <button class="btn btn-primary" id="button-in-card" type="button" data-toggle="modal" data-target="#ask-question">Ask</button>     
                         <% } else { %>
                             <% questions.forEach((question, index) => { %>
                                 <% if (index === 0) { %> 
@@ -51,10 +52,10 @@
                                 <% } else { %>
                                     <div class="row" style="padding-bottom: 5px; padding-top: 5px; border-bottom: 1px solid rgba(18, 76, 80, 0.25)">
                                 <% } %>
-                                    <div class="col">
-                                        <h6 style="color: var(--blue);"> <%= question.title %></h6>
+                                    <div class="col-8" style="display: flex; justify-content: center; align-items: center; padding-top: 5px;">
+                                        <h6 style="color: var(--blue); width: 100%;"> <%= question.title %></h6>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4" style="display: flex; align-items: center;">
                                         <form method="GET" action="/questions/<%= question.id %>">
                                             <button class="btn btn-primary" type="submit"> 
                                                 Go <label class="col-form-label" id="answers-counter-on-browse"><p style="transform: translateY(-30%);"><%= question.answers ? question.answers.length : 0 %></p></label>

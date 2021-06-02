@@ -48,6 +48,17 @@ div ul a:hover {
     text-decoration: none;
 }
 
+div ul form:hover {
+    background-color: var(--white);
+    color: white;
+    text-decoration: none;
+}
+
+div ul form:hover li {
+    color: var(--primary);
+    text-decoration: none;
+}
+
 div ul li:hover {
     background-color: var(--white);
     color: var(--primary);

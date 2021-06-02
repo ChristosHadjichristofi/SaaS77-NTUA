@@ -8,14 +8,7 @@
         <%= pageTitle %>
     </title>
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cairo">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="/assets/css/Footer-Basic.css">
     <link rel="stylesheet" href="/assets/css/NZDropdown---Status.css">
     <link rel="stylesheet" href="/assets/css/styles.css">
@@ -44,16 +37,60 @@
             </div>
 
             <% if ( questions.length == 0 ) { %>
-
                 <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px; margin-bottom:170px; ">
                     <div class="card-body" id="question-card-body">
                             <h5 style="color: var(--blue);">No questions found</h5>
                         </div>
                     </div>
-
             <% } else { %>
-
                 <% questions.forEach((question, index) => { %>
+                <div class="show-mobile">
+                    <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px;">
+                        <div class="card-body" id="question-card-body"  style="padding-left: 30px; padding-right: 30px;">
+                            <div class="row" style="text-align: left;">
+                                <div class="col-3">
+                                    <span><img class="rounded-circle" src="https://eu.ui-avatars.com/api/<%=question.name %> <%=question.surname %>"></span>
+                                </div>
+                                <div class="col" style="padding-top: 10px;">
+                                    <h5 style="color: var(--blue);">
+                                        <%= question.name%>
+                                        <%= question.surname%>
+                                    </h5>
+                                    <h6 class="text-muted mb-2" style="color: var(--blue);">
+                                        <%= question.dateCreated %>
+                                    </h6>
+                                </div>
+                            </div>
+                                <div class="row d-sm-flex flex-row justify-content-sm-center align-items-sm-center" style="margin-top: 30px; justify-content: center;">
+                                    <h4 style="color: var(--blue);">
+                                        <%= question.title %>
+                                    </h4>
+                                </div>
+                                <div class="row d-sm-flex flex-row justify-content-sm-center align-items-sm-center" style="justify-content: center;">
+                                <div class="tag-cont">
+                                    <% if (question.keywords.length == 0) { %>
+                                        <div class="tag-not-found">
+                                            <span style="color: rgb(201, 201, 201);">No keywords</span>
+                                        </div>
+                                    <% } else { %>
+                                        <% question.keywords.forEach((el, idx) => { %>
+                                        <div class="tag">
+                                            <span style="color: var(--blue);"><%= el %></span>
+                                        </div>
+                                    <% })} %>
+                                </div>
+                            </div>
+                            <div class="row d-sm-flex justify-content-sm-center align-items-sm-center" style="padding-top: 40px; justify-content: center;">
+                                <form method="GET" action="/questions/<%= question.id %>">
+                                    <button class="btn btn-primary" type="submit">
+                                        Answer <label class="col-form-label" id="answers-counter-on-browse"><p style="transform: translateY(-30%);"><%= question.numberOfAnswers %></p></label>
+                                    </button>
+                                </form>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hide-mobile">
                 <div class="card shadow" style="background: rgba(149,165,166,0.5); margin-top:10px;">
                     <div class="card-body" id="question-card-body">
                         <div class="row">
@@ -78,13 +115,10 @@
                                     </div>
                                 <% } else { %>
                                     <% question.keywords.forEach((el, idx) => { %>
-
                                     <div class="tag">
                                         <span style="color: var(--blue);"><%= el %></span>
                                     </div>
-
                                 <% })} %>
-
                             </div>
                         </div>
                         <div class="col d-lg-flex justify-content-lg-center align-items-lg-center col-md-2">
@@ -97,12 +131,14 @@
                     </div>
                 </div>
             </div>
+        </div>
         <% })} %>
         <% if ( questions.length != 0 ) { %>
             <%- include("includes/pagination.ejs")%>
         <% } %>
         </div>
     </div>
+    <div class="show-mobile" style="margin-bottom: 50px;"></div>
 
     <%- include("includes/footer.ejs")%>
 
@@ -111,7 +147,6 @@
 
     <script>
         $(document).ready(function() {
-
             toastr.options = {
                 "closeButton": true,
                 "positionClass": "toast-bottom-right",
@@ -121,7 +156,6 @@
             /* then to parse them back to JSON */
             let messages = '<%- JSON.stringify(messages) %>';
             messages = JSON.parse(messages);
-
             messages.forEach(({type, value}) => {
                 switch (type) {
                     case 'error':
@@ -138,7 +172,6 @@
                         break;
                 }
             });
-
         })
     </script>
 
@@ -147,13 +180,10 @@
             
             let input = document.getElementById('searchInput');
             let inputValue = input.value.toLowerCase();
-
             let pagination = document.getElementById('pagination');
             let questions = document.getElementsByClassName('card shadow');
-
             if (inputValue.length > 0) pagination.style.display = "none";
             if (inputValue.length === 0) pagination.style.display = "";
-
             for (let i = 0; i < questions.length; i++) {
                 if (questions[i].innerText.toLowerCase().includes(inputValue)) questions[i].style.display = "";
                 else questions[i].style.display = "none";

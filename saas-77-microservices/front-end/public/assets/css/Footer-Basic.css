@@ -68,15 +68,9 @@
     margin: 0 auto;
 }
 
-#card-main {}
-
 #message {
     padding-bottom: 40px;
 }
-
-#question-text {}
-
-#question-span {}
 
 #header-el {
     background-color: var(--primary)!important;
@@ -107,8 +101,6 @@ body {
 #text-card {
     margin-top: 50px;
 }
-
-#ask-question {}
 
 #redirect-button {
     margin-right: 10px;
