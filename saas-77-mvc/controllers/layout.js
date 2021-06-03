@@ -152,3 +152,9 @@ exports.getDocumentation = (req, res, next) => {
         pageTitle: "Documentation Page"
     })
 }
+
+exports.getContact = (req, res, next) => {
+    res.render('contact.ejs', {
+        pageTitle: "Contact Us Page"
+    })
+}
