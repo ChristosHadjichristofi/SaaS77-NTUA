@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title> <%= pageTitle %> </title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="/assets/css/NZDropdown---Status.css">
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+
+<body>
+    <div id="main-div">
+        <div class="container-fluid" id="header-el">
+
+            <%- include("includes/navbar.ejs")%>
+
+            <%- include("includes/signupModal.ejs")%>
+
+            <%- include("includes/signinModal.ejs")%>
+
+        </div>
+        <div class="container" id="main-screen-cards">
+            <div class="row">
+                <div class="col-xs-7 col-md-8 col-lg-9" style="vertical-align: middle;">
+                    <br><h2 id="message" style="color: var(--blue);"><strong>Documentation</strong></h2>
+                </div>
+                <div class="col-xs-5 col-md-4 col-lg-3">
+                    <div class="show-mobile" style="vertical-align: auto; transform: translateY(-50%);">
+                        <a href="http://localhost:4007/download?filename=saas-77.vpp">  
+                            <button class="btn btn-primary" id="button-in-card" type="submit">Download VPP</button>
+                        </a>
+                    </div>
+                    <div class="hide-mobile" style="vertical-align: auto; transform: translateY(-20%); padding-left: 80px;">
+                        <a href="http://localhost:4007/download?filename=saas-77.vpp">  
+                            <button class="btn btn-primary" id="button-in-card" type="submit">Download VPP</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+                        <div class="card-body" style="text-align: left">
+                            <h2 class="hide-mobile" style="text-align: center; padding-top: 20px; color: var(--blue);">Technologies used for the project<br></h2>
+                            <h3 class="show-mobile" style="text-align: center; padding-top: 20px; color: var(--blue);">Technologies used for the project<br></h3>
+                            <div style="padding-top: 20px;">
+                                <div class="show-mobile">
+                                    <div class="row" style="padding-top: 20px; justify-content: center;">
+                                        <div class="col-5" style="text-align: center;">
+                                            <span class="iconify" data-icon="logos:nodejs" data-inline="false" style="zoom: 300%;"></span><h4 style="color: var(--blue);">NodeJS</h4>  
+                                        </div>
+                                        <div class="col-5" style="text-align: center;">
+                                            <span class="iconify" data-icon="akar-icons:github-fill" data-inline="false" style="zoom: 300%;"></span><h4 style="color: var(--blue);">Github</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 20px; justify-content: center">
+                                        <div class="col-5" style="text-align: center;">
+                                            <span class="iconify" data-icon="vscode-icons:file-type-js-official" data-inline="false" style="zoom: 300%;"></span></span><h4 style="color: var(--blue);">ExpressJS Framework</h4>
+                                        </div>
+                                        <div class="col-5" style="text-align: center;">
+                                            <span class="iconify" data-icon="logos:postgresql" data-inline="false" style="zoom: 300%;"></span><h4 style="color: var(--blue);">PostgreSQL Database</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 20px; justify-content: center">
+                                        <div class="col-5" style="text-align: center;">
+                                            <span class="iconify" data-icon="file-icons:ejs" data-inline="false" style="zoom: 300%;"></span><h4 style="color: var(--blue);">EJS Templating Engine</h4>
+                                        </div>
+                                        <div class="col-5" style="text-align: center;">
+                                            <span class="iconify" data-icon="logos:sequelize" data-inline="false" style="zoom: 300%;"></span><h4 style="color: var(--blue);">Sequelize ORM</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hide-mobile">
+                                    <div class="row" style="padding-top: 20px; justify-content: center;">
+                                        <div class="col-4" style="text-align: center;">
+                                            <span class="iconify" data-icon="logos:nodejs" data-inline="false" style="zoom: 500%;"></span><h4 style="color: var(--blue);">NodeJS</h4>  
+                                        </div>
+                                        <div class="col-4" style="text-align: center;">
+                                            <span class="iconify" data-icon="akar-icons:github-fill" data-inline="false" style="zoom: 500%;"></span><h4 style="color: var(--blue);">Github</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 20px; justify-content: center">
+                                        <div class="col-4" style="text-align: center;">
+                                            <span class="iconify" data-icon="vscode-icons:file-type-js-official" data-inline="false" style="zoom: 500%;"></span></span><h4 style="color: var(--blue);">ExpressJS Framework</h4>
+                                        </div>
+                                        <div class="col-4" style="text-align: center;">
+                                            <span class="iconify" data-icon="logos:postgresql" data-inline="false" style="zoom: 500%;"></span><h4 style="color: var(--blue);">PostgreSQL Database</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-top: 20px; justify-content: center">
+                                        <div class="col-4" style="text-align: center;">
+                                            <span class="iconify" data-icon="file-icons:ejs" data-inline="false" style="zoom: 500%;"></span><h4 style="color: var(--blue);">EJS Templating Engine</h4>
+                                        </div>
+                                        <div class="col-4" style="text-align: center;">
+                                            <span class="iconify" data-icon="logos:sequelize" data-inline="false" style="zoom: 500%;"></span><h4 style="color: var(--blue);">Sequelize ORM</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h2 class="hide-mobile" style="text-align: center; padding-top: 60px; padding-bottom: 20px; color: var(--blue);">Microservices Architecture<br></h2>
+                            <h3 class="show-mobile" style="text-align: center; padding-top: 60px; padding-bottom: 20px; color: var(--blue);">Microservices Architecture<br></h3>
+                            <h3 class="hide-mobile" style="color: var(--blue);">Services</h3>
+                            <h4 class="show-mobile" style="color: var(--blue);">Services</h4>
+                            <p style="color: var(--blue);">To develop the project with the Microservices Architecture we started to make a plan on how to distribute the different functionalities of the project to different services. The distribution of functionalities to services is:<br></p>
+                                <p style="color: var(--blue);"><strong>1. Accounts Service:</strong> Signin, Signup<br></p>
+                                <p style="color: var(--blue);"><strong>2. Analytics Service:</strong> User stats (Questions Asked, Questions Answered, Contributions per Day)<br></p>
+                                <p style="color: var(--blue);"><strong>3. Answers Service:</strong> Get Question by ID, Answer Question by ID<br></p>
+                                <p style="color: var(--blue);"><strong>4. Ask Question Service:</strong> Post Question by ID<br></p>
+                                <p style="color: var(--blue);"><strong>5. Browse Questions Service:</strong> Get All Questions, Get All Questions asked by User with ID = id<br></p>
+                                <p style="color: var(--blue);"><strong>6. Event Bus Service:</strong> Notify subscribed services that a specific event was emitted<br></p>
+                                <p style="color: var(--blue);"><strong>7. Graphs Service:</strong> Get Top Keywords data, Get Questions Per Day data<br></p>
+                                <p style="color: var(--blue);"><strong>8. Front End:</strong> The presentation layer of the project<br></p>
+                            <h3 class="hide-mobile" style="color: var(--blue);">Securing our Microservices Architecture Project<br></h3>
+                            <h4 class="show-mobile" style="color: var(--blue);">Securing our Microservices Architecture Project<br></h4>
+                            <p style="color: var(--blue);">We decided that our MSA Project had to be protected, so as only the Front End that was developed by us could communicate with the services. To make this happen we made a custom Header, in which we have a SECRET-WORD that exists in the .env variables. This word is been encrypted with a specific algorithm, and is set as value of the custom Header. So when a service receives a request, it first searches for the specific custom header. It decodes its value and tries to match it with the SECRET-WORD that has also stored in the .env variables. If it matches the request continues through the service, else it gets a&nbsp;<strong>401 status code</strong>. Also the service that sent the request must always have the custom header set, or else will receive a&nbsp;<strong>401 status code</strong>.<br></p>
+                            <h3 class="hide-mobile" style="color: var(--blue);">Event Bus<br></h3>
+                            <h4 class="show-mobile" style="color: var(--blue);">Event Bus<br></h4>
+                            <p style="color: var(--blue);">The event bus was developed from scratch by our team. The Event Bus has the&nbsp;<strong>/events</strong>&nbsp;endpoint (POST). When an Event occurs (i.e USER CREATED) the service that was used to create the user also emits the event on that specific endpoint of the Event Bus. Then the Event Bus notifies all subscribers. The subscribers need to have a specific endpoint which is called&nbsp;<strong>/events</strong>&nbsp;(POST). So when the Event Bus receives a request on its&nbsp;<strong>/events</strong>&nbsp;endpoint, it makes sure to POST on every service that has the&nbsp;<strong>/events</strong>&nbsp;endpoint developed. So every service/subscriber has the event.<br></p>
+                            <h3 class="hide-mobile" style="color: var(--blue);">Event Bus - Event Types<br></h3>
+                            <h4 class="show-mobile" style="color: var(--blue);">Event Bus - Event Types<br></h4>
+                            <p style="color: var(--blue);">We make sure that every emitted event has a&nbsp;<strong>TYPE</strong>. The types that exist in our project are:<br></p>
+                                <p style="color: var(--blue);">1. USER CREATE<br></p>
+                                <p style="color: var(--blue);">2. QUESTION CREATE<br></p>
+                                <p style="color: var(--blue);">3. ANSWER CREATE<br></p>
+                            <p style="color: var(--blue);">So when every service receives the event from the Event Bus, parses this TYPE and knows if has to do something with it or ignore it. With this&nbsp;<strong>TYPE</strong>&nbsp;attribute in each event object it is like we have three different channels that each subscriber listens to.<br></p>
+                            <h3 class="hide-mobile" style="color: var(--blue);">When a service is down<br></h3>
+                            <h4 class="show-mobile" style="color: var(--blue);">When a service is down<br></h4>
+                            <p style="color: var(--blue);">We make sure to store any occured Event in the Event Bus database. The reasons we made this decision are:<br></p>
+                                <p style="color: var(--blue);">1. When a service is down, it might lose some Events. To prevent this from happening, every time a service/subscriber is (re)starting it asks for the lost events. This is accomplished by storing how many events each Service received and parsed, so as when the service/subscriber (re)starts it makes a GET request on the&nbsp;<strong>/events/:id</strong>&nbsp;endpoint of the Event Bus. The&nbsp;<strong>/events/:id</strong>&nbsp;endpoint simply returns all the Events of id greated than the requested param <strong>id</strong>. Also this task is performed asynchronously because the lost Events that the service eventually receives will be posted on its database (if needed) by using the async functions of the&nbsp;<strong>Sequelize ORM</strong>.<br></p>
+                                <p style="color: var(--blue);">2. If we want to develop a new service, we would like to&nbsp;<strong>sync</strong>&nbsp;it with all the past Events.<br></p>
+                            <h3 class="hide-mobile" style="color: var(--blue);">Deployment</h3>
+                            <h4 class="show-mobile" style="color: var(--blue);">Deployment</h4>
+                            <p style="color: var(--blue);">The deployment was done using Heroku. MVC Project was deployed as one Application, while Microservices Project was deployed as 8 different Applications<br></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="show-mobile" style="margin-bottom: 50px;"></div>
+    
+    <%- include("includes/footer.ejs")%>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title> <%= pageTitle %> </title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="/assets/css/NZDropdown---Status.css">
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+
+<body>
+    <div id="main-div">
+        <div class="container-fluid" id="header-el">
+
+            <%- include("includes/navbar.ejs")%>
+
+            <%- include("includes/signupModal.ejs")%>
+
+            <%- include("includes/signinModal.ejs")%>
+
+        </div>
+        <div class="container" id="main-screen-cards">
+            <h2 id="message" style="color: var(--blue);"><strong>Contact Us</strong></h2>
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow" style="background: rgba(149,165,166,0.5);">
+                        <div class="card-body">
+                            <form method="get" action="/contact/" style="padding-top: 20px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px;">
+                                <h2 class="card-title" style="padding-bottom: 20px; color: var(--blue);">Form</h2>
+                                <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"></div>
+                                <div class="form-group"><input class="form-control" type="text" name="email" placeholder="Email"></div>
+                                <div class="form-group"><select class="form-control">
+                                        <optgroup label="Property">
+                                            <option value="12">User</option>
+                                            <option value="13">Stakeholder</option>
+                                            <option value="14">Developer</option>
+                                            <option value="15">Other</option>
+                                        </optgroup>
+                                    </select></div>
+                                <div class="form-group"><textarea class="form-control" name="message" placeholder="Message" rows="8"></textarea></div>
+                                <div class="form-group" style="padding-top: 40px;"><button class="btn btn-primary" type="submit">Send </button></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="show-mobile" style="margin-bottom: 50px;"></div>
+
+    <%- include("includes/footer.ejs")%>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html> 

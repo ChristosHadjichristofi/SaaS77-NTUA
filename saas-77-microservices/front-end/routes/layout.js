@@ -12,4 +12,8 @@ router.get('/home', isAuth, layoutController.getHome);
 
 router.get('/about', layoutController.getAbout);
 
+router.get('/documentation', layoutController.getDocumentation);
+
+router.get('/contact', layoutController.getContact);
+
 module.exports = router;
