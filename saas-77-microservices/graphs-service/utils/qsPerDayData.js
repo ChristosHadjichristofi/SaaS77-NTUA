@@ -16,7 +16,7 @@ module.exports = () => {
         .then(result => {
 
             let index = 0;
-            const now = new Date();
+            const now = new Date(Date.now());
             const endDate = new Date();
             endDate.setDate(now.getDate() - 21)
 
