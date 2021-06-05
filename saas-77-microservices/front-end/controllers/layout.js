@@ -47,7 +47,7 @@ exports.getLanding = (req, res, next) => {
 
 exports.getProfile = function(req, res, next) {
     
-    let totalQuestions, totalAnswers, userQuestions, contributions, isOK_Analytics = true, isOK_Browse = true;
+    let totalQuestions, totalAnswers, userQuestions, contributions, isOK_Analytics = true, isOK_Browse = true, daysRegistered;
     
     // get service down messages from sessions, because when redirecting messages cant be sent.
     const serviceDownMessages = req.session.messages || [];
@@ -77,6 +77,7 @@ exports.getProfile = function(req, res, next) {
             totalQuestions = result.data.totalQuestions; 
             totalAnswers = result.data.totalAnswers;
             contributions = result.data.contributions;
+            daysRegistered = result.data.daysRegistered;
             resolve(); 
         })
         .catch(err => { isOK_Analytics = false; resolve(); });
@@ -107,6 +108,7 @@ exports.getProfile = function(req, res, next) {
             questions: isOK_Browse ? userQuestions : [],
             serviceUpAnalytics: isOK_Analytics,
             serviceUpBrowse: isOK_Browse,
+            daysRegistered: daysRegistered,
             messages: messages
         });
     })

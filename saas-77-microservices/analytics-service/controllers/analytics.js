@@ -10,7 +10,7 @@ const calcDays = require('../utils/calcDays');
 
 exports.stats = (req, res, next) => {
 
-    let totalQuestions, totalAnswers, contributions;
+    let totalQuestions, totalAnswers, daysRegistered, contributions;
 
     const userData = jwt_decode(req.header('X-OBSERVATORY-AUTH'));
 
@@ -25,12 +25,15 @@ exports.stats = (req, res, next) => {
     })
 
     Promise.all([analyticsPromise]).then(() => {
-
-        contributions = totalAnswers / calcDays(Date.now(), new Date(userData.user.dateCreated));
+        
+        daysRegistered = calcDays(Date.now(), new Date(userData.user.dateCreated));
+        
+        contributions = totalAnswers / daysRegistered;
 
         return res.status(200).json({
             totalQuestions: totalQuestions,
             totalAnswers: totalAnswers,
+            daysRegistered: daysRegistered,
             contributions: contributions.toFixed(2),
         })
 

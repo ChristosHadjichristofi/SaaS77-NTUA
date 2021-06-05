@@ -48,7 +48,7 @@ exports.getLanding = (req, res, next) => {
 
 exports.getProfile = function(req, res, next) {
 
-    let totalQuestions, totalAnswers, contributions, questionsArr;
+    let totalQuestions, totalAnswers, contributions, questionsArr, daysRegistered;
 
     let questionsPromise = new Promise((resolve, reject) => {
         models.Questions.findAll({
@@ -81,7 +81,8 @@ exports.getProfile = function(req, res, next) {
             })
             .then(answers => {
                 totalAnswers = answers.length;
-                contributions = totalAnswers / calcDays(Date.now(), new Date(req.session.user.dateCreated));
+                daysRegistered = calcDays(Date.now(), new Date(req.session.user.dateCreated));
+                contributions = totalAnswers / daysRegistered;
                 resolve();
             })
 
@@ -98,6 +99,7 @@ exports.getProfile = function(req, res, next) {
             totalAnswers: totalAnswers,
             contributions: contributions.toFixed(2),
             questions: questionsArr,
+            daysRegistered: daysRegistered,
             messages: messages
         });
     })
