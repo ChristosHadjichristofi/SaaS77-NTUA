@@ -133,6 +133,39 @@
                             <p style="color: var(--blue);">We make sure to store any occured Event in the Event Bus database. The reasons we made this decision are:<br></p>
                                 <p style="color: var(--blue);">1. When a service is down, it might lose some Events. To prevent this from happening, every time a service/subscriber is (re)starting it asks for the lost events. This is accomplished by storing how many events each Service received and parsed, so as when the service/subscriber (re)starts it makes a GET request on the&nbsp;<strong>/events/:id</strong>&nbsp;endpoint of the Event Bus. The&nbsp;<strong>/events/:id</strong>&nbsp;endpoint simply returns all the Events of id greated than the requested param <strong>id</strong>. Also this task is performed asynchronously because the lost Events that the service eventually receives will be posted on its database (if needed) by using the async functions of the&nbsp;<strong>Sequelize ORM</strong>.<br></p>
                                 <p style="color: var(--blue);">2. If we want to develop a new service, we would like to&nbsp;<strong>sync</strong>&nbsp;it with all the past Events.<br></p>
+                                <h3 class="hide-mobile" style="color: var(--blue);">Moderation<br></h3>
+                                <h4 class="show-mobile" style="color: var(--blue);">Moderation<br></h4>
+                                <p style="color: var(--blue);">Using commands in the Event Bus Service, we can view the status of all subscribers or services of the MSA at any given moment.</p>
+                                <h4 class="hide-mobile" style="color: var(--blue);">Available Commands<br></h3>
+                                <h5 class="show-mobile" style="color: var(--blue);">Available Commands<br></h4>
+                                <img id="logging" src="/assets/img/commandsList.jpg" style="max-width: 100%; max-height: 100%; padding-bottom: 20px;">
+                                <h4 class="hide-mobile" style="color: var(--blue);">Subscribers Status example<br></h3>
+                                <h5 class="show-mobile" style="color: var(--blue);">Subscribers Status example<br></h4>
+                                <div class="show-mobile">
+                                    <div class="row">
+                                        <img id="logging" src="/assets/img/subscribersStatus.jpg" style="max-width: 100%; max-height: 100%; padding-bottom: 10px;">
+                                        <h5 style="color: var(--blue);">A screenshot of when all services are up</h5>
+                                    </div>
+                                    <div class="row">
+                                        <img id="logging" src="/assets/img/subscribersStatusServiceDown.jpg" style="max-width: 100%; max-height: 100%; padding-bottom: 10px;">
+                                        <h5 style="color: var(--blue);">A screenshot of when 'Analytics Service' is down</h5>
+                                    </div>
+                                </div>
+                                <div class="hide-mobile">
+                                    <div class="row">
+                                        <div class="col">
+                                            <img id="logging" src="/assets/img/subscribersStatus.jpg" style="max-width: 100%; max-height: 100%; padding-bottom: 10px;">
+                                            <h5 style="color: var(--blue);"><em>A screenshot of when all services are up.</em></h5>
+                                        </div>
+                                        <div class="col">
+                                            <img id="logging" src="/assets/img/subscribersStatusServiceDown.jpg" style="max-width: 100%; max-height: 100%; padding-bottom: 10px;">
+                                            <h5 style="color: var(--blue);"><em>A screenshot of when 'Analytics Service' is down.</em></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="hide-mobile" style="color: var(--blue); padding-top: 15px;">Events Logging<br></h3>
+                                <h4 class="show-mobile" style="color: var(--blue); padding-top: 15px;">Events Logging<br></h4>
+                                <img id="logging" src="/assets/img/logging.jpg" style="max-width: 100%; max-height: 100%; padding-top: 10px; padding-bottom: 20px;">
                             <h3 class="hide-mobile" style="color: var(--blue);">Deployment</h3>
                             <h4 class="show-mobile" style="color: var(--blue);">Deployment</h4>
                             <p style="color: var(--blue);">The deployment was done using Heroku. MVC Project was deployed as one Application, while Microservices Project was deployed as 8 different Applications<br></p>
