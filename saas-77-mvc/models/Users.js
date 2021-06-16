@@ -1,3 +1,12 @@
+/** Users Model
+ * id -> integer [PK, Not Null, AI]
+ * name -> string(40) [Not Null]
+ * surname -> string(60) [Not Null]
+ * email -> string(255) [Not Null]
+ * dateCreated -> date [Not Null]
+ * password -> string(255) [Not Null]
+ */
+
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Users', {

@@ -1,3 +1,10 @@
+/** Questions Model
+ * id -> integer [PK, AI, Not Null]
+ * title -> text [Not Null]
+ * text -> text [Not Null]
+ * UsersId -> integer (reference of users table)
+ */
+
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('Questions', {

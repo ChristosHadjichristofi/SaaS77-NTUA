@@ -12,6 +12,7 @@ function initModels(sequelize) {
   var Keywords = _Keywords(sequelize, DataTypes);
   var Sessions = _Sessions(sequelize, DataTypes);
 
+  // relationships between tables
   Answers.belongsTo(Questions, { foreignKey: "QuestionsId"});
   Questions.hasMany(Answers, { foreignKey: "QuestionsId"});
   Answers.belongsTo(Users, { foreignKey: "UsersId"});

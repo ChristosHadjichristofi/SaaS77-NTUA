@@ -8,6 +8,7 @@ module.exports = () => {
 
     let dates = [], frequency = [];
 
+    // query to fetch the 15 days that at least one question was posted in the system
     return new Promise((resolve, reject) => {
         sequelize.query('SELECT DATE("dateCreated") AS "date", COUNT(*) AS "count" '
         + 'FROM "saas-77-mvc"."Questions" AS "Questions" '
@@ -18,6 +19,10 @@ module.exports = () => {
             const now = new Date(Date.now());
             const endDate = new Date();
             endDate.setDate(now.getDate() - 17)
+            endDate.setDate(now.getDate() - 15)
+
+            // iterating through the retrieved data and completing the days in the time interval [TODAY - 15 DAYS, TODAY]
+            // in order to end up with this interval and how many questions where posted in each day
             if (result.length !== 0) {
                 while (result[index].date.localeCompare(now.toISOString().split('T')[0]) == 1) index++
                 for (var d = now; d.toISOString().split('T')[0] !== endDate.toISOString().split('T')[0]; d.setDate(d.getDate() - 1)) {

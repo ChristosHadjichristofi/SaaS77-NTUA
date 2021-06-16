@@ -1,3 +1,9 @@
+/** Sessions Model
+ * sid -> text [PK, Not Null]
+ * expire -> date
+ * data -> text
+ */
+
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Sessions', {

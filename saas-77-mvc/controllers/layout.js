@@ -4,7 +4,10 @@ var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 // end of require models
 
+// function to calculate the number of days between two dates
 const calcDays = require('../utils/calcDays');
+
+// queries for the graphs
 const qsPerKeywordData = require('../utils/qsPerKeywordData');
 const qsPerDayData = require('../utils/qsPerDayData');
 
@@ -12,6 +15,7 @@ exports.getLanding = (req, res, next) => {
 
     let qsPerKWName = [], qsPerKWFreq = [], qsPerDayDates = [], qsPerDayFreq = [];
 
+    // retrieve Top 5 keywords and frequencies
     let qsPerKeyWordDataPromise = new Promise((resolve, reject) => {
         qsPerKeywordData().then(result => {
             qsPerKWName = result.name;
@@ -20,6 +24,7 @@ exports.getLanding = (req, res, next) => {
         })
     });
 
+    // retrieve how many questions where created in the interval [TODAY - 15 DAYS, TODAY]
     let qsPerDayDataPromise = new Promise((resolve, reject) => {
         qsPerDayData().then(result => {
             qsPerDayDates = result.dates;
@@ -28,12 +33,16 @@ exports.getLanding = (req, res, next) => {
         })
     })
 
+    // After retrieving all data
     Promise.all([qsPerKeyWordDataPromise, qsPerDayDataPromise]).then(() => {
 
+        // check for any messages
         let messages = req.flash("messages");
 
+        // if no messages set messages to empty arr
         if (messages.length == 0) messages = [];
 
+        // render all data
         res.render('landing.ejs', {
             pageTitle: "Landing Page",
             topKeywords: qsPerKWName,
@@ -50,6 +59,7 @@ exports.getProfile = function(req, res, next) {
 
     let totalQuestions, totalAnswers, contributions, questionsArr, daysRegistered;
 
+    // find how many questions user with User id = session.user.id asked
     let questionsPromise = new Promise((resolve, reject) => {
         models.Questions.findAll({
             where: { UsersId: req.session.user.id },
@@ -69,8 +79,9 @@ exports.getProfile = function(req, res, next) {
             totalQuestions = questions.length;
             resolve();
         })
-    })
+    });
 
+    // find how many answers user with User id = session.user.id answered
     let answersPromise = new Promise((resolve, reject) => {
 
         models.Answers.findAll({
@@ -81,18 +92,26 @@ exports.getProfile = function(req, res, next) {
             })
             .then(answers => {
                 totalAnswers = answers.length;
+                
+                // calculate the days that the user is registered to the system
                 daysRegistered = calcDays(Date.now(), new Date(req.session.user.dateCreated));
+                // calculate contributions per day
                 contributions = totalAnswers / daysRegistered;
                 resolve();
             })
 
-    })
+    });
+
+    // After retrieving all data
     Promise.all([questionsPromise, answersPromise]).then(() => {
 
+        // check for any messages
         let messages = req.flash("messages");
 
+        // if no messages set messages to empty arr
         if (messages.length == 0) messages = [];
 
+        // render all data
         res.render('profile.ejs', {
             pageTitle: "Profile Page",
             totalQuestions: totalQuestions,
@@ -110,6 +129,7 @@ exports.getHome = (req, res, next) => {
 
     let qsPerKWName = [], qsPerKWFreq = [], qsPerDayDates = [], qsPerDayFreq = [];
 
+    // retrieve Top 5 keywords and frequencies
     let qsPerKeyWordDataPromise = new Promise((resolve, reject) => {
         qsPerKeywordData().then(result => {
             qsPerKWName = result.name;
@@ -118,6 +138,7 @@ exports.getHome = (req, res, next) => {
         })
     });
 
+    // retrieve how many questions where created in the interval [TODAY - 15 DAYS, TODAY]
     let qsPerDayDataPromise = new Promise((resolve, reject) => {
         qsPerDayData().then(result => {
             qsPerDayDates = result.dates;
@@ -126,12 +147,16 @@ exports.getHome = (req, res, next) => {
         })
     })
 
+    // after retrieving all data
     Promise.all([qsPerKeyWordDataPromise, qsPerDayDataPromise]).then(() => {
 
+        // check for any messages
         let messages = req.flash("messages");
 
+        // if no messages set messages to empty arr
         if (messages.length == 0) messages = [];
 
+        // render all data
         res.render('home.ejs', {
             pageTitle: "Home Page",
             topKeywords: qsPerKWName,
