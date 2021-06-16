@@ -17,6 +17,8 @@ module.exports = () => {
 
             let index = 0;
             const now = new Date(Date.now());
+            // uncomment the following line when deploying and want to set the timezone difference
+            // now.setHours(now.getHours() + 3); // because deployed app runs in different TZ
             const endDate = new Date();
             endDate.setDate(now.getDate() - 15)
 
