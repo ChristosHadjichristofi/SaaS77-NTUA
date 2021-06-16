@@ -18,7 +18,6 @@ module.exports = () => {
             let index = 0;
             const now = new Date(Date.now());
             const endDate = new Date();
-            endDate.setDate(now.getDate() - 17)
             endDate.setDate(now.getDate() - 15)
 
             // iterating through the retrieved data and completing the days in the time interval [TODAY - 15 DAYS, TODAY]
