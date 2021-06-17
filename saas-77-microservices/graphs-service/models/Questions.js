@@ -1,3 +1,8 @@
+/** Questions Model
+ * id -> integer [PK, AI, Not Null]
+ * dateCreated -> date [Not Null]
+ */
+
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('Questions', {

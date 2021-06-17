@@ -4,6 +4,7 @@ var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 // end of require models
 
+// queries for the graphs
 const qsPerKeywordData = require('../utils/qsPerKeywordData');
 const qsPerDayData = require('../utils/qsPerDayData');
 
@@ -11,12 +12,14 @@ exports.topKeywords = (req, res, next) => {
 
     let qsPerKWTop5 = [], qsPerKWName = [], qsPerKWFreq = [];
     
+    // retrieve Top 5 keywords and frequencies
     qsPerKeywordData().then(result => {
 
         qsPerKWTop5 = result.topFiveKeywords;
         qsPerKWName = result.name;
         qsPerKWFreq = result.frequency;
 
+        // return OK and the json with the keywords and the respective frequencies
         return res.status(200).json({ 
             topFiveKeywords: qsPerKWTop5,
             topKeywords: qsPerKWName,
@@ -32,10 +35,12 @@ exports.QsPerDay = (req, res, next) => {
     
     let qsPerDayDates = [], qsPerDayFreq = [];
     
+    // retrieve how many questions where created in the interval [TODAY - 15 DAYS, TODAY]
     qsPerDayData().then(result => {
         qsPerDayDates = result.dates;
         qsPerDayFreq = result.frequency;
 
+        // return OK and the json with the time interval [TODAY - 15 DAYS, TODAY] and their respective frequencies
         return res.status(200).json({ 
             qsPerDayDates: qsPerDayDates,
             qsPerDayFreq: qsPerDayFreq
@@ -45,13 +50,16 @@ exports.QsPerDay = (req, res, next) => {
 
 }
 
+/* events route (subscriber on bus events - QUESTION CREATE/ ANSWER CREATE/ USER CREATE) */
 exports.events = (req, res, next) => {
 
     const type = req.body.type;
 
+    /* increment the events counter (how many events this service processed) */
     models.Events.increment('counter', { by: 1, where: { id: 1 } })
     .then(() => {
 
+        /* Based on which Type of event is the service has a specific behaviour */
         if (type === 'QUESTION CREATE') {
     
             let qkeywords = req.body.qkeywords;
@@ -85,6 +93,10 @@ exports.events = (req, res, next) => {
 
 }
 
+/** function that returns the status of this specific service 
+ * tries sequelize.authenticate. If successful then connection to database is OK
+ * else its not OK
+ */
 exports.status = (req, res, next) => {
 
     sequelize.authenticate()

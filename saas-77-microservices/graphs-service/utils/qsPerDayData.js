@@ -10,6 +10,8 @@ module.exports = () => {
     frequency = [];
 
     return new Promise((resolve, reject) => {
+    
+        // query to fetch the 15 days that at least one question was posted in the system
         sequelize.query('SELECT DATE("dateCreated") AS "date", COUNT(*) AS "count" ' +
                         'FROM "saas-77-graphs-service"."Questions" AS "Questions" ' +
                         'GROUP BY "date" ORDER BY "date" DESC LIMIT 15 ', { type: sequelize.QueryTypes.SELECT })
@@ -17,9 +19,13 @@ module.exports = () => {
 
             let index = 0;
             const now = new Date(Date.now());
+            // uncomment the following line when deploying and want to set the timezone difference
+            // now.setHours(now.getHours() + 3); // because deployed app runs in different TZ
             const endDate = new Date();
             endDate.setDate(now.getDate() - 15)
 
+            // iterating through the retrieved data and completing the days in the time interval [TODAY - 15 DAYS, TODAY]
+            // in order to end up with this interval and how many questions where posted in each day
             if (result.length !== 0) {
                 while (result[index].date.localeCompare(now.toISOString().split('T')[0]) == 1) index++;
                 for (var d = now; d.toISOString().split('T')[0] !== endDate.toISOString().split('T')[0]; d.setDate(d.getDate() - 1)) {

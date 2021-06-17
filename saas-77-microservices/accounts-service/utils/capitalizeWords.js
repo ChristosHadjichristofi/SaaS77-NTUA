@@ -1,3 +1,8 @@
+/**
+ * @param {*} word 
+ * @returns wordCapitalized (first letter Capital and all others lowercase)
+ */
+
 module.exports = (word) => {
 
     const wordLowerCase = word.toLowerCase();

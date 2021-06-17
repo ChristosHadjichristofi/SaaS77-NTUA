@@ -4,6 +4,8 @@ var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 // end of require models
 
+/* PAGINATION VARIABLES */
+// set how many Questions are shown per page
 const QUESTIONS_PER_PAGE = 20;
 
 exports.show = (req, res, next) => {
@@ -12,15 +14,20 @@ exports.show = (req, res, next) => {
 
     let questionsArr = [], qsNotAnswered, totalQuestions;
 
+    /* retrieve total number of Questions and all the (20) questions in that specific page */
     let browseQuestionsPromise = new Promise((resolve, reject) => { 
 
+        /* query that gets total number of questions */
         models.Questions.count().then(numQuestions => {
             totalQuestions = numQuestions;
 
+            /* in case totalQuestions is zero there are no questions to be shown */
             if (totalQuestions == 0) return resolve();
 
+            /* in case user asks for a page that does not exists send json with relevant message and status of Not Found */
             if (page > Math.ceil(totalQuestions / QUESTIONS_PER_PAGE)) return res.status(404).json({ message: 'This questions page does not exist.', type: 'error' })
 
+            /* else get all the questions in that specific page using offset and limit */
             return models.Questions.findAll({
                 raw: true,
                 offset: ((page - 1) * QUESTIONS_PER_PAGE),
@@ -30,8 +37,10 @@ exports.show = (req, res, next) => {
         })
         .then(rows => {
 
+            /* if no questions retrieved then resolve */
             if (!rows) return resolve();
 
+            /* else for each row process the data so as to send it in a specific format */
             rows.forEach((row, index) => {
 
                 let question = {};
@@ -58,8 +67,10 @@ exports.show = (req, res, next) => {
         .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
     })
 
+    /* get how many questions have not been answered */
     let qsNotAnsweredPromise = new Promise((resolve, reject) => { 
 
+        /* query that finds how many questions have not been answered */
         models.Questions.count({ where: { answers: null } }).then( result => {
             qsNotAnswered = result;
             resolve(); 
@@ -67,6 +78,7 @@ exports.show = (req, res, next) => {
         .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
     })
 
+    /* when all data is retrieved from database send the json with status of 200 */
     Promise.all([browseQuestionsPromise, qsNotAnsweredPromise]).then(() => {
 
         return res.status(200).json({ 
@@ -87,14 +99,16 @@ exports.show = (req, res, next) => {
 
 }
 
-
+/* events route (subscriber on bus events - QUESTION CREATE/ ANSWER CREATE/ USER CREATE) */
 exports.events = (req, res, next) => {
 
     const type = req.body.type;
 
+    /* increment the events counter (how many events this service processed) */
     models.Events.increment('counter', { by: 1, where: { id: 1 } })
     .then(() => {
 
+        /* Based on which Type of event is the service has a specific behaviour */
         if (type === 'QUESTION CREATE') {
     
             models.Questions.create({
@@ -138,8 +152,10 @@ exports.getUserQuestions = (req, res, next) => {
     let userQuestions;
     const userID = req.params.id;
 
+    /* get questions of user with id userID */
     let questionsPromise = new Promise((resolve, reject) => { 
 
+        /* query that fetches all the questions of user with userID = userID */
         models.Questions.findAll({
             raw: true,
             where: { UsersId: userID },
@@ -147,16 +163,26 @@ exports.getUserQuestions = (req, res, next) => {
                 ['dateCreated', 'DESC']
             ]
         })
-        .then(questions => { userQuestions = questions; resolve(); })
+        .then(questions => { 
+            /* when questions are retrieved save them to user Questions and resolve */
+            userQuestions = questions; 
+            resolve(); 
+        })
+        /* else an error occurred */
         .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }));
 
     });
 
+    /* when questionsPromise is finished return the json that contains this data and status of 200 */
     questionsPromise
     .then(() => res.status(200).json({ questions: userQuestions }))
     .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 }
 
+/** function that returns the status of this specific service 
+ * tries sequelize.authenticate. If successful then connection to database is OK
+ * else its not OK
+ */
 exports.status = (req, res, next) => {
 
     sequelize.authenticate()

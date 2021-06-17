@@ -2,6 +2,10 @@
 const sequelize = require('../utils/database');
 // end of require models
 
+/** function that returns the status of this specific service 
+ * tries sequelize.authenticate. If successful then connection to database is OK
+ * else its not OK
+ */
 module.exports = (req, res, next) => {
 
     sequelize.authenticate()

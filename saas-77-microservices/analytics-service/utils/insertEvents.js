@@ -3,6 +3,8 @@ const sequelize = require('../utils/database');
 var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 
+/* function that processes events and adds them to database or rejects them */
+/* used every time the services (re)starts so it never loses any event (if was DOWN) */
 module.exports = events => {
 
     const parsedData = JSON.parse(events.data);

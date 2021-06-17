@@ -1,3 +1,8 @@
+/** Events Model
+ * id -> integer [PK]
+ * data -> text 
+ */
+
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Events', {

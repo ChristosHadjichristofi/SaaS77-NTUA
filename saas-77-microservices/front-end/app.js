@@ -49,7 +49,8 @@ app.use('/account', account);
 app.use('/questions', question);
 // /*End of routes used by our project */
 
-
+// download route that downloads a file that is given as query param
+// in case this file does not exist, it redirects the user to landing or home (if not auth to landing if auth to home)
 app.get('/download', (req, res) => {
 
     const file = __dirname + '/public/download/' + req.query.filename;

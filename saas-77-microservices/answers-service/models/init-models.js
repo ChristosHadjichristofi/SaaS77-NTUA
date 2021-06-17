@@ -8,6 +8,7 @@ function initModels(sequelize) {
   var Answers = _Answers(sequelize, DataTypes);
   var Events = _Events(sequelize, DataTypes);
 
+  // relationships between Tables
   Answers.belongsTo(Questions, { foreignKey: "QuestionsId"});
   Questions.hasMany(Answers, { foreignKey: "QuestionsId"});
 

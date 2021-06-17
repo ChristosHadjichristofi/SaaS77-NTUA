@@ -6,6 +6,15 @@ var models = initModels(sequelize);
 
 const { body } = require('express-validator');
 
+/**
+ * Validating body
+ * name: not empty, length between (3 - 30), only alpha
+ * surname: not empty, length between (3 - 50), only alfa
+ * email: not empty, email format, email not used
+ * password: not empty, min length 6, matches repassword
+ * repassword: not empty, is length 6 (no need to check if repassword also matches password)
+ */
+
 module.exports = [
     body('name')
         .not().isEmpty().withMessage('Name field is mandatory')

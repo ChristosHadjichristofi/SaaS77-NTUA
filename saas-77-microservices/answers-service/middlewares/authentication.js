@@ -1,5 +1,12 @@
 const jwt = require('jsonwebtoken');
 
+/* Authentication Middleware that gets the AUTH Header
+   if the header does not exist in the request -> Unauthorized
+   else get the token -> decode -> verify
+       if !verified Unauthorized
+       else proceed to next() 
+*/
+
 module.exports = (req, res, next) => {
     const authHeader = req.header('X-OBSERVATORY-AUTH');
     if (!authHeader) {

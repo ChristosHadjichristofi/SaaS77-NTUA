@@ -6,26 +6,32 @@ exports.getLanding = (req, res, next) => {
 
     let resultKeywords, resultQsPerDay, isOK = true;
 
+    /* Construct url of Graphs Service (2 endpoints -> 1 for each graph) */
     const url_keywords = 'http://localhost:4005/topkeywords';
     const url_qsperday = 'http://localhost:4005/qsperday';
 
+    /* Necessary Headers for the request */
     const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
 
+    /* Create the configs of the requests */
     const config_keywords = { method: 'get', url: url_keywords, headers: headers };
     const config_qsperday = { method: 'get', url: url_qsperday, headers: headers };
 
+    /* Axios request to get data from graphs service - questions per keyword data */
     let qsPerKeywordsDataPromise = new Promise((resolve, reject) => {
         axios(config_keywords)
         .then(result => { resultKeywords = result; resolve(); })
         .catch(err => { isOK = false; resolve(); });
     })
 
+    /* Axios request to get data from graphs service - questions per day data */
     let qsPerDayPromise = new Promise((resolve, reject) => {
         axios(config_qsperday)
         .then(result => { resultQsPerDay = result; resolve(); })
         .catch(err => { isOK = false; resolve(); });
     })
 
+    /* After all requests finished and data is now retrieved render the data */
     Promise.all([qsPerKeywordsDataPromise, qsPerDayPromise]).then(() => {
         let messages = req.flash("messages");
         
@@ -58,19 +64,25 @@ exports.getProfile = function(req, res, next) {
     // in case req.session.messages has messages, we got them so we need to empty the req.session.messages
     if (serviceDownMessages.length !== 0) req.session.messages = [];
 
+    /* decode the jwt to get userData */
     const userData = jwt_decode(req.session.user.jwtToken);
 
+    /* Construct the url of analytics service (user statistics) */
     const url_analytics = 'http://localhost:4004/analytics';
+    /* Construct the url of browse Questions service to get all the questions that this user did */
     const url_userQuestions = 'http://localhost:4003/questions/user/' + userData.user.id;
 
+    /* Add necessary headers for the requests */
     const headers = { 
         'X-OBSERVATORY-AUTH': req.session.user.jwtToken,
         "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) 
     };
 
+    /* Create the configs for the requests */
     const config_analytics = { method: 'get', url: url_analytics, headers: headers };
     const config_userQuestions = { method: 'get', url: url_userQuestions, headers: headers };
 
+    /* Request to get User statistics */
     let analyticsPromise = new Promise((resolve, reject) => {
         axios(config_analytics)
         .then(result => {
@@ -83,6 +95,7 @@ exports.getProfile = function(req, res, next) {
         .catch(err => { isOK_Analytics = false; resolve(); });
     })
 
+    /* Request to get all the questions this specific user did (the logged in user) */
     let userQuestionsPromise = new Promise((resolve, reject) => {
         axios(config_userQuestions)
         .then(result => {
@@ -92,6 +105,7 @@ exports.getProfile = function(req, res, next) {
         .catch(err => { isOK_Browse = false; resolve(); });
     })
     
+    /* After all data is retrieved render the page */
     Promise.all([analyticsPromise, userQuestionsPromise]).then(() => {
 
         let messages = req.flash("messages");
@@ -128,26 +142,32 @@ exports.getHome = (req, res, next) => {
     // in case req.session.messages has messages, we got them so we need to empty the req.session.messages
     if (serviceDownMessages.length !== 0) req.session.messages = [];
 
+    /* Construct urls to get the graphs (Graphs Service -> 2 endpoints, 1 graph each) */
     const url_keywords = 'http://localhost:4005/topkeywords';
     const url_qsperday = 'http://localhost:4005/qsperday';
 
+    /* Add necessary headers */
     const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
 
+    /* Create the configs for the requests */
     const config_keywords = { method: 'get', url: url_keywords, headers: headers };
     const config_qsperday = { method: 'get', url: url_qsperday, headers: headers };
 
+    /* Axios request to get data from graphs service - questions per keyword data */
     let qsPerKeywordsDataPromise = new Promise((resolve, reject) => {
         axios(config_keywords)
         .then(result => { resultKeywords = result; resolve(); })
         .catch(err => { isOK = false; resolve(); });
     })
 
+    /* Axios request to get data from graphs service - questions per day data */
     let qsPerDayPromise = new Promise((resolve, reject) => {
         axios(config_qsperday)
         .then(result => { resultQsPerDay = result; resolve(); })
         .catch(err => { isOK = false; resolve(); });
     })
 
+    /* After all requests finished and data is now retrieved render the data */
     Promise.all([qsPerKeywordsDataPromise, qsPerDayPromise]).then(() => {
 
         let messages = req.flash("messages");

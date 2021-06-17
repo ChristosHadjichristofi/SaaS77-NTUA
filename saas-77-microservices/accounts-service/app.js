@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+/* middleware that checks if the requester has the secret key and is an allowed origin */
 app.use((req, res, next) => {
     const customServicesHeader = req.header('custom-services-header');
 

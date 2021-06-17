@@ -1,6 +1,12 @@
 const crypto = require('crypto');
 const algorithm = 'aes-256-cbc';
 
+/**
+ * function to decipher a text
+ * @param {*} text (encrypted)
+ * @returns decrypted text
+ */
+
 module.exports = (text) => {
     let iv = Buffer.from(text.iv, 'hex');
     let encryptedText = Buffer.from(text.encryptedData, 'hex');

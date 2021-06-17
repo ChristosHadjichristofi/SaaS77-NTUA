@@ -8,34 +8,44 @@ const sequelize = require('../utils/database');
 var initModels = require("../models/init-models");
 var models = initModels(sequelize);
 
-
+/* endpoint that notifies all subscribers for new events */
+/* This endpoint logs every step and response of this process */
 exports.postEvents = (req, res, next) => {
     
     const event = req.body;
 
     console.log(`Event of Type: ${event.type} received.`);
 
+    /* 
+        Save the new Event to the database so as if any service (re)starts can
+        check if it lost any data(events) 
+    */
     models.Events.create({ data: JSON.stringify(event) })
     .then(() => {
 
+        /* Subscribers endpoints */
         const url_answersService = 'http://localhost:4002/events';
         const url_browseQuestionsService = 'http://localhost:4003/events';
         const url_analyticsService = 'http://localhost:4004/events';
         const url_graphsService = 'http://localhost:4005/events';
     
         const data = event;
+        /* Every response of all subscribers will be saved in this array and then will be logged */
         let responses = [];
     
+        /* Necessary headers to make any request to any of the subscribers */
         const headers = { 
             'X-OBSERVATORY-AUTH': req.header('X-OBSERVATORY-AUTH'),
             "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) 
         };
     
+        /* Configs of the subscribers */
         const config_answersService = { method: 'post', url: url_answersService, headers: headers, data: data };
         const config_browseQuestionsService = { method: 'post', url: url_browseQuestionsService, headers: headers, data: data };
         const config_analyticsService = { method: 'post', url: url_analyticsService, headers: headers, data: data };
         const config_graphsService = { method: 'post', url: url_graphsService, headers: headers, data: data };
     
+        /* Use promises to make all requests and then proceed */
         let answersServicePromise = new Promise((resolve, reject) => { 
             
             console.log(`Try sending the Event to Subscriber: Answers Service.`);
@@ -73,6 +83,7 @@ exports.postEvents = (req, res, next) => {
             .catch(err => { responses.push({ status: 500, message: 'NOT OK - GRAPHS SERVICE.' } ); return resolve(); });
         })
     
+        /* After all subscribers notified, their responses will be logged so as the admin can see if something went wrong */
         Promise.all([answersServicePromise, browseQuestionsServicePromise, analyticsServicePromise, graphsServicePromise]).then(() => {
             
             let isOK = true;
@@ -90,6 +101,7 @@ exports.postEvents = (req, res, next) => {
     .catch(err => res.status(500).json({ message: 'Internal server error.', type: 'error' }))
 }
 
+/* Endpoint to get all Events that their id is greater than th request param id */
 exports.getEvents = (req, res, next) => {
 
     let id = req.params.id;

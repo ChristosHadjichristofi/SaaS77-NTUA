@@ -1,3 +1,8 @@
+/** Keywords Model
+ * name -> string(50) [PK, Not Null]
+ * QuestionsId -> integer (reference to Questions model) [Not Null, PK]
+ */
+
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('Keywords', {

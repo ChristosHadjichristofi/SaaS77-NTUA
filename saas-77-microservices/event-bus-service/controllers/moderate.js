@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const encrypt = require('../utils/encrypt');
 const chalk = require("chalk");
 
+/* Endpoint to moderate all subscribers */
+/* Make request to all subscribers, get their answers and log them  */
 exports.moderateSubs = () => {
 
     console.log(chalk.yellow(`-------------------`))
@@ -73,6 +75,8 @@ exports.moderateSubs = () => {
 
 }
 
+/* Endpoint to moderate all Services of our System */
+/* Make request to all Services, get their answers and log them  */
 exports.moderateServices = () => {
 
     console.log(chalk.yellow(`-------------------`))

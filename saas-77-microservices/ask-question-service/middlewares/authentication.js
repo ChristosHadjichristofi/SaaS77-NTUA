@@ -1,3 +1,10 @@
+/* Authentication Middleware that gets the AUTH Header
+   if the header does not exist in the request -> Unauthorized
+   else get the token -> decode -> verify
+       if !verified Unauthorized
+       else proceed to next() 
+*/
+
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {

@@ -1,3 +1,9 @@
+/** User Model
+ * id -> integer [AI, Not Null, PK]
+ * questions -> integer
+ * answers -> integer
+ */
+
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define('Users', {
