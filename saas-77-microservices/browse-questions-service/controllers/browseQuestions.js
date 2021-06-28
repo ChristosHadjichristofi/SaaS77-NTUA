@@ -110,12 +110,11 @@ exports.events = (req, res, next) => {
 
         /* Based on which Type of event is the service has a specific behaviour */
         if (type === 'QUESTION CREATE') {
-    
             models.Questions.create({
                 title: req.body.qname,
                 text: req.body.qtext,
                 dateCreated: req.body.dateCreated,
-                keywords: req.body.qkeywords,
+                keywords: (req.body.qkeywords.length == 1 && req.body.qkeywords[0] === '') ? [] : req.body.qkeywords,
                 answers: null,
                 UsersId: req.body.usersId,
                 UsersName: req.body.usersName,

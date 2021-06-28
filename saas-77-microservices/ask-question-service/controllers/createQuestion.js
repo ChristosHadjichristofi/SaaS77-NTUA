@@ -34,7 +34,7 @@ module.exports = (req, res, next) => {
     */
     let keywordsArr = qkeywords.split(',');
     const keywordsSet = new Set(keywordsArr);
-    keywordsArr = (keywordsSet.size == 1 && keywordsSet.has('')) ? [] : Array.from(keywordsSet);
+    keywordsArr = Array.from(keywordsSet);
     
     // create the question using the body
     const url = 'http://localhost:4006/events';
