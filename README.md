@@ -1,4 +1,13 @@
 # SaaS Course
+
+<p align="center">
+	<img alt="Byte Code Size" src="https://img.shields.io/github/languages/code-size/ChristosHadjichristofi/SaaS77-NTUA?color=yellowgreen" />
+	<img alt="# Lines of Code" src="https://img.shields.io/tokei/lines/github/ChristosHadjichristofi/SaaS77-NTUA?color=yellowgreen" />
+	<img alt="# Languages Used" src="https://img.shields.io/github/languages/count/ChristosHadjichristofi/SaaS77-NTUA?color=yellow" />
+	<img alt="Top language" src="https://img.shields.io/github/languages/top/ChristosHadjichristofi/SaaS77-NTUA?color=yellow" />
+	<img alt="Last commit" src="https://img.shields.io/github/last-commit/ChristosHadjichristofi/SaaS77-NTUA?color=important" />
+</p>
+
 This course was focused on delivering the different applications/softwares as a service. We were asked to implement a QnA system with some specific functionalities. The project that we had to deliver had to be developed with two different architectures, so we decided to use **MVC Architecture** and **Microservices Architecture**.
 
 ## Constraints of Project
