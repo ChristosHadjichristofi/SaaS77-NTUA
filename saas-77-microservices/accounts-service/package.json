@@ -21,6 +21,6 @@
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.7",
     "pg": "^8.6.0",
-    "sequelize": "^6.6.2"
+    "sequelize": "^6.13.0"
   }
 }
