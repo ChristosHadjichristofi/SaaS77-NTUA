@@ -15,7 +15,7 @@
     "connect-flash": "^0.1.1",
     "connect-session-sequelize": "^7.1.1",
     "custom-env": "^2.0.1",
-    "ejs": "^3.1.6",
+    "ejs": "^3.1.8",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.10.1",
