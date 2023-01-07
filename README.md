@@ -61,8 +61,3 @@ Also this task is performed asynchronously because the lost Events that the serv
 # Deployment
 The deployment was done using Heroku. 
 MVC Project was deployed as one Application, while Microservices Project was deployed as 8 different Applications
-
-# Demo of Project
-You can use our project (either the MVC version or the Microservices version) from the links below:
-* [SaaS-77 MVC](https://ancient-citadel-71271.herokuapp.com/)
-* [SaaS-77 Microservices](https://peaceful-shore-77698.herokuapp.com/)
