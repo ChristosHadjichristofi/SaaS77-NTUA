@@ -12,7 +12,7 @@ sequelize
         sequelize
             .sync({
                 // delete if system is ready to deploy
-                // force: true,
+                force: true,
                 // end
             })
             .then((result) => {
