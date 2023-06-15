@@ -7,8 +7,8 @@ exports.getLanding = (req, res, next) => {
     let resultKeywords, resultQsPerDay, isOK = true;
 
     /* Construct url of Graphs Service (2 endpoints -> 1 for each graph) */
-    const url_keywords = 'http://localhost:4005/topkeywords';
-    const url_qsperday = 'http://localhost:4005/qsperday';
+    const url_keywords = `http://${process.env.BASE_URL}:4005/topkeywords`;
+    const url_qsperday = `http://${process.env.BASE_URL}:4005/qsperday`;
 
     /* Necessary Headers for the request */
     const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
@@ -44,7 +44,8 @@ exports.getLanding = (req, res, next) => {
             qsPerDayDates: isOK ? resultQsPerDay.data.qsPerDayDates : 0,
             qsPerDayFreq: isOK ? resultQsPerDay.data.qsPerDayFreq : 0,
             serviceUp: isOK,
-            messages: messages
+            messages: messages,
+            base_url: process.env.BASE_URL
         })
 
     })
@@ -68,9 +69,9 @@ exports.getProfile = function(req, res, next) {
     const userData = jwt_decode(req.session.user.jwtToken);
 
     /* Construct the url of analytics service (user statistics) */
-    const url_analytics = 'http://localhost:4004/analytics';
+    const url_analytics = `http://${process.env.BASE_URL}:4004/analytics`;
     /* Construct the url of browse Questions service to get all the questions that this user did */
-    const url_userQuestions = 'http://localhost:4003/questions/user/' + userData.user.id;
+    const url_userQuestions = `http://${process.env.BASE_URL}:4003/questions/user/` + userData.user.id;
 
     /* Add necessary headers for the requests */
     const headers = { 
@@ -123,7 +124,8 @@ exports.getProfile = function(req, res, next) {
             serviceUpAnalytics: isOK_Analytics,
             serviceUpBrowse: isOK_Browse,
             daysRegistered: daysRegistered,
-            messages: messages
+            messages: messages,
+            base_url: process.env.BASE_URL
         });
     })
 
@@ -143,8 +145,8 @@ exports.getHome = (req, res, next) => {
     if (serviceDownMessages.length !== 0) req.session.messages = [];
 
     /* Construct urls to get the graphs (Graphs Service -> 2 endpoints, 1 graph each) */
-    const url_keywords = 'http://localhost:4005/topkeywords';
-    const url_qsperday = 'http://localhost:4005/qsperday';
+    const url_keywords = `http://${process.env.BASE_URL}:4005/topkeywords`;
+    const url_qsperday = `http://${process.env.BASE_URL}:4005/qsperday`;
 
     /* Add necessary headers */
     const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
@@ -183,7 +185,8 @@ exports.getHome = (req, res, next) => {
             qsPerDayDates: isOK ? resultQsPerDay.data.qsPerDayDates : 0,
             qsPerDayFreq: isOK ? resultQsPerDay.data.qsPerDayFreq : 0,
             serviceUp: isOK,
-            messages: messages
+            messages: messages,
+            base_url: process.env.BASE_URL
         })
 
     })
@@ -191,18 +194,21 @@ exports.getHome = (req, res, next) => {
 
 exports.getAbout = (req, res, next) => {
     res.render('about.ejs', {
-        pageTitle: "About Page"
+        pageTitle: "About Page",
+        base_url: process.env.BASE_URL
     })
 }
 
 exports.getDocumentation = (req, res, next) => {
     res.render('documentation.ejs', {
-        pageTitle: "Documentation Page"
+        pageTitle: "Documentation Page",
+        base_url: process.env.BASE_URL
     })
 } 
 
 exports.getContact = (req, res, next) => {
     res.render('contact.ejs', {
-        pageTitle: "Contact Us Page"
+        pageTitle: "Contact Us Page",
+        base_url: process.env.BASE_URL
     })
 } 

@@ -13,7 +13,7 @@ exports.createQuestion = (req, res, next) => {
     const userData = jwt_decode(req.session.user.jwtToken);
 
     /* Construct url of ask question service - create endpoint */
-    const url_createQuestion = 'http://localhost:4001/create';
+    const url_createQuestion = `http://${process.env.BASE_URL}:4001/create`;
 
     /* Add Necessary headers for the request */
     const headers = { 
@@ -80,7 +80,7 @@ exports.browseQuestions = (req, res, next) => {
     let isOK = true, notExist = false, questions, questionsNotAnswered, totalQuestions, pagination;
     
     /* Construct url to fetch all questions */
-    const url_browseQuestions = 'http://localhost:4003/show';
+    const url_browseQuestions = `http://${process.env.BASE_URL}:4003/show`;
     /* Questions are fetched in 'packages' of 20 [Pagination] - if the page query param is not set, default 1 */
     const page = +req.query.page || 1;
 
@@ -147,7 +147,8 @@ exports.browseQuestions = (req, res, next) => {
             nextPage: pagination.nextPage,
             prevPage: pagination.prevPage,
             lastPage: pagination.lastPage,
-            messages: messages
+            messages: messages,
+            base_url: process.env.BASE_URL
         });
     });
 };
@@ -168,7 +169,7 @@ exports.browseQuestion = (req, res, next) => {
         Construct url to fetch a specific question and its answers - answers are fetched in 'packages' of 2 [Pagination] 
         if user does not set page then default 1
     */
-    const url_browseQuestion = 'http://localhost:4002/question/' + req.params.id;
+    const url_browseQuestion = `http://${process.env.BASE_URL}:4002/question/` + req.params.id;
     const page = +req.query.page || 1;
 
     /* Necessary headers to make the request */
@@ -245,7 +246,8 @@ exports.browseQuestion = (req, res, next) => {
                 name: userData.user.name,
                 surname: userData.user.surname
             },
-            messages: messages
+            messages: messages,
+            base_url: process.env.BASE_URL
         });
     });
 }
@@ -257,7 +259,7 @@ exports.answerQuestion = (req, res, next) => {
     const page = +req.query.page || 1;
     
     /* Construct url to post an answer to the system */
-    const url_postAnswer = 'http://localhost:4002/answer/' + req.params.id;
+    const url_postAnswer = `http://${process.env.BASE_URL}:4002/answer/` + req.params.id;
 
     /* payload that will be sent to the service */
     const data = {

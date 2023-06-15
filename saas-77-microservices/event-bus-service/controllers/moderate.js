@@ -11,10 +11,10 @@ exports.moderateSubs = () => {
     console.log(chalk.yellow(`Subscribers Status:`));
     console.log(chalk.yellow(`-------------------`))
 
-    const url_answersService = 'http://localhost:4002/status';
-    const url_browseQuestionsService = 'http://localhost:4003/status';
-    const url_analyticsService = 'http://localhost:4004/status';
-    const url_graphsService = 'http://localhost:4005/status';
+    const url_answersService = `http://${process.env.BASE_URL}:4002/status`;
+    const url_browseQuestionsService = `http://${process.env.BASE_URL}:4003/status`;
+    const url_analyticsService = `http://${process.env.BASE_URL}:4004/status`;
+    const url_graphsService = `http://${process.env.BASE_URL}:4005/status`;
 
     let responses = [];
     
@@ -83,12 +83,12 @@ exports.moderateServices = () => {
     console.log(chalk.yellow(`Services Status:`));
     console.log(chalk.yellow(`-------------------`))
 
-    const url_accountsService = 'http://localhost:4000/status';
-    const url_createQuestionService = 'http://localhost:4001/status';
-    const url_answersService = 'http://localhost:4002/status';
-    const url_browseQuestionsService = 'http://localhost:4003/status';
-    const url_analyticsService = 'http://localhost:4004/status';
-    const url_graphsService = 'http://localhost:4005/status';
+    const url_accountsService = `http://${process.env.BASE_URL}:4000/status`;
+    const url_createQuestionService = `http://${process.env.BASE_URL}:4001/status`;
+    const url_answersService = `http://${process.env.BASE_URL}:4002/status`;
+    const url_browseQuestionsService = `http://${process.env.BASE_URL}:4003/status`;
+    const url_analyticsService = `http://${process.env.BASE_URL}:4004/status`;
+    const url_graphsService = `http://${process.env.BASE_URL}:4005/status`;
 
     let responses = [];
     

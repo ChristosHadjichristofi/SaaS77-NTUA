@@ -151,7 +151,7 @@ exports.postAnswer = (req, res, next) => {
         .then(answer => {
             
             /* url of the event bus, data that will be sent and necessary headers to make the request */
-            const url = 'http://localhost:4006/events';
+            const url = `http://${process.env.BASE_URL}:4006/events`;
 
             const data = {
                 type: 'ANSWER CREATE',

@@ -51,7 +51,7 @@ sequelize
                     if (counter === undefined) counter = 0;
 
                     /* endpoint to get lost events */
-                    const url = 'http://localhost:4006/events/' + counter;
+                    const url = `http://${process.env.BASE_URL}:4006/events/` + counter;
 
                     /* construct token so as the service can make req to the bus */
                     const token = jwt.sign({ service: 'Analytics Service' }, process.env.SECRET_JWT, { expiresIn: '20s' });

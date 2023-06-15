@@ -24,10 +24,10 @@ exports.postEvents = (req, res, next) => {
     .then(() => {
 
         /* Subscribers endpoints */
-        const url_answersService = 'http://localhost:4002/events';
-        const url_browseQuestionsService = 'http://localhost:4003/events';
-        const url_analyticsService = 'http://localhost:4004/events';
-        const url_graphsService = 'http://localhost:4005/events';
+        const url_answersService = `http://${process.env.BASE_URL}:4002/events`;
+        const url_browseQuestionsService = `http://${process.env.BASE_URL}:4003/events`;
+        const url_analyticsService = `http://${process.env.BASE_URL}:4004/events`;
+        const url_graphsService = `http://${process.env.BASE_URL}:4005/events`;
     
         const data = event;
         /* Every response of all subscribers will be saved in this array and then will be logged */

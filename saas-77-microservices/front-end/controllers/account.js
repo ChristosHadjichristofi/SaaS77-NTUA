@@ -8,7 +8,7 @@ exports.signIn = (req, res, next) => {
     const password = req.body.password;
 
     /* Construct URL of accounts service */
-    const url_accountService = 'http://localhost:4000/signin';
+    const url_accountService = `http://${process.env.BASE_URL}:4000/signin`;
 
     /* Add necessary headers */
     const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };
@@ -69,7 +69,7 @@ exports.signUp = (req, res, next) => {
     const repassword = req.body.repassword;
 
     /* Construct URL of accounts service */
-    const url_accountService = 'http://localhost:4000/signup';
+    const url_accountService = `http://${process.env.BASE_URL}:4000/signup`;
 
     /* Add necessary headers */
     const headers = { "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)) };

@@ -37,7 +37,7 @@ module.exports = (req, res, next) => {
     keywordsArr = Array.from(keywordsSet);
     
     // create the question using the body
-    const url = 'http://localhost:4006/events';
+    const url = `http://${process.env.BASE_URL}:4006/events`;
 
     // get userData from AUTH header
     const userData = jwt_decode(req.header('X-OBSERVATORY-AUTH'));

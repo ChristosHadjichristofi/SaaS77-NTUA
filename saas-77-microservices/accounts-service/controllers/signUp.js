@@ -67,7 +67,7 @@ module.exports = (req, res, next) => {
                 );
 
                 /* bus url and request headers */
-                const url = 'http://localhost:4006/events';
+                const url = `http://${process.env.BASE_URL}:4006/events`;
 
                 const headers = { 
                     "CUSTOM-SERVICES-HEADER": JSON.stringify(encrypt(process.env.SECRET_STRING_SERVICES)),
