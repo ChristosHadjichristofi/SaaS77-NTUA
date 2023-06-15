@@ -16,7 +16,7 @@ initModels(sequelize);
 cli;
 
 sequelize
-    .createSchema(`${ process.env.DB_SCHEMA }`)
+    .query(`CREATE SCHEMA IF NOT EXISTS "${process.env.DB_SCHEMA}";`)
     .then(() => {
         sequelize
             .sync({

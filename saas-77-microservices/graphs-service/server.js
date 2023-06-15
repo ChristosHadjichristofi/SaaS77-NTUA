@@ -17,7 +17,7 @@ const port = Number(4005);
 initModels(sequelize);
 
 sequelize
-    .createSchema(`${ process.env.DB_SCHEMA }`)
+    .query(`CREATE SCHEMA IF NOT EXISTS "${process.env.DB_SCHEMA}";`)
     .then(() => {
         sequelize
             .sync({

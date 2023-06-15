@@ -8,7 +8,7 @@ var initModels = require("./models/init-models");
 const port = Number(4000);
 
 sequelize
-    .createSchema(`${ process.env.DB_SCHEMA }`)
+    .query(`CREATE SCHEMA IF NOT EXISTS "${process.env.DB_SCHEMA}";`)
     .then(() => {
         initModels(sequelize);
         sequelize
