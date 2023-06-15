@@ -1,0 +1,236 @@
+version: '3'
+services:
+
+  accounts_db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+  analytics_db:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+  
+  answers_db:
+    image: postgres:latest
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+  browse_questions_db:
+    image: postgres:latest
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+  event_bus_db:
+    image: postgres:latest
+    ports:
+      - "5436:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+  graphs_db:
+    image: postgres:latest
+    ports:
+      - "5437:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+  front_end_db:
+    image: postgres:latest
+    ports:
+      - "5438:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+
+
+  analytics_service:
+    build:
+      context: ./analytics-service
+      dockerfile: DockerFile
+    ports:
+      - "4004:4004"
+    depends_on:
+      - analytics_db
+    environment:
+      - DB_HOST=172.19.33.2
+      - DB_PORT=5433
+      - DB=mydatabase
+      - DB_USER=myuser
+      - DB_PASS=mypassword
+      - DB_TIMEZONE=UTC
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+      - DB_SCHEMA=myschema
+      - BASE_URL=172.19.33.2
+    restart: always
+
+
+  accounts_service:
+    build:
+      context: ./accounts-service
+      dockerfile: DockerFile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - accounts_db
+    environment:
+      - DB_HOST=172.19.33.2
+      - DB_PORT=5432
+      - DB=mydatabase
+      - DB_USER=myuser
+      - DB_PASS=mypassword
+      - DB_TIMEZONE=UTC
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+      - DB_SCHEMA=myschema
+      - BASE_URL=172.19.33.2
+    restart: always
+
+
+  answers_service:
+      build:
+        context: ./answers-service
+        dockerfile: DockerFile
+      ports:
+        - "4002:4002"
+      depends_on:
+        - answers_db
+      environment:
+        - DB_HOST=172.19.33.2
+        - DB_PORT=5434
+        - DB=mydatabase
+        - DB_USER=myuser
+        - DB_PASS=mypassword
+        - DB_TIMEZONE=UTC
+        - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
+        - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
+        - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+        - DB_SCHEMA=myschema
+        - BASE_URL=172.19.33.2
+      restart: always
+  
+  ask_questions_service:
+      build:
+        context: ./ask-question-service
+        dockerfile: DockerFile
+      ports:
+        - "4001:4001"
+      restart: always
+      environment:
+        - BASE_URL=172.19.33.2
+        - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
+        - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
+        - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+
+  browse_questions_service:
+    build:
+      context: ./browse-questions-service
+      dockerfile: DockerFile
+    ports:
+      - "4003:4003"
+    depends_on:
+      - browse_questions_db
+    environment:
+      - DB_HOST=172.19.33.2
+      - DB_PORT=5435
+      - DB=mydatabase
+      - DB_USER=myuser
+      - DB_PASS=mypassword
+      - DB_TIMEZONE=UTC
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+      - DB_SCHEMA=myschema
+      - BASE_URL=172.19.33.2
+    restart: always
+
+  event_bus_service:
+    build:
+      context: ./event-bus-service
+      dockerfile: DockerFile
+    ports:
+      - "4006:4006"
+    depends_on:
+      - event_bus_db
+    environment:
+      - DB_HOST=172.19.33.2
+      - DB_PORT=5436
+      - DB=mydatabase
+      - DB_USER=myuser
+      - DB_PASS=mypassword
+      - DB_TIMEZONE=UTC
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+      - DB_SCHEMA=myschema
+      - BASE_URL=172.19.33.2
+    restart: always
+
+  graphs_service:
+    build:
+      context: ./graphs-service
+      dockerfile: DockerFile
+    ports:
+      - "4005:4005"
+    depends_on:
+      - graphs_db
+    environment:
+      - DB_HOST=172.19.33.2
+      - DB_PORT=5437
+      - DB=mydatabase
+      - DB_USER=myuser
+      - DB_PASS=mypassword
+      - DB_TIMEZONE=UTC
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+      - DB_SCHEMA=myschema
+      - BASE_URL=172.19.33.2
+    restart: always
+
+  front_end_service:
+    build:
+      context: ./front-end
+      dockerfile: DockerFile
+    ports:
+      - "4007:4007"
+    depends_on:
+      - front_end_db
+    environment:
+      - DB_HOST=172.19.33.2
+      - DB_PORT=5438
+      - DB=mydatabase
+      - DB_USER=myuser
+      - DB_PASS=mypassword
+      - DB_TIMEZONE=UTC
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+      - DB_SCHEMA=myschema
+      - BASE_URL=172.19.33.2
+      - SECRET_SESSION_STRING=9a845c30be6838b5ea4db5343a71a234
+    restart: always
