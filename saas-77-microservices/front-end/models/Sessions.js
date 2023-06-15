@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'Sessions',
-    schema: 'saas-77-frontend',
+    schema: process.env.DB_SCHEMA,
     timestamps: false,
     indexes: [
       {

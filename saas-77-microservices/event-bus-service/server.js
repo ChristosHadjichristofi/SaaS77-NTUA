@@ -16,14 +16,19 @@ initModels(sequelize);
 cli;
 
 sequelize
-    .sync({
-        // delete if system is ready to deploy
-        force: true,
-        // end
-    })
+    .createSchema(`${ process.env.DB_SCHEMA }`)
     .then(() => {
-        app.listen(port, () => {
-            console.log(chalk.green(`Event 🚍 running on port ${port}!`));
-        });
+        sequelize
+            .sync({
+                // delete if system is ready to deploy
+                force: true,
+                // end
+            })
+            .then(() => {
+                app.listen(port, () => {
+                    console.log(chalk.green(`Event 🚍 running on port ${port}!`));
+                });
+            })
+            .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));

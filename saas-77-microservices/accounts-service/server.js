@@ -1,5 +1,4 @@
 const app = require("./app");
-
 const chalk = require("chalk");
 
 // for database
@@ -8,16 +7,21 @@ var initModels = require("./models/init-models");
 
 const port = Number(4000);
 
-initModels(sequelize);
 sequelize
-    .sync({
-        // delete if system is ready to deploy
-        force: true,
-        // end
-    })
-    .then((result) => {
-        app.listen(port, () => {
-            console.log(chalk.green(`🚀 Accounts Service running on port ${port}!`));
-        });
+    .createSchema(`${ process.env.DB_SCHEMA }`)
+    .then(() => {
+        initModels(sequelize);
+        sequelize
+            .sync({
+                // delete if system is ready to deploy
+                force: true,
+                // end
+            })
+            .then((result) => {
+                app.listen(port, () => {
+                    console.log(chalk.green(`🚀 Accounts Service running on port ${port}!`));
+                });
+            })
+            .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));

@@ -39,7 +39,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         sequelize,
         tableName: 'Users',
-        schema: 'saas-77-accounts-service',
+        schema: process.env.DB_SCHEMA,
         timestamps: false,
         indexes: [{
             name: "Users_pkey",

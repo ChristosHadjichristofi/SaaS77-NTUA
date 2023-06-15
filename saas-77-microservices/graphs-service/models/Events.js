@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         sequelize,
         tableName: 'Events',
-        schema: 'saas-77-graphs-service',
+        schema: process.env.DB_SCHEMA,
         timestamps: false,
     });
 };

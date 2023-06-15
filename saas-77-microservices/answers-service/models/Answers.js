@@ -48,7 +48,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'Answers',
-    schema: 'saas-77-answers-service',
+    schema: process.env.DB_SCHEMA,
     timestamps: false,
     indexes: [
       {

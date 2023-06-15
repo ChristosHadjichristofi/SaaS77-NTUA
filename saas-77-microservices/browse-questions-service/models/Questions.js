@@ -55,7 +55,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         sequelize,
         tableName: 'Questions',
-        schema: 'saas-77-browse-questions-service',
+        schema: process.env.DB_SCHEMA,
         timestamps: false,
         indexes: [{
             name: "Questions_pkey",
