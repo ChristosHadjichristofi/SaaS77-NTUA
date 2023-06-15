@@ -13,7 +13,7 @@ module.exports = () => {
     
         // query to fetch the 15 days that at least one question was posted in the system
         sequelize.query('SELECT DATE("dateCreated") AS "date", COUNT(*) AS "count" ' +
-                        'FROM "saas-77-graphs-service"."Questions" AS "Questions" ' +
+                        `FROM "${ process.env.DB_SCHEMA }"."Questions" AS "Questions" ` +
                         'GROUP BY "date" ORDER BY "date" DESC LIMIT 15 ', { type: sequelize.QueryTypes.SELECT })
         .then(result => {
 

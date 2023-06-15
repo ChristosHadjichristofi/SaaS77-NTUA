@@ -12,8 +12,8 @@ module.exports = () => {
 
         /* Query to find the top 5 keywords */
         sequelize.query('SELECT COUNT("Questions"."id") as "counter", "Keywords"."name" '
-        + 'AS keywordname FROM "saas-77-graphs-service"."Questions" AS "Questions" '
-        + ' LEFT OUTER JOIN "saas-77-graphs-service"."Keywords" AS "Keywords" ON "Questions"."id" = "Keywords"."QuestionsId"'
+        + `AS keywordname FROM "${ process.env.DB_SCHEMA }"."Questions" AS "Questions" `
+        + ` LEFT OUTER JOIN "${ process.env.DB_SCHEMA }"."Keywords" AS "Keywords" ON "Questions"."id" = "Keywords"."QuestionsId"`
         + ' GROUP BY keywordname ORDER BY "counter" DESC LIMIT 5', { type: sequelize.QueryTypes.SELECT })
         .then(topFiveKeywords => {
                     
