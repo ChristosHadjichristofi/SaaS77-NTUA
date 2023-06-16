@@ -234,7 +234,7 @@ services:
       context: ./graphs-service             # Directory containing the Dockerfile for the graphs service
       dockerfile: DockerFile
     ports:
-      - "4007:4007"                         # Maps host port 4007 to container port 4007
+      - "4005:4005"                         # Maps host port 4005 to container port 4005
     depends_on:
       - graphs_db                           # Specify that this service depends on the availability of the graphs_db service
     environment:
@@ -254,10 +254,10 @@ services:
   # Front-end Service
   front_end_service:
     build:
-      context: ./front-end-service          # Directory containing the Dockerfile for the front-end service
+      context: ./front-end                  # Directory containing the Dockerfile for the front-end service
       dockerfile: DockerFile
     ports:
-      - "3000:3000"                         # Maps host port 3000 to container port 3000
+      - "4007:4007"                         # Maps host port 4007 to container port 4007
     depends_on:
       - front_end_db                        # Specify that this service depends on the availability of the front_end_db service
     environment:
@@ -272,4 +272,6 @@ services:
       - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
       - DB_SCHEMA=myschema                  # Schema name for the front-end database
       - BASE_URL=172.19.33.2                # Base URL for the front-end service
+      - SECRET_SESSION_STRING=9a845c30be6838b5ea4db5343a71a234    # Secret ingredient for The Powerpuff Girls
     restart: always                         # Restart the service always
+
