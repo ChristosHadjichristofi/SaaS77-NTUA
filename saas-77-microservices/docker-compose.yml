@@ -1,236 +1,275 @@
+# Each service has:
+#  1. its own section specifying the build context
+#  2. Dockerfile
+#  3. ports
+#  4. dependencies
+#  5. environment variables
+#  6. and restart policy. 
+
+# The environment variables include:
+#  1. the database connection details
+#  2. secret values
+#  3. schema name
+#  4. and base URL
+
+# The ports define the mapping between the host and container ports for each service.
+
+# [IMPORTANT] Make sure to adjust the values of the environment variables, such as:
+# 1. DB_HOST
+# 2. DB_PORT
+# 3. DB_USER
+# 4. DB_PASS
+# 5. SECRET_JWT
+# 6. SECRET_STRING_SERVICES
+# etc, according to your specific configuration.
+
+# The deliverable you should push to your GitHub repository MUST:
+#  1. Have the IP (that you give to every DB, Microservice, FrontEnd) equal to [IP]
+#  2. The frontend should run through port 4007
+
 version: '3'
 services:
-
+  # Accounts Database
   accounts_db:
     image: postgres:latest
     ports:
-      - "5432:5432"
+      - "5432:5432"                   # Maps host port 5432 to container port 5432
     environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser          # Username for the PostgreSQL database
+      - POSTGRES_PASSWORD=mypassword  # Password for the PostgreSQL database
+      - POSTGRES_DB=mydatabase        # Name of the PostgreSQL database
 
+  # Analytics Database
   analytics_db:
     image: postgres:latest
     ports:
-      - "5433:5432"
+      - "5433:5432"                   # Maps host port 5433 to container port 5432
     environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser          # Username for the PostgreSQL database
+      - POSTGRES_PASSWORD=mypassword  # Password for the PostgreSQL database
+      - POSTGRES_DB=mydatabase        # Name of the PostgreSQL database
   
+  # Answers Database
   answers_db:
     image: postgres:latest
     ports:
-      - "5434:5432"
+      - "5434:5432"                   # Maps host port 5434 to container port 5432
     environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser          # Username for the PostgreSQL database
+      - POSTGRES_PASSWORD=mypassword  # Password for the PostgreSQL database
+      - POSTGRES_DB=mydatabase        # Name of the PostgreSQL database
 
+  # Browse Questions Database
   browse_questions_db:
     image: postgres:latest
     ports:
-      - "5435:5432"
+      - "5435:5432"                   # Maps host port 5435 to container port 5432
     environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser          # Username for the PostgreSQL database
+      - POSTGRES_PASSWORD=mypassword  # Password for the PostgreSQL database
+      - POSTGRES_DB=mydatabase        # Name of the PostgreSQL database
 
+  # Event Bus Database
   event_bus_db:
     image: postgres:latest
     ports:
-      - "5436:5432"
+      - "5436:5432"                   # Maps host port 5436 to container port 5432
     environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser          # Username for the PostgreSQL database
+      - POSTGRES_PASSWORD=mypassword  # Password for the PostgreSQL database
+      - POSTGRES_DB=mydatabase        # Name of the PostgreSQL database
 
+  # Graphs Database
   graphs_db:
     image: postgres:latest
     ports:
-      - "5437:5432"
+      - "5437:5432"                   # Maps host port 5437 to container port 5432
     environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser          # Username for the PostgreSQL database
+      - POSTGRES_PASSWORD=mypassword  # Password for the PostgreSQL database
+      - POSTGRES_DB=mydatabase        # Name of the PostgreSQL database
 
+  # Front-end Database
   front_end_db:
     image: postgres:latest
     ports:
-      - "5438:5432"
+      - "5438:5432"                   # Maps host port 5438 to container port 5432
     environment:
-      - POSTGRES_USER=myuser
-      - POSTGRES_PASSWORD=mypassword
-      - POSTGRES_DB=mydatabase
+      - POSTGRES_USER=myuser          # Username for the PostgreSQL database
+      - POSTGRES_PASSWORD=mypassword  # Password for the PostgreSQL database
+      - POSTGRES_DB=mydatabase        # Name of the PostgreSQL database
 
-
+  # Analytics Service
   analytics_service:
     build:
-      context: ./analytics-service
+      context: ./analytics-service    # Directory containing the Dockerfile for the analytics service
       dockerfile: DockerFile
     ports:
-      - "4004:4004"
+      - "4004:4004"                   # Maps host port 4004 to container port 4004
     depends_on:
-      - analytics_db
+      - analytics_db                  # Specify that this service depends on the availability of the analytics_db service
     environment:
-      - DB_HOST=172.19.33.2
-      - DB_PORT=5433
-      - DB=mydatabase
-      - DB_USER=myuser
-      - DB_PASS=mypassword
-      - DB_TIMEZONE=UTC
-      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
-      - DB_SCHEMA=myschema
-      - BASE_URL=172.19.33.2
-    restart: always
+      - DB_HOST=172.19.33.2           # Hostname or IP address of the analytics database server
+      - DB_PORT=5433                  # Port number on which the analytics database server is listening
+      - DB=mydatabase                 # Name of the analytics database
+      - DB_USER=myuser                # Username for the analytics database
+      - DB_PASS=mypassword            # Password for the analytics database
+      - DB_TIMEZONE=UTC               # Timezone for the analytics database
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234               # Secret JWT value
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234   # Secret string value for services
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
+      - DB_SCHEMA=myschema            # Schema name for the analytics database
+      - BASE_URL=172.19.33.2          # Base URL for the analytics service
+    restart: always                   # Restart the service always
 
-
+  # Accounts Service
   accounts_service:
     build:
-      context: ./accounts-service
+      context: ./accounts-service     # Directory containing the Dockerfile for the accounts service
       dockerfile: DockerFile
     ports:
-      - "4000:4000"
+      - "4000:4000"                   # Maps host port 4000 to container port 4000
     depends_on:
-      - accounts_db
+      - accounts_db                   # Specify that this service depends on the availability of the accounts_db service
     environment:
-      - DB_HOST=172.19.33.2
-      - DB_PORT=5432
-      - DB=mydatabase
-      - DB_USER=myuser
-      - DB_PASS=mypassword
-      - DB_TIMEZONE=UTC
-      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
-      - DB_SCHEMA=myschema
-      - BASE_URL=172.19.33.2
-    restart: always
+      - DB_HOST=172.19.33.2           # Hostname or IP address of the accounts database server
+      - DB_PORT=5432                  # Port number on which the accounts database server is listening
+      - DB=mydatabase                 # Name of the accounts database
+      - DB_USER=myuser                # Username for the accounts database
+      - DB_PASS=mypassword            # Password for the accounts database
+      - DB_TIMEZONE=UTC               # Timezone for the accounts database
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234               # Secret JWT value
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234   # Secret string value for services
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
+      - DB_SCHEMA=myschema            # Schema name for the accounts database
+      - BASE_URL=172.19.33.2          # Base URL for the accounts service
+    restart: always                   # Restart the service always
 
-
+  # Answers Service
   answers_service:
-      build:
-        context: ./answers-service
-        dockerfile: DockerFile
-      ports:
-        - "4002:4002"
-      depends_on:
-        - answers_db
-      environment:
-        - DB_HOST=172.19.33.2
-        - DB_PORT=5434
-        - DB=mydatabase
-        - DB_USER=myuser
-        - DB_PASS=mypassword
-        - DB_TIMEZONE=UTC
-        - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
-        - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
-        - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
-        - DB_SCHEMA=myschema
-        - BASE_URL=172.19.33.2
-      restart: always
-  
-  ask_questions_service:
-      build:
-        context: ./ask-question-service
-        dockerfile: DockerFile
-      ports:
-        - "4001:4001"
-      restart: always
-      environment:
-        - BASE_URL=172.19.33.2
-        - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
-        - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
-        - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
+    build:
+      context: ./answers-service      # Directory containing the Dockerfile for the answers service
+      dockerfile: DockerFile
+    ports:
+      - "4002:4002"                   # Maps host port 4002 to container port 4002
+    depends_on:
+      - answers_db                    # Specify that this service depends on the availability of the answers_db service
+    environment:
+      - DB_HOST=172.19.33.2           # Hostname or IP address of the answers database server
+      - DB_PORT=5434                  # Port number on which the answers database server is listening
+      - DB=mydatabase                 # Name of the answers database
+      - DB_USER=myuser                # Username for the answers database
+      - DB_PASS=mypassword            # Password for the answers database
+      - DB_TIMEZONE=UTC               # Timezone for the answers database
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234               # Secret JWT value
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234   # Secret string value for services
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
+      - DB_SCHEMA=myschema            # Schema name for the answers database
+      - BASE_URL=172.19.33.2          # Base URL for the answers service
+    restart: always                   # Restart the service always
 
+  # Ask Questions Service
+  ask_questions_service:
+    build:
+      context: ./ask-question-service # Directory containing the Dockerfile for the ask questions service
+      dockerfile: DockerFile
+    ports:
+      - "4001:4001"                   # Maps host port 4001 to container port 4001
+    restart: always                   # Restart the service always
+    environment:
+      - BASE_URL=172.19.33.2          # Base URL for the ask questions service
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234               # Secret JWT value
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234   # Secret string value for services
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
+
+  # Browse Questions Service
   browse_questions_service:
     build:
-      context: ./browse-questions-service
+      context: ./browse-questions-service   # Directory containing the Dockerfile for the browse questions service
       dockerfile: DockerFile
     ports:
-      - "4003:4003"
+      - "4003:4003"                         # Maps host port 4003 to container port 4003
     depends_on:
-      - browse_questions_db
+      - browse_questions_db                 # Specify that this service depends on the availability of the browse_questions_db service
     environment:
-      - DB_HOST=172.19.33.2
-      - DB_PORT=5435
-      - DB=mydatabase
-      - DB_USER=myuser
-      - DB_PASS=mypassword
-      - DB_TIMEZONE=UTC
-      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
-      - DB_SCHEMA=myschema
-      - BASE_URL=172.19.33.2
-    restart: always
+      - DB_HOST=172.19.33.2                 # Hostname or IP address of the browse questions database server
+      - DB_PORT=5435                        # Port number on which the browse questions database server is listening
+      - DB=mydatabase                       # Name of the browse questions database
+      - DB_USER=myuser                      # Username for the browse questions database
+      - DB_PASS=mypassword                  # Password for the browse questions database
+      - DB_TIMEZONE=UTC                     # Timezone for the browse questions database
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234               # Secret JWT value
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234   # Secret string value for services
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
+      - DB_SCHEMA=myschema                  # Schema name for the browse questions database
+      - BASE_URL=172.19.33.2                # Base URL for the browse questions service
+    restart: always                         # Restart the service always
 
+  # Event Bus Service
   event_bus_service:
     build:
-      context: ./event-bus-service
+      context: ./event-bus-service          # Directory containing the Dockerfile for the event bus service
       dockerfile: DockerFile
     ports:
-      - "4006:4006"
+      - "4006:4006"                         # Maps host port 4006 to container port 4006
     depends_on:
-      - event_bus_db
+      - event_bus_db                        # Specify that this service depends on the availability of the event_bus_db service
     environment:
-      - DB_HOST=172.19.33.2
-      - DB_PORT=5436
-      - DB=mydatabase
-      - DB_USER=myuser
-      - DB_PASS=mypassword
-      - DB_TIMEZONE=UTC
-      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
-      - DB_SCHEMA=myschema
-      - BASE_URL=172.19.33.2
-    restart: always
+      - DB_HOST=172.19.33.2                 # Hostname or IP address of the event bus database server
+      - DB_PORT=5436                        # Port number on which the event bus database server is listening
+      - DB=mydatabase                       # Name of the event bus database
+      - DB_USER=myuser                      # Username for the event bus database
+      - DB_PASS=mypassword                  # Password for the event bus database
+      - DB_TIMEZONE=UTC                     # Timezone for the event bus database
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234               # Secret JWT value
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234   # Secret string value for services
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
+      - DB_SCHEMA=myschema                  # Schema name for the event bus database
+      - BASE_URL=172.19.33.2                # Base URL for the event bus service
+    restart: always                         # Restart the service always
 
+  # Graphs Service
   graphs_service:
     build:
-      context: ./graphs-service
+      context: ./graphs-service             # Directory containing the Dockerfile for the graphs service
       dockerfile: DockerFile
     ports:
-      - "4005:4005"
+      - "4007:4007"                         # Maps host port 4007 to container port 4007
     depends_on:
-      - graphs_db
+      - graphs_db                           # Specify that this service depends on the availability of the graphs_db service
     environment:
-      - DB_HOST=172.19.33.2
-      - DB_PORT=5437
-      - DB=mydatabase
-      - DB_USER=myuser
-      - DB_PASS=mypassword
-      - DB_TIMEZONE=UTC
-      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
-      - DB_SCHEMA=myschema
-      - BASE_URL=172.19.33.2
-    restart: always
+      - DB_HOST=172.19.33.2                 # Hostname or IP address of the graphs database server
+      - DB_PORT=5437                        # Port number on which the graphs database server is listening
+      - DB=mydatabase                       # Name of the graphs database
+      - DB_USER=myuser                      # Username for the graphs database
+      - DB_PASS=mypassword                  # Password for the graphs database
+      - DB_TIMEZONE=UTC                     # Timezone for the graphs database
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234               # Secret JWT value
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234   # Secret string value for services
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
+      - DB_SCHEMA=myschema                  # Schema name for the graphs database
+      - BASE_URL=172.19.33.2                # Base URL for the graphs service
+    restart: always                         # Restart the service always
 
+  # Front-end Service
   front_end_service:
     build:
-      context: ./front-end
+      context: ./front-end-service          # Directory containing the Dockerfile for the front-end service
       dockerfile: DockerFile
     ports:
-      - "4007:4007"
+      - "3000:3000"                         # Maps host port 3000 to container port 3000
     depends_on:
-      - front_end_db
+      - front_end_db                        # Specify that this service depends on the availability of the front_end_db service
     environment:
-      - DB_HOST=172.19.33.2
-      - DB_PORT=5438
-      - DB=mydatabase
-      - DB_USER=myuser
-      - DB_PASS=mypassword
-      - DB_TIMEZONE=UTC
-      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234
-      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234
-      - DB_SCHEMA=myschema
-      - BASE_URL=172.19.33.2
-      - SECRET_SESSION_STRING=9a845c30be6838b5ea4db5343a71a234
-    restart: always
+      - DB_HOST=172.19.33.2                 # Hostname or IP address of the front-end database server
+      - DB_PORT=5438                        # Port number on which the front-end database server is listening
+      - DB=mydatabase                       # Name of the front-end database
+      - DB_USER=myuser                      # Username for the front-end database
+      - DB_PASS=mypassword                  # Password for the front-end database
+      - DB_TIMEZONE=UTC                     # Timezone for the front-end database
+      - SECRET_JWT=9a845c30be6838b5ea4db5343a71a234               # Secret JWT value
+      - SECRET_STRING_SERVICES=9a845c30be6838b5ea4db5343a71a234   # Secret string value for services
+      - SECRET_ENCRYPT=9a845c30be6838b5ea4db5343a71a234           # Secret value for encryption
+      - DB_SCHEMA=myschema                  # Schema name for the front-end database
+      - BASE_URL=172.19.33.2                # Base URL for the front-end service
+    restart: always                         # Restart the service always
